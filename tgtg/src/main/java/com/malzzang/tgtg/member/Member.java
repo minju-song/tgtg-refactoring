@@ -14,7 +14,6 @@ import lombok.Data;
 public class Member {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="member_id")
 	private String memberId;
 	
