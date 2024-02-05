@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <!--/* 헤더 start */-->
+    <div th:replace="fragments/header.html :: headerFragment"></div>
+    <!--/* 헤더 end */-->
+	
+	<!--/* 메인 컨텐츠 영역 start */-->
+	<div id="contents" layout:fragment="mainContent"></div>
+	<!--/* 메인 컨텐츠 영역 end */-->
+	
+	<!--/* 푸터 영역 start */-->
+	<footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <div th:replace="fragments/footer.html :: footerFragment"></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
