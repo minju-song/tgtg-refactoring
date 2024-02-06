@@ -1,12 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<!-- <title>Insert title here</title> -->
 </head>
 <body>
-	<div class="header" th:fragment="headerFragment">
-		<h1>헤더</h1>
-	</div>
+	<th:block th:fragment="headerFragment">
+		<!-- <div class="perspective effect-rotate-left">
+			<div class="container">
+				<div id="viewport" class="l-viewport"> -->
+					<div class="l-wrapper">
+						<header class="header">
+							<a class="header--logo" href="/"> <img src="/img/logo.png" alt="Global">
+								<p>티격태격</p>
+							</a>
+							<!-- <div class="header--nav-toggle"> -->
+								<a class="header--nav-toggle" href="loginpage">
+									<!-- <span></span> -->
+								</a>
+							<!-- </div> -->
+						</header>
+					</div>
+<!-- 				</div>
+			</div>		
+		</div> -->
+	</th:block>
 </body>
 </html>
