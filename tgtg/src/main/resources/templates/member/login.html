@@ -1,17 +1,24 @@
 <!DOCTYPE html>
-<html  xmlns:th="https://www.thymeleaf.org/"
+<html xmlns:th="https://www.thymeleaf.org/"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	layout:decorate="~{layout/layout}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<!-- <meta charset="UTF-8">
+<title>Insert title here</title> -->
+<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 	<th:block layout:fragment="mainContent">
-		<a>카카오</a>
-		<a>네이버</a>
-		<a>구글</a>
+		<div class="l-section">
+			<div class="content">
+			
+				<a>카카오</a> 
+				<a>네이버</a> 
+				<a>구글</a>
+	
+			</div>
+		</div>
 	</th:block>
 
 </body>

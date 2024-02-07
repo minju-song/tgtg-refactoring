@@ -18,4 +18,5 @@ public class Forbid {
 	
 	@Column(name="forbid_word")
 	private String forbidWord;
+
 }
