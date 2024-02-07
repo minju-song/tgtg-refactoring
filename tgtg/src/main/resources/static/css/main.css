@@ -514,7 +514,7 @@ body {
     text-transform: uppercase
 }
 
-.header--nav-toggle {
+.header--nav {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -537,9 +537,9 @@ body {
     cursor: pointer
 }
 
-.header--nav-toggle span,
-.header--nav-toggle::before,
-.header--nav-toggle::after {
+.header--nav span,
+.header--nav::before,
+.header--nav::after {
     content: "";
     position: relative;
     width: 16px;
@@ -547,12 +547,12 @@ body {
     background-color: #fff
 }
 
-.header--nav-toggle::before {
+.header--nav::before {
     bottom: 5px;
     width: 23px
 }
 
-.header--nav-toggle::after {
+.header--nav::after {
     top: 5px;
     width: 23px
 }
@@ -1870,4 +1870,26 @@ body {
 .outer-nav li.is-vis:nth-child(5) {
     -webkit-transition-delay: .16s;
     transition-delay: .16s
+}
+
+/* 헤더 아래 컨텐츠 화면 중앙에 위치 */
+.content {
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 1440px;
+    max-width: 85%;
+    height: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 0 auto
 }
