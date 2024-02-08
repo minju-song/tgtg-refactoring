@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin-layout}">
+
+<th:block layout:fragment="mainContent">
+	<div class="container-fluid">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title fw-semibold mb-4">회원목록</h5>
+				<p class="mb-0">This is a sample page</p>
+				<div class="search-area d-flex justify-content-end">
+					<form class="search-wrapper d-flex" id="search-form">
+						<select class="form-select" name="search-category" id="search-category">
+							<option value="memberId">회원아이디</option>
+							<option value="memberStop">정지유무</option>
+						</select>
+						<div class="search-input-wrapper d-flex align-items-center">
+							<input class="form-control input-text" type="text" placeholder="검색어를 입력하세요">
+							<label class="input-radio d-flex gap-2"><input type="radio" name="stop-yn" value="정지회원">정지 회원</label>
+							<label class="input-radio d-flex gap-2"><input type="radio" name="stop-yn" value="일반회원">일반 회원</label>
+							<button type="submit" class="d-flex align-items-center">
+								<i class="ti ti-search"></i>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

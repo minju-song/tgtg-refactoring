@@ -1,0 +1,49 @@
+/* 2024-02-04 전유진 추가 */
+.search-wrapper {
+    border: var(--bs-border-width) solid #DFE5EF;
+    border-radius: 7px;
+}
+.search-wrapper .form-select {
+    border: none;
+    border-right: var(--bs-border-width) solid #DFE5EF;
+    border-radius: 7px 0 0 7px;
+}
+.search-wrapper .form-control {
+    border: none;
+    width: 30vw;
+    border-radius: 0;
+}
+.search-wrapper .search-input-wrapper {
+    width: 30vw;
+    min-width: 385px;
+}
+.search-wrapper .search-input-wrapper button {
+    border: none;
+    border-radius: none;
+    background-color: transparent;
+}
+.search-wrapper .search-input-wrapper .ti {
+    font-size: 18px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+.input-text {
+    display: none;
+}
+.input-radio {
+    width: 100%;
+    padding-left: 10px;
+}
+
+.card-title {
+	display: flex;
+    align-items: center;
+}
+.card-title::before {
+    content: "";
+    display: inline-block;
+    width: 0.2em;
+    height: 1em;
+    background-color: var(--bs-blue);
+    margin-right: 0.5rem;
+}
