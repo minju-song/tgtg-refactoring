@@ -24,10 +24,10 @@ public class SecurityConfig {
 			
 			//권한 없는 접근 처리
 			.authorizeHttpRequests()				
-			.requestMatchers("/", "/css/**", "/img/**", "/js/**", "/loginPage").permitAll()
-			.requestMatchers("/admin**").hasRole("ADMIN")	
+//			.requestMatchers("/", "/css/**", "/img/**", "/js/**", "/loginPage", "/user/**", "/ws-stomp/**").permitAll()
+			.requestMatchers("/admin/**").hasRole("ADMIN")	
 			//경로 권한 설정
-			.anyRequest().authenticated()
+			.anyRequest().permitAll()
 			
 			//로그인 설정
 			.and()

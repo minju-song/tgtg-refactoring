@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>채팅 대기방</title>
+<link rel="stylesheet" href="/user/css/waitChatroom.css">
+</head>
+<body>
+    <th:block layout:fragment="mainContent">
+        <h1 style="color: white;">[[${roomId}]]번방</h1>
+        <div id="chatBox">
+            <div id="chatView">
+
+            </div>
+            <div id="chatSend">
+                <input id="message">
+                <button id="msgBtn">전송</button>
+            </div>
+        </div>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    
+        <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+
+        <script th:inline="javascript">
+
+            // 채팅박스
+            let chatBox = document.getElementById('chatView');
+
+            // 소켓관련
+            let stompClient = null;
+
+            // 채팅방 아이디
+            let roomId = /*[[${roomId}]]*/null;
+
+            // 내 이름
+            let sender = '밍주이름';
+
+            // 내 아이디
+            let senderEmail = document.cookie;
+        
+        </script>
+        <script th:src="@{/user/js/waitChatroom.js}"></script>
+
+    </th:block>
+</body>
+</html>
