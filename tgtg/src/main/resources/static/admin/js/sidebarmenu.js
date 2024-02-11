@@ -14,8 +14,9 @@ $(function () {
       window.location.protocol + "//" + window.location.host + "/",
       ""
     );
+    var path2 = window.location.origin + window.location.pathname;
     var element = $("ul#sidebarnav a").filter(function () {
-      return this.href === url || this.href === path; // || url.href.indexOf(this.href) === 0;
+      return this.href === url || this.href === path || this.href === path2; // || url.href.indexOf(this.href) === 0;
     });
     element.parentsUntil(".sidebar-nav").each(function (index) {
       if ($(this).is("li") && $(this).children("a").length !== 0) {
@@ -32,6 +33,7 @@ $(function () {
   
     element.addClass("active");
     $("#sidebarnav a").on("click", function (e) {
+      console.log("test");
       if (!$(this).hasClass("active")) {
         // hide any open menus and remove all other classes
         $("ul", $(this).parents("ul:first")).removeClass("in");

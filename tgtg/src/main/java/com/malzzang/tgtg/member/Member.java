@@ -2,10 +2,10 @@ package com.malzzang.tgtg.member;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
@@ -24,13 +24,13 @@ public class Member {
 	private String memberMbti;
 	
 	@Column(name="member_win")
-	private int memberWin;
+	private Integer memberWin;
 	
 	@Column(name="member_draw")
-	private int memberDraw;
+	private Integer memberDraw;
 	
 	@Column(name="member_lose")
-	private int memberLose;
+	private Integer memberLose;
 	
 	@Column(name="member_join")
 	private Date memberJoin;
