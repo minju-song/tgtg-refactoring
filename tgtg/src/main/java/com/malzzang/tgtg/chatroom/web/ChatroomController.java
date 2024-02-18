@@ -3,15 +3,22 @@ package com.malzzang.tgtg.chatroom.web;
 import java.util.Random;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.malzzang.tgtg.chatroom.model.Chatroom;
+import com.malzzang.tgtg.chatroom.service.ChatroomService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
-public class chatroomController {
+public class ChatroomController {
+	
+	@Autowired
+	ChatroomService chatroomService;
 	
 	@GetMapping("/user/startChat")
 	public String startChat(HttpServletResponse response, Model model) {
@@ -28,10 +35,9 @@ public class chatroomController {
 	    // 쿠키를 응답에 추가
 	    response.addCookie(cookie);
 
-	    // 일단 임의로 1 ~ 3 방 아이디만 지정
-	    Random rand = new Random();
-        int roomId = rand.nextInt(3) + 1;
-	    model.addAttribute("roomId", roomId);
+	    Chatroom room = chatroomService.findTextRoom();
+
+	    model.addAttribute("room", room);
 		
 		return "chat/waitChatroom.html";
 	}

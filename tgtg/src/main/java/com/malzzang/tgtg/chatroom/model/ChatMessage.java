@@ -1,4 +1,4 @@
-package com.malzzang.tgtg.chatroom.service;
+package com.malzzang.tgtg.chatroom.model;
 
 import java.time.LocalDateTime;
 

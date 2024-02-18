@@ -14,6 +14,7 @@
     /* 채팅 보이는 영역 */
     #chatView {
         flex: 8;
+        position: relative;
     }
 
     /* 채팅 보내는 영역 */
@@ -25,7 +26,7 @@
     .box {
         margin: 1vh;
         border-radius: 1vh; 
-        width: 40%; 
+        width: 35%; 
         padding: 1vh;
     }
 
@@ -59,4 +60,14 @@
     /* input 안에 글자색 임의로 바꿔준거임 */
     #message {
         color: black;
+    }
+
+    /* 준비 버튼 영역 */
+    #btnDiv {
+        background-color: pink;
+        width: 80px;
+        height: 80px;
+        position: absolute;
+        top: 0;
+        left: 47%;
     }
