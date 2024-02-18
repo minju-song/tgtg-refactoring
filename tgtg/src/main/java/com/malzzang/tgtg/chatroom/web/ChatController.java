@@ -36,7 +36,7 @@ public class ChatController {
 	//게임 준비 메소드
 	@MessageMapping("/{roomId}/ready")
     @SendTo("/room/{roomId}/getReady")
-    public boolean ready(@DestinationVariable int roomId) {
+    public int ready(@DestinationVariable int roomId) {
         readyUserService.readyUser(roomId);
         return readyUserService.getReady(roomId);
     }
@@ -44,15 +44,15 @@ public class ChatController {
 	//게임 준비취소 메소드
 	@MessageMapping("/{roomId}/unready")
     @SendTo("/room/{roomId}/getReady")
-    public boolean unready(@DestinationVariable int roomId) {
+    public int unready(@DestinationVariable int roomId) {
         readyUserService.unreadyUser(roomId);
         return readyUserService.getReady(roomId);
     }
 	
-	//현재 준비 상태
+	//현재 준비한 회원 수
 	@MessageMapping("/{roomId}/getReadyCount")
 	@SendTo("/room/{roomId}/getReady")
-	public boolean getReady(@DestinationVariable int roomId) {
+	public int getReady(@DestinationVariable int roomId) {
 	    return readyUserService.getReady(roomId);
 	}
 	

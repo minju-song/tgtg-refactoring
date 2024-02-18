@@ -23,19 +23,22 @@ function connect() {
             showChat(JSON.parse(chatMessage.body));
         });
 
+        stompClient.subscribe('/room/'+room.roomId+'/connectedCount', function (connectedCount) {
+            showConnectedCount(JSON.parse(connectedCount.body));
+        });
+
         stompClient.subscribe('/room/'+room.roomId+'/getReady', function (ready) {
             showReady(JSON.parse(ready.body));
         });
 
-        // 준비한 사용자의 수 요청
-        stompClient.send("/send/"+room.roomId+"/getReady", {});
-
+        
         // 채팅방에 접속했음을 서버에 알림
         stompClient.send("/send/"+room.roomId+"/enter", {});
 
-        stompClient.subscribe('/room/'+room.roomId+'/connectedCount', function (connectedCount) {
-            showConnectedCount(JSON.parse(connectedCount.body));
-        });
+        // 준비한 사용자의 수 요청
+        stompClient.send("/send/"+room.roomId+"/getReadyCount", {});
+        
+
     });  
 };
 
@@ -44,9 +47,9 @@ function disconnect() {
 
     // 채팅방에서 나갔음을 서버에 알림
     stompClient.send("/send/"+room.roomId+"/leave", {});
-    // if(isReady) {
-    //     stompClient.send("/send/"+room.roomId+"/unready", {});
-    // }
+    if(isReady) {
+        stompClient.send("/send/"+room.roomId+"/unready", {});
+    }
     stompClient.disconnect();
 
 }
@@ -66,9 +69,9 @@ function sendChat() {
 }
 
 function updateReady() {
-    // isReady = !isReady; // 상태를 반전
+    isReady = !isReady; // 상태를 반전
 
-    if (!isReady) {
+    if (isReady) {
         sendReady(); // 준비 상태로 변경되면 서버에 알림
     } else {
         cancelReady(); // 준비 취소 상태로 변경되면 서버에 알림
@@ -78,20 +81,22 @@ function updateReady() {
 
 function updateReadyButton() {
     if (isReady) {
-        readyBtn.innerHTML = '&#128148;'; // 준비 상태일 때는 정지 아이콘으로 변경
+        readyBtn.innerText = 'CANCEL'; // 준비 상태일 때는 정지 아이콘으로 변경
     } else {
-        readyBtn.innerHTML = '&#10084;'; // 준비하지 않은 상태일 때는 재생 아이콘으로 변경
+        readyBtn.innerText = 'READY'; // 준비하지 않은 상태일 때는 재생 아이콘으로 변경
     }
 }
 
 //게임 준비
 function sendReady() {
     stompClient.send("/send/"+room.roomId+"/ready", {});
+    updateReadyButton();
 }
 
 //준비 취소
 function cancelReady() {
     stompClient.send("/send/"+room.roomId+"/unready", {});
+    updateReadyButton();
 }
 
 //현재 접속자 수
@@ -103,49 +108,51 @@ function showConnectedCount(connectCount) {
 
 //준비한 사용자
 function showReady(ready) {
-    console.log(ready);
-    isReady = ready;
-    updateReadyButton();
+    console.log("수신값:"+ready);
+    let connect = document.querySelector('#countReady');
+    connect.innerText = ready;
+    // updateReadyButton();
 }
 
 // 수신된 채팅 화면에 그려주는 함수
 function showChat(chatMessage) {
+    let div = document.createElement('div');
+    let divbox = document.createElement('div');
+
+    divbox.innerText = chatMessage.message;
+  
+
+    let name = document.createElement('span');
+    name.setAttribute("class","bold-font");
+
     if(chatMessage.senderEmail != senderEmail) {
-        let div = document.createElement('div');
 
-        let divbox = document.createElement('div');
-        divbox.classList.add('box', 'other');
-        divbox.innerText = chatMessage.message;
+        divbox.classList.add('box', 'other', 'bold-font' );
+        div.setAttribute('class','other_div');
 
+        name.innerHTML = chatMessage.sender;
+
+        div.appendChild(name);
         div.appendChild(divbox);
 
-        let name = document.createElement('span');
-        name.innerHTML = '상대방';
-        div.appendChild(name);
-
-        div.setAttribute('class','other_div');
-        
-        chatBox.appendChild(div);
-            console.log(chatMessage.sender + " : " + chatMessage.message);
     }
 
     else {
-        let div = document.createElement('div');
         
-        let divbox = document.createElement('div');
-        divbox.classList.add('box', 'me');
-
-        divbox.innerText = chatMessage.message;
-        div.appendChild(divbox);
+        divbox.classList.add('box', 'me', 'bold-font');
         div.setAttribute('class','me_div');
 
-        let name = document.createElement('span');
         name.innerHTML = '나';
+
+        div.appendChild(divbox);
         div.appendChild(name);
-    
-        chatBox.appendChild(div);
-            console.log(chatMessage.sender + " : " + chatMessage.message);
+
     }
+    chatBox.appendChild(div);
+
+    
+
+    console.log(chatMessage.sender + " : " + chatMessage.message);
 }
 
 //창 키면 바로 연결

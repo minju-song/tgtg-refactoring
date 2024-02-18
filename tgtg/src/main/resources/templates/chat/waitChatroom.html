@@ -8,13 +8,21 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{l
 </head>
 <body>
     <th:block layout:fragment="mainContent">
-        <h1 style="color: white;">[[${room.roomId}]]번방</h1>
         <div id="chatBox">
-            <div id="chatView">
-                <div id="btnDiv">
-                    <button id="readyBtn" style="background-color: black; display: block; width: 100%; height: 70%;">&#10084;</button>
-                    <span id="countConnect">-</span>
+            <div style="display: flex;">
+                <h3 style="color: black; flex: 1;">
+                    <span th:if="${room.type} == 'text'">| 텍스트 싸움 대기방</span>
+                    <span th:if="${room.type} == 'voice'">| 음성 싸움 대기방</span>
+                </h3>                
+                <div id="btnDiv" style="flex: 1;">
+                    <button id="readyBtn" >READY</button>
+                    <div id="countDiv">
+                        <span id="countReady">-</span> / <span id="countConnect">-</span>
+                    </div>
                 </div>
+                <div style="flex: 1;"></div>
+            </div>
+            <div id="chatView">
             </div>
             <div id="chatSend">
                 <input id="message">
@@ -39,6 +47,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{l
 
             // 채팅방 아이디
             let room = /*[[${room}]]*/null;
+
+            // 채팅방 타입
+            let type = /*[[${type}]]*/null;
 
             // 내 이름
             let sender = '밍주이름';
