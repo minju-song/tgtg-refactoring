@@ -45,4 +45,26 @@ public class ChatroomController {
 	    
 		return "chat/waitChatroom.html";
 	}
+	
+	@GetMapping("/user/textGame")
+	   public String textGame(HttpServletResponse response, Model model) {
+	      
+	      // 사용자마다 임의 토큰 생성
+	       String userToken = UUID.randomUUID().toString();
+
+	       // 쿠키를 생성하고, 생성한 토큰을 저장
+	       Cookie cookie = new Cookie("userToken", userToken);
+
+	       // 쿠키의 유효 시간 1시간
+	       cookie.setMaxAge(60 * 60);
+
+	       // 쿠키를 응답에 추가
+	       response.addCookie(cookie);
+
+	       Chatroom room = chatroomService.findTextRoom();
+
+	       model.addAttribute("room", room);
+	      
+	      return "chat/textChatGame.html";
+	   }
 }
