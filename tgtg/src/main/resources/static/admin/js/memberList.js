@@ -43,7 +43,7 @@ function searchList() {
     const searchCategory = document.querySelector("select#searchCategory").value;
     if(searchCategory === "memberId") {
         const memberId = document.querySelector("input[name='memberId']").value;
-        location.href = "/admin/member/list?memberId=" + memberId;
+        location.href = "/admin/memberList?memberId=" + memberId;
     }
     if(searchCategory === "memberStop") {
         const memberStop = document.querySelector("input[type='radio']:checked");
@@ -55,7 +55,7 @@ function searchList() {
             })
         } else {
             const memberStopValue = memberStop.value;
-            location.href = "/admin/member/list?memberStop=" + memberStopValue;
+            location.href = "/admin/memberList?memberStop=" + memberStopValue;
         }
     }
 }

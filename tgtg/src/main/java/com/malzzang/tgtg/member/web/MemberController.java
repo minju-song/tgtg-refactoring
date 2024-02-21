@@ -30,7 +30,7 @@ public class MemberController {
 		return "member/login.html";
 	}
 	
-	@GetMapping("/admin/member/list")
+	@GetMapping("/admin/memberList")
 	public String adminMemberList(Model model, String memberId, String memberStop,
 			@PageableDefault(page = 1, size = 10, sort = "memberId", direction = Direction.DESC) Pageable pageable) {
 		

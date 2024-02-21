@@ -7,11 +7,39 @@
 *{
 	font-family: "NotoSansKR";
 }
+
+/* 스크롤바 */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0); 
+  border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #a6b2c6;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #5d87ff; 
+}
+
+/* 회원목록 */
 .custom-fs-5 {
 	font-size: 0.9em;
 }
 .custom-fs-6 {
 	font-size: 0.8em;
+}
+.date-info {
+	min-width: 180px;
 }
 .search-wrapper {
     border: var(--bs-border-width) solid #DFE5EF;
@@ -83,28 +111,6 @@ td {
 	color: #5d87ff;
 }
 
-/* .member-stop {
-	display: none;
-} */
-/* .input-text {
-	display: none;
-} */
-/* .bg-outline {
-	border: 1px solid #5a6a85;
-  	color: #5a6a85;
-  	cursor: pointer;
-}
-.bg-outline:hover {
-	background: #5a6a85;;
-	color: #fff;
-} */
-/* .badge-active {
-	background: #5a6a85;;
-	color: #fff;
-} */
-
-
-
 .member-stop {
 	display: none;
 }
@@ -130,3 +136,111 @@ td {
     background: #5a6a85;;
 	color: #fff;
 }
+
+
+/* 익명관리 */
+.delete-nickname {
+	display: none;
+	cursor: pointer;
+}
+.delete-nickname:hover {
+	text-decoration: underline;
+}
+.show {
+	display: inline-block;
+}
+.nickname-add {
+	cursor: pointer;
+	user-select: none;
+}
+.nickname-add .ti {
+	font-size: 20px;
+}
+.anonymous-container {
+	margin-right: 0 !important;
+	margin-left: 0 !important;	
+}
+.anonymous-container .col {
+	position: relative;
+}
+.anonymous-container .nickname-list,
+.anonymous-container .nickname-detail {
+	height: 600px;
+	overflow-y: scroll;
+	padding-right: 5px;
+}
+.anonymous-container .bg-light {
+	background: #f7f8f9 !important;
+}
+
+.nickname-list li {
+	border: 2px solid #E5EAEF;
+	padding: 0.6rem 0.7rem;
+	border-radius: 7px;
+	background: #fff;
+	user-select: none;
+	cursor: pointer;
+	box-sizing: border-box;
+}
+.nickname-list .selected {
+	background: #F1F7FF;
+	border: 2px solid #539BFF;
+	font-weight: 600;
+}
+.profile-image img {
+	width: 10vw;
+	height: 10vw;
+	min-width: 120px;
+	min-height: 120px;
+	max-width: 150px;
+	max-height: 150px;
+	border-radius: 5px;
+	object-fit: cover;
+	user-select: none;
+}
+.add-file {
+	width: 100%;
+	height: 100%;
+	border: 1px solid #E5EAEF;
+	padding: 0.3rem;
+	border-radius: 7px;
+	background: #eaeff4;
+}
+.add-file button {
+	min-width: 62px;
+	border: none;
+	border-radius: 5px;
+	background: #949494;
+	padding: 5px 8px;
+	color: #fff;
+	user-select: none;
+	cursor: default;
+}
+.add-file button .ti {
+	color: #fff;
+	margin-right: 5px;
+}
+.cancle-button, .save-button {
+	display: none;
+}
+
+
+
+/* 미디어쿼리 */
+@media all and (max-width:767px) {
+	.anonymous-container {
+		flex-direction: column;
+	}
+	.anonymous-container .nickname-list {
+		height: 150px;
+	}
+	.anonymous-container .nickname-detail {
+		height: auto;
+	}
+	.anonymous-container .card {
+		margin-bottom: 0;
+	}
+}
+
+
+

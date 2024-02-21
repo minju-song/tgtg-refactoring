@@ -22,4 +22,7 @@ public class Anonymous {
 	@Column(name = "anonymous_image")
 	private String anonymousImage;
 	
+	@Column(name = "anonymous_image_name")
+	private String anonymousImageName;
+	
 }
