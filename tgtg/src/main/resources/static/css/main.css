@@ -277,7 +277,7 @@ body {
 }
 
 body {
-    background-color: #0c0c0c;
+    background-color: #0c0c0c !important;
     font-size: 14px;
     line-height: 1.6;
     font-family: "Montserrat", sans-serif;
@@ -474,7 +474,7 @@ body {
 }
 
 .header {
-    position: absolute;
+    /* position: absolute; */
     top: 0;
     left: 0;
     display: -webkit-box;
@@ -1892,4 +1892,8 @@ body {
     -ms-flex-pack: center;
     justify-content: center;
     margin: 0 auto
+}
+
+#contents {
+    width: 100%;
 }
