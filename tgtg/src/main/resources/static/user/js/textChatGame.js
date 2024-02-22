@@ -3,7 +3,19 @@
  */
  
 // 메시지 전송 버튼 이벤트
-document.querySelector('#msgBtn').addEventListener("click", sendChat);
+let gameRole = "";
+let msgBtn = document.querySelectorAll('#msgBtn');
+for(let i=0; i<msgBtn.length; i++){
+    msgBtn[i].addEventListener("click", function(){
+        if(i == 0){
+            gameRole = "game";
+            sendChat(msgBtn[i], 0);
+        }else{
+            gameRole = "watch";
+            sendChat(msgBtn[i], 1);
+        }
+    });
+}
 
 // 소켓 연결
 function connect() {
@@ -15,7 +27,7 @@ function connect() {
         console.log('Connected: ' );
 
         //해당 채팅방 구독
-        stompClient.subscribe('/room/'+room.roomId, function (chatMessage) {
+        stompClient.subscribe('/room/'+room.roomId+'/game', function (chatMessage) {
             // 채팅 수신되면 화면에 그려줌
             showChat(JSON.parse(chatMessage.body));
         });
@@ -49,22 +61,34 @@ function disconnect() {
 }
 
 // 채팅 전송
-function sendChat() {
-    if ($("#message").val() != "") {
-        // JSON형태로 바꾸어서 보냄
-        stompClient.send("/send/"+room.roomId, {},
+function sendChat(Btn, num) {
+    if(Btn.previousElementSibling.value != ''){
+        stompClient.send("/send/"+room.roomId+"/game", {},
             JSON.stringify({
                 'sender': sender,
                 'senderEmail': senderEmail,
-                'message' : $("#message").val()
+                'message' : Btn.previousElementSibling.value,
+                'gameRole' : gameRole
             }));
         $("#message").val('');
     }
+    /*if ($("#message").val() != "") {
+        // JSON형태로 바꾸어서 보냄
+        stompClient.send("/send/"+room.roomId+"/game", {},
+            JSON.stringify({
+                'sender': sender,
+                'senderEmail': senderEmail,
+                'message' : $("#message").val(),
+                'gameRole' : gameRole
+            }));
+        $("#message").val('');
+    }*/
 }
 
 // 수신된 채팅 화면에 그려주는 함수
 function showChat(chatMessage) {
-    if(chatMessage.senderEmail != senderEmail) {
+    console.log(chatMessage.message+', '+chatMessage.gameRole)
+    /*if(chatMessage.senderEmail != senderEmail) {
         let div = document.createElement('div');
 
         let divbox = document.createElement('div');
@@ -99,7 +123,7 @@ function showChat(chatMessage) {
     
         chatBox.appendChild(div);
             console.log(chatMessage.sender + " : " + chatMessage.message);
-    }
+    }*/
 }
 
 //창 키면 바로 연결
@@ -137,7 +161,7 @@ setInterval(function () {
 //엔터키
 $('#chatSend').keypress(function (e) {
     if (e.keyCode === 13) {
-        sendChat();
+        sendChat(gameRole);
     }
 });
 

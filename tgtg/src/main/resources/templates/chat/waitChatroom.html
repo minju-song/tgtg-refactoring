@@ -13,8 +13,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{l
         		<div id="chatBox" style="margin-top: 100px;">        		
 		            <div style="display: flex;">
 		                <h3 style="color: black; flex: 1;">
-		                    <span th:if="${room.type} == 'text'">| 텍스트 싸움 대기방</span>
-		                    <span th:if="${room.type} == 'voice'">| 음성 싸움 대기방</span>
+		                    <span th:if="${room.type} == 'text'">| 텍스트 싸움 대기방 [[${room.roomId}]]</span>
+		                    <span th:if="${room.type} == 'voice'">| 음성 싸움 대기방 [[${room.roomId}]]</span>
 		                </h3>                
 		                <div id="btnDiv" style="flex: 1;">
 		                    <button id="readyBtn" >READY</button>
@@ -49,7 +49,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{l
             // 소켓관련
             let stompClient = null;
 
-            // 채팅방 아이디
+            // 채팅방
             let room = /*[[${room}]]*/null;
 
             // 채팅방 타입

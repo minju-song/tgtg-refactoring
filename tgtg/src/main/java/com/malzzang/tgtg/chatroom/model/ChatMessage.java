@@ -11,7 +11,7 @@ import lombok.Setter;
 public class ChatMessage {
 	private int roomId;
 	private String sender;
-
+	private String gameRole;
     private String senderEmail;
     private String message;
     private LocalDateTime sendDate;
