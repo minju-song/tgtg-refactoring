@@ -474,7 +474,7 @@ body {
 }
 
 .header {
-    position: absolute;
+    /* position: absolute; */
     top: 0;
     left: 0;
     display: -webkit-box;
@@ -1892,4 +1892,8 @@ body {
     -ms-flex-pack: center;
     justify-content: center;
     margin: 0 auto
+}
+
+#contents {
+    width: 100%;
 }

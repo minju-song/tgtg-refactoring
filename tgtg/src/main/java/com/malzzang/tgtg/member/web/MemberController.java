@@ -12,6 +12,7 @@ import com.malzzang.tgtg.member.oauth.PrincipalDetails;
 @Controller
 public class MemberController {
 
+
 	@GetMapping("/login")
 	public String home() {
 		return "member/login.html";
