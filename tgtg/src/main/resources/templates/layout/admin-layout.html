@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HTML5 website template">
+<meta name="keywords" content="global, template, html, sass, jquery">
+<meta name="author" content="Bucky Maler">
+<link rel="shortcut icon" type="image/png" href="/admin/images/logos/favicon.png" />
+<link rel="stylesheet" href="/admin/css/styles.min.css" />
+<link rel="stylesheet" href="/admin/css/custom.css" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<title>티격태격::관리자</title>
+</head>
+<body>
+	<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+		<!--/* 사이드 메뉴 start */-->
+		<div th:replace="fragments/admin-side.html :: adminSideFragment"></div>
+		<!--/* 사이드 메뉴 end */-->
+		
+    	<div class="body-wrapper">
+    		<!--/* 헤더 영역 start */-->
+    		<div th:replace="fragments/admin-header.html :: adminHeaderFragment"></div>
+    		<!--/* 헤더 영역 end */-->
+    		
+    		<!--/* 메인 컨텐츠 영역 start */-->
+			<div id="contents" layout:fragment="mainContent"></div>
+			<!--/* 메인 컨텐츠 영역 end */-->
+    	</div>
+	</div>
+	
+	<script src="/admin/libs/jquery/dist/jquery.min.js"></script>
+	<script src="/admin/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="/admin/js/sidebarmenu.js"></script>
+	<script src="/admin/js/app.min.js"></script>
+	<script src="/admin/libs/simplebar/dist/simplebar.js"></script>
+</body>
+</html>

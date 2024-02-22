@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/admin-layout}">
+<head>
+	<script src="/admin/js/memberList.js"></script>
+</head>
+<th:block layout:fragment="mainContent">
+	<div class="container-fluid">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title fw-semibold mb-4">회원목록</h5>
+				<div class="search-area d-flex align-items-center justify-content-end">
+					<form class="search-wrapper d-flex" id="search-form">
+						<select class="form-select" name="searchCategory" id="searchCategory">
+							<option value="memberId" th:selected="${memberId != null && memberId != ''}">회원아이디</option>
+							<option value="memberStop" th:selected="${memberStop != null && memberStop != ''}">정지유무</option>
+						</select>
+						<div class="search-input-wrapper d-flex align-items-center justify-content-between">
+							<input class="form-control input-text" type="text" name="memberId" 
+								   placeholder="검색어를 입력하세요" th:value="${memberId}"
+								   th:classappend="${(memberStop == null || memberStop == '') ? 'd-block' : 'd-none'}">
+							<div class="member-stop ps-3" th:classappend="${(memberStop != null && memberStop != '') ? 'd-block' : 'd-none'}">
+								<input type="radio" name="memberStop" value="stop" id="stop" th:checked="${memberStop eq 'stop'}">
+								<label class="badge rounded-2 custom-fs-5 me-1" for="stop">계정정지</label>
+								<input type="radio" name="memberStop" value="active" id="active" th:checked="${memberStop eq 'active'}">
+								<label class="badge rounded-2 custom-fs-5" for="active">계정활성화</label>
+								<input type="hidden" name="memberStop">
+							</div>
+							<button type="button" class="d-flex align-items-center search-button">
+								<i class="ti ti-search"></i>
+							</button>
+						</div>
+					</form>
+				</div>
+				<div class="mt-4">
+					<table class="table table-hover table-bordered">
+						<thead>
+							<tr class="table-light">
+								<th>회원 아이디</th>
+								<th>MBTI</th>
+								<th>가입일자</th>
+								<th>소셜종류</th>
+								<th>계정정지</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="member : ${memberList}">
+								<td>
+									<span th:if="${member.memberRole == 'role_admin'}" class="badge bg-dark rounded-2 custom-fs-6">관리자</span>
+									<span>[[${member.memberId}]]</span>
+								</td>
+								<td class="text-uppercase">[[${member.memberMbti}]]</td>
+								<td>[[${member.memberJoin}]]</td>
+								<td>
+									<th:block th:switch="${member.memberSocial}">
+										<span th:case="kakao" class="badge bg-warning rounded-3 custom-fs-6">카카오</span>
+										<span th:case="naver" class="badge bg-success rounded-3 custom-fs-6">네이버</span>
+										<span th:case="google" class="badge bg-primary rounded-3 custom-fs-6">구글</span>
+										<span th:case="*" class="badge btn-dark rounded-3">[[${member.memberSocial}]]</span>
+									</th:block>
+								</td>
+								<td>
+									<button type="button" class="btn btn-danger btn-sm stop-button"
+											th:if="${member.memberStop != null}">정지해제</button>
+									<button type="button" class="btn btn-outline-danger btn-sm stop-button"
+											th:unless="${member.memberStop != null}">계정정지</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="pagination d-flex gap-2 justify-content-center mt-4">
+						<!--/* 첫번째 페이지로 이동 */-->
+						<a th:href="@{/admin/memberList(page=1, memberId=${memberId}, memberStop=${memberStop})}"><i class="ti ti-chevrons-left"></i></a>
+						<!--/* 이전 링크 활성화 비활성화 */-->
+						<a th:href="${memberList.first} ? '#' : @{/admin/memberList(page=${nowPage - 1}, memberId=${memberId}, memberStop=${memberStop})}"><i class="ti ti-chevron-left"></i></a>
+						<!--/* 페이지 번호 출력 */-->
+						<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+							<strong th:if="${page == nowPage}" class="ps-1 pe-1">[[${page}]]</strong>
+							<a th:if="${page != nowPage && memberList.totalPages != 0}" th:href="@{/admin/memberList(page=${page}, memberId=${memberId}, memberStop=${memberStop})}" class="ps-1 pe-1">[[${page}]]</a>
+						</th:block>
+						<!--/* 다음 링크 활성화 비활성화 */-->
+						<a th:href="${memberList.last} ? '#' : @{/admin/memberList(page=${nowPage + 1}, memberId=${memberId}, memberStop=${memberStop})}"><i class="ti ti-chevron-right"></i></a>
+						<!--/* 마지막 페이지로 이동 */-->
+						<a th:href="@{/admin/memberList(page=${memberList.totalPages}, memberId=${memberId}, memberStop=${memberStop})}"><i class="ti ti-chevrons-right"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>
