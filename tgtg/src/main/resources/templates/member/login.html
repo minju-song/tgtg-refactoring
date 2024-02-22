@@ -7,16 +7,90 @@
 <!-- <meta charset="UTF-8">
 <title>Insert title here</title> -->
 <link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<link rel="stylesheet" href="loginStyle.css">
 </head>
 <body>
 	<th:block layout:fragment="mainContent">
 		<div class="l-section">
 			<div class="content">
-			
-				<a>카카오</a> 
-				<a>네이버</a> 
-				<a>구글</a>
-	
+
+				<!----------------------- Main Container -------------------------->
+
+				<div
+					class="d-flex justify-content-center align-items-center min-vh-100">
+
+					<!----------------------- Login Container -------------------------->
+
+					<div class="row rounded-5 p-4 bg-#101010 shadow box-area" style="background-color: #1c1d22">
+
+						<!--------------------------- Left Box ----------------------------->
+
+						<div
+							class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
+							style="background: #5a93ff;">
+							<div class="featured-image mb-3">
+								<img src="images/1.png" class="img-fluid" style="width: 250px;">
+							</div>
+							<p class="text-white fs-2" style="font-weight: 800; letter-spacing: .3rem">티격태격</p>
+							<small class="text-white text-wrap text-center"
+								style="width: 17rem; font-family: 'Courier New', Courier, monospace;">Join
+								experienced Designers on this platform.</small>
+						</div>
+
+						<!-------------------------- Right Box ---------------------------->
+
+						<div class="col-md-6 right-box">
+							<div class="row align-items-center">
+								<div class="header-text mb-5">
+									<h3 style="color: #fff; font-weight: 700;">이야기하고, 싸우고, 즐기는</h3>
+									<h2 style="color: #5a93ff; font-weight: 700;">말싸움 티격태격</h2>
+								</div>
+								<div class="mb-5">
+								</div>
+								<!-- <div class="input-group mb-3">
+									<input type="text"
+										class="form-control form-control-lg bg-light fs-6"
+										placeholder="Email address">
+								</div> -->
+								<!-- <div class="input-group mb-5 d-flex justify-content-between">
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" id="formCheck">
+										<label for="formCheck" class="form-check-label text-secondary"><small>Remember Me</small></label>
+									</div>
+									<div class="forgot">
+										<small><a href="#">Forgot Password?</a></small>
+									</div>
+								</div> -->
+								<div class="input-group mb-4">
+									<button class="btn btn-lg w-100 fs-6" onclick="location.href='/oauth2/authorization/naver'"
+										style="padding: 0; border: 0; background-color: #04c75b">
+										<img src="images/naver.png"
+										alt="네이버 로그인 버튼" style="height: 48.39px;"/>
+									</button>
+								</div>
+								<div class="input-group mb-4">
+									<button class="btn btn-lg btn-yellow w-100 fs-6" id="kakao-login-btn" href="javascript:loginWithKakao()"
+										style="padding: 0; border: 0;">
+										<img src="images/kakao.png"
+										alt="카카오 로그인 버튼" style="height: 48.39px; border-radius: 1.5rem;"/>
+									</button>
+								</div>
+								<div class="input-group mb-5">
+									<button class="btn btn-lg btn-light w-100 fs-6" onclick="location.href='/oauth2/authorization/google'">
+										<img src="images/google.png" style="width: 20px" class="me-1">
+										<small style="font-weight: 600; font-size: medium;">구글 로그인</small>
+									</button>
+								</div>
+								<div class="mb-2" style="text-align: center;">
+									<small style="color: #fff;">로그인에 어려움이 있으신가요?</small>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</th:block>
