@@ -8,26 +8,30 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{l
 </head>
 <body>
     <th:block layout:fragment="mainContent">
-        <div id="chatBox">
-            <div style="display: flex;">
-                <h3 style="color: black; flex: 1;">
-                    <span th:if="${room.type} == 'text'">| 텍스트 싸움 대기방</span>
-                    <span th:if="${room.type} == 'voice'">| 음성 싸움 대기방</span>
-                </h3>                
-                <div id="btnDiv" style="flex: 1;">
-                    <button id="readyBtn" >READY</button>
-                    <div id="countDiv">
-                        <span id="countReady">-</span> / <span id="countConnect">-</span>
-                    </div>
-                </div>
-                <div style="flex: 1;"></div>
-            </div>
-            <div id="chatView">
-            </div>
-            <div id="chatSend">
-                <input id="message">
-                <button id="msgBtn">전송</button>
-            </div>
+    	<div class="l-main-content">
+	        <div class="content">
+        		<div id="chatBox" style="margin-top: 100px;">        		
+		            <div style="display: flex;">
+		                <h3 style="color: black; flex: 1;">
+		                    <span th:if="${room.type} == 'text'">| 텍스트 싸움 대기방</span>
+		                    <span th:if="${room.type} == 'voice'">| 음성 싸움 대기방</span>
+		                </h3>                
+		                <div id="btnDiv" style="flex: 1;">
+		                    <button id="readyBtn" >READY</button>
+		                    <div id="countDiv">
+		                        <span id="countReady">-</span> / <span id="countConnect">-</span>
+		                    </div>
+		                </div>
+		                <div style="flex: 1;"></div>
+		            </div>
+		            <div id="chatView">
+		            </div>
+		            <div id="chatSend">
+		                <input id="message">
+		                <button id="msgBtn">전송</button>
+		            </div>
+        		</div>      	
+        	</div>
         </div>
 
 
