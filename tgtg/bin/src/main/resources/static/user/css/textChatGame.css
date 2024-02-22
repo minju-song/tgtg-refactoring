@@ -2,7 +2,7 @@
 
 /* 채팅 영역 전체 */
 #gameChatBox, #watchChatBox {
-    height: 80vh;
+    height: 85vh;
     background-color: white;
     border-radius: 6px;
     display: flex;
@@ -118,7 +118,7 @@ span {
 /* 주제, 알림 글씨 */
 .fontStyle {
 	color: black;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bolder;
 }
 

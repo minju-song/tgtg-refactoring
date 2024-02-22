@@ -116,7 +116,7 @@ window.addEventListener('beforeunload', function (event) {
 const remainingMin = document.getElementById("remaining__min");
 const remainingSec = document.getElementById("remaining__sec");
 
-let time = 300;
+let time = 600;
 setInterval(function () {
 	if (time > 0) { // >= 0 으로하면 -1까지 출력된다.
 		time = time - 1;
