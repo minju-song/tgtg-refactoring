@@ -71,7 +71,7 @@
 						</tbody>
 					</table>
 					<div class="pagination d-flex gap-2 justify-content-center mt-4">
-						<!--/* 첫번째 페이지로 이동 */-->
+						<!-- /* 첫번째 페이지로 이동 */ -->
 						<a th:href="@{/admin/memberList(page=1, memberId=${memberId}, memberStop=${memberStop})}"><i class="ti ti-chevrons-left"></i></a>
 						<!--/* 이전 링크 활성화 비활성화 */-->
 						<a th:href="${memberList.first} ? '#' : @{/admin/memberList(page=${nowPage - 1}, memberId=${memberId}, memberStop=${memberStop})}"><i class="ti ti-chevron-left"></i></a>

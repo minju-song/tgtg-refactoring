@@ -28,7 +28,7 @@ public class SecurityConfig {
 			//경로 권한 설정
 			.authorizeHttpRequests()				
 			.requestMatchers("/mypage").authenticated()
-			.requestMatchers("/admin**").hasRole("ADMIN")	
+			.requestMatchers("/admin/**").hasRole("ADMIN")	
 			//권한 없는 접근 처리
 			.anyRequest().permitAll()
 			
