@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.malzzang.tgtg.member.Member;
 import com.malzzang.tgtg.member.MemberRepository;
 
+
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 	
@@ -28,13 +29,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		 * 구글로그인 버튼 클릭 -> 구글 로그인창 -> 로그인 완료 -> code를 리턴(OAuth-client라이브러리가 받아줌) -> Access Token 요
 		 * userRequest 정보 -> loadUser 함수 호츌 -> 구글로부터 회원 프로필 받아준다. 
 		 */
+		OAuth2User oauth2User = super.loadUser(userRequest);
+
 		System.out.println("userRequest :" +userRequest);
 		// registrationId로 어떤 OAuth로 로그인 했는지 확인가능 
 		System.out.println("getClientRegistration :" +userRequest.getClientRegistration());
 		System.out.println("getAccessToken :" +userRequest.getAccessToken().getTokenValue());
 		System.out.println("getAttributes :" +super.loadUser(userRequest).getAttributes());
-		
-		OAuth2User oauth2User = super.loadUser(userRequest);
 		System.out.println("oauth2User :" +oauth2User);
 		
 		
@@ -45,7 +46,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 			oauth2UserInfo = new GoogleUserInfo(oauth2User.getAttributes());
 		}else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
 			System.out.println("네이버 로그인 요청");
-			oauth2UserInfo = new NaverUserInfo((Map<String, Object>)oauth2User.getAttributes().get("response"));
+			oauth2UserInfo = new NaverUserInfo((Map)oauth2User.getAttributes().get("response"));
+		}else {
+			System.out.println("...");
 		}
 		
 		System.out.println("==="+oauth2User.getAttributes());
@@ -53,13 +56,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 //		String memberEmail = oauth2User.getAttribute("email");
 		String memberEmail = oauth2UserInfo.getMemberEmail();
 //		String memberSocial = userRequest.getClientRegistration().getRegistrationId(); // google, naver, kakao
-		String memberSocial = oauth2UserInfo.getMemberSocial();
+		String memberSocial = oauth2UserInfo.getProvider();
 //		String memberId = memberSocial+"_"+memberEmail; // google_123456789009876452
-		String memberId = oauth2UserInfo.getMemberId();
+		String memberId = oauth2UserInfo.getProvideId();
 		String memberRole = "ROLE_GUEST";
 		
 		Member memberEntity = memberRepository.findByMemberId(memberId);
-		System.out.println("memberEntity"+memberEntity);
+		System.out.println("memberEntity : "+memberEntity);
 		
 		if(memberEntity == null) {
 			memberEntity = Member.builder()
@@ -71,12 +74,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 			memberRepository.save(memberEntity);	
 		} 
 		
-		if(userRequest.getClientRegistration().getRegistrationId().equals("google")) {			
-			return new PrincipalDetails(memberEntity, oauth2User.getAttributes());
-		}
-		else {
-			return new PrincipalDetails(memberEntity, oauth2User.getAttributes());
-		}
+		return new PrincipalDetails(memberEntity, oauth2User.getAttributes());
 		//oauth2User.getAttributes()
 	}
 }

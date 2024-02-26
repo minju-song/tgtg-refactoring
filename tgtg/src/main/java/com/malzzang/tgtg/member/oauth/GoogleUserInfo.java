@@ -11,12 +11,12 @@ public class GoogleUserInfo implements OAuth2UserInfo{
 	}
 	
 	@Override
-	public String getMemberId() {
+	public String getProvideId() {
 		return "google"+"_"+(String) attributes.get("sub");
 	}
 
 	@Override
-	public String getMemberSocial() {
+	public String getProvider() {
 		return "google";
 	}
 
