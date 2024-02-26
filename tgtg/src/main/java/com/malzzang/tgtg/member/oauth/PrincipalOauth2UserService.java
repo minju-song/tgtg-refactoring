@@ -47,8 +47,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		}else if(userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
 			System.out.println("네이버 로그인 요청");
 			oauth2UserInfo = new NaverUserInfo((Map)oauth2User.getAttributes().get("response"));
-		}else {
-			System.out.println("...");
+		}else if(userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
+			System.out.println("카카오 로그인 요청");
+			oauth2UserInfo = new KakaoUserInfo((Map)oauth2User.getAttributes());
 		}
 		
 		System.out.println("==="+oauth2User.getAttributes());
@@ -74,7 +75,12 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 			memberRepository.save(memberEntity);	
 		} 
 		
-		return new PrincipalDetails(memberEntity, oauth2User.getAttributes());
-		//oauth2User.getAttributes()
+		if(userRequest.getClientRegistration().getRegistrationId().equals("naver")) {			
+			return new PrincipalDetails(memberEntity, (Map) oauth2User.getAttributes().get("response"));
+		} else if(userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+			return new PrincipalDetails(memberEntity, (Map) oauth2User.getAttributes().get("kakao_account"));
+		} else {			
+			return new PrincipalDetails(memberEntity, oauth2User.getAttributes());
+		}
 	}
 }
