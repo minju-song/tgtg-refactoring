@@ -12,7 +12,7 @@
 			<div class="card-body">
 				<h5 class="card-title fw-semibold mb-4">회원목록</h5>
 				<div class="search-area d-flex align-items-center justify-content-end">
-					<form class="search-wrapper d-flex" id="search-form">
+					<div class="search-wrapper d-flex" id="search-form">
 						<select class="form-select" name="searchCategory" id="searchCategory">
 							<option value="memberId" th:selected="${memberId != null && memberId != ''}">회원아이디</option>
 							<option value="memberStop" th:selected="${memberStop != null && memberStop != ''}">정지유무</option>
@@ -32,10 +32,17 @@
 								<i class="ti ti-search"></i>
 							</button>
 						</div>
-					</form>
+					</div>
 				</div>
 				<div class="mt-4">
 					<table class="table table-hover table-bordered">
+						<colgroup>
+							<col span="1" style="width:45%">
+							<col span="1" style="width:10%">
+							<col span="1" style="width:20%">
+							<col span="1" style="width:10%">
+							<col span="1" style="width:15%">
+						</colgroup>
 						<thead>
 							<tr class="table-light">
 								<th>회원 아이디</th>
@@ -48,11 +55,12 @@
 						<tbody>
 							<tr th:each="member : ${memberList}">
 								<td>
-									<span th:if="${member.memberRole == 'role_admin'}" class="badge bg-dark rounded-2 custom-fs-6">관리자</span>
+									<span th:if="${#strings.toLowerCase(member.memberRole) == 'role_admin'}" class="badge bg-dark rounded-2 custom-fs-6">관리자</span>
 									<span>[[${member.memberId}]]</span>
 								</td>
-								<td class="text-uppercase">[[${member.memberMbti}]]</td>
-								<td>[[${member.memberJoin}]]</td>
+								<td class="text-uppercase" th:if="${member.memberMbti != null}">[[${member.memberMbti}]]</td>
+								<td class="text-uppercase" th:unless="${member.memberMbti != null}">-</td>
+								<td th:text="${#dates.format(member.memberJoin, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								<td>
 									<th:block th:switch="${member.memberSocial}">
 										<span th:case="kakao" class="badge bg-warning rounded-3 custom-fs-6">카카오</span>

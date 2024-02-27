@@ -96,12 +96,12 @@ function activateInput() {
 	document.querySelector(".profile-image input").disabled = false;
 
 	// 버튼 활성화
-	const id = document.querySelector(".update-button").dataset.id;
 	document.querySelector(".update-button").style.display = "none";
 	document.querySelector(".save-button").style.display = "block";
 	document.querySelector(".cancle-button").style.display = "block";
 	
 	// id정보 버튼에 저장
+	const id = document.querySelector(".update-button").dataset.id;
 	document.querySelector(".save-button").dataset.id = id;
 	document.querySelector(".cancle-button").dataset.id = id;
 	
