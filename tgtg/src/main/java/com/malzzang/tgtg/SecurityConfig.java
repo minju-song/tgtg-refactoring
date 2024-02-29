@@ -27,7 +27,7 @@ public class SecurityConfig {
 			
 			//경로 권한 설정
 			.authorizeHttpRequests()				
-			.requestMatchers("/mypage").authenticated()
+			.requestMatchers("/mypage", "/user/waitChatroom").authenticated()
 			.requestMatchers("/admin/**").hasRole("ADMIN")	
 			//권한 없는 접근 처리
 			.anyRequest().permitAll()
@@ -53,10 +53,10 @@ public class SecurityConfig {
 			.oauth2Login()
 			.loginPage("/login")
 			.userInfoEndpoint()
-			.userService(principalOauth2UserService); // 구글 로그인이 완료된 뒤의 후처리 필요. Tip 코트X, (엑세스토큰+사용자프로필 정보)
-			
-			
-		
+			.userService(principalOauth2UserService) // 구글 로그인이 완료된 뒤의 후처리 필요. Tip 코트X, (엑세스토큰+사용자프로필 정보)
+			.and()
+			.defaultSuccessUrl("/oauth2/check"); // 소셜 로그인 후 후처리 
+					
 		return http.build();
 		
 	}

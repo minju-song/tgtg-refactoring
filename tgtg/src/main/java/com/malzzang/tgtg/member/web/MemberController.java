@@ -35,10 +35,37 @@ public class MemberController {
 		return "member/login.html";
 	}
 	
+	/**
+	 * 소셜 최초 로그인 시 MBTI 검사 페이지로 이동 
+	 */
+	@GetMapping("/oauth2/check")
+	public String oauth2Check(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		
+		if (principalDetails.getMember().getMemberMbti() == null) {
+			return "redirect:/checkMbti";
+		}
+		return "redirect:/";
+	}
+	
+	/**
+	 * MBTI 검
+	 */
+	@GetMapping("/checkMbti")
+	public String checkMbti() {
+		return "member/checkMbti.html";
+	}
+	
+	
+	@GetMapping("/mypage")
+	public String mypage() {
+		return "member/mypage.html";
+	}
+	
 	  
-	@GetMapping("/user")
+	@GetMapping("/test/user")
 	public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-		System.out.println("principalDetails : " +principalDetails.getName());
+		System.out.println("principalDetails : " +principalDetails.getMember().getMemberMbti());
+		System.out.println("principalDetails : " +principalDetails.getMember().getMemberEmail());
 		//.getMember()
 		return "USER";
 	}

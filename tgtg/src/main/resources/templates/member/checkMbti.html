@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<!-- <html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorate="~{layout/layout}"> -->
+
+<html>
+<head>
+<!-- Formify CSS Stylesheet -->
+<link rel="stylesheet" href="member/css/bootstrap.min.css">
+<link rel="stylesheet" href="member/css/font-awesome-all.min.css">
+<link rel="stylesheet" href="member/css/jquery.classycountdown.min.css">
+<link rel="stylesheet" href="member/css/nice-select.min.css">
+<link rel="stylesheet" href="member/css/reset.css">
+<link rel="stylesheet" href="member/css/style.css">
+
+<!-- Formify Scripts -->
+<script src="member/js/jquery.min.js"></script>
+<script src="member/js/jquery-migrate.js"></script>
+<script src="member/js/bootstrap.min.js"></script>
+<script src="member/js/final-countdown.min.js"></script>
+<script src="member/js/nice-select.min.js"></script>
+<script src="member/js/main.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async="async"
+	defer="defer"></script>
+</head>
+
+<body>
+	<!-- <th:block layout:fragment="mainContent"> -->
+
+		<div class="body-bg formify-quiz-layout-3">
+
+			<section class="formify-form formify-bg-cover"
+				style="background-image: url('member/imgages/formify-bg-21.jpg');">
+
+				<div class="container p-0">
+					<div class="row">
+						<div class="col-12 formify-form__100vh formify-form__acenter">
+							<!-- Welcome Banner -->
+							<div
+								class="formify-form__layout formify-form__layout--quiz formify-form__layout--quiz-v3 formify-form__jcenter  formify-bg-none">
+
+								<!-- Form Area -->
+								<div
+									class="formify-form__inner--quiz formify-form__inner--quiz-v3">
+									<div class="formify-form__form-box">
+										<div
+											class="formify-forms__head formify-forms__head--v3 formify-bg-cover"
+											style="background-image: url('member/imgages/formify-quiz-shape.png');">
+											<h4
+												class="formify-forms__head-title formify-forms__head-title--v3">Quiz</h4>
+										</div>
+										<!-- Form Area -->
+										<form id="multiStepForm"
+											class="formify-forms formify-forms__quiz formify-forms__quiz--v3"
+											action="#">
+											<div class="tab-content">
+												<!-- Step 1 -->
+												<div class="tab-pane fade show active" id="step1">
+													<div
+														class="formify-forms__quiz-single formify-forms__quiz-single--v3">
+														<h3
+															class="formify-forms__quiz-title formify-forms__quiz-title--v3 m-0">In
+															which decade with the first transatlantic radio broadcast
+															occur?</h3>
+														<div class="formify-forms__quiz-form formify-mg-top-40">
+															<div class="formify-forms__quiz-form">
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-1" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-1">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>A</span>1850s
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color2">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-2" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-2">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>B</span>1860s
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color3">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-3" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-3">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>C</span>PDF
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color4">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-4" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-4">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>D</span>MP3
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Form Group -->
+																<div class="form-group formify-mg-top-40">
+																	<div class="formify-forms__button">
+																		<button class="formify-btn next-step">
+																			NEXT QUESTION <img src="img/formify-arrow-right.svg">
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- Form Group -->
+												</div>
+
+												<!-- Step 2 -->
+												<div class="tab-pane fade" id="step2">
+													<div
+														class="formify-forms__quiz-single formify-forms__quiz-single--v3">
+														<h3
+															class="formify-forms__quiz-title formify-forms__quiz-title--v3 m-0">What
+															kind of malware is designed to take advantage of a
+															security hole ?</h3>
+														<div class="formify-forms__quiz-form formify-mg-top-40">
+															<div class="formify-forms__quiz-form">
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-5" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-5">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>A</span>Virus
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color2">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-6" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-6">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>B</span>Ransomware
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color3">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-7" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-7">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>C</span>Zero-day exploit
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color4">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-8" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-8">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>D</span>Trojan horse
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Form Group -->
+																<div class="form-group formify-mg-top-40">
+																	<div class="formify-forms__button">
+																		<button class="formify-btn prev-step">
+																			<img src="img/formify-arrow-left.svg"> LAST
+																			QUESTION
+																		</button>
+																		<button class="formify-btn next-step">
+																			NEXT QUESTION <img src="img/formify-arrow-right.svg">
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- Form Group -->
+												</div>
+
+												<!-- Step 3 -->
+												<div class="tab-pane fade" id="step3">
+													<div
+														class="formify-forms__quiz-single formify-forms__quiz-single--v3">
+														<h3
+															class="formify-forms__quiz-title formify-forms__quiz-title--v3 m-0">Making
+															a compressed digital archive might produce what type of
+															file format?</h3>
+														<div class="formify-forms__quiz-form formify-mg-top-40">
+															<div class="formify-forms__quiz-form">
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-9" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-9">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>A</span>ZIP
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color2">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-10" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-10">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>B</span>JPEG
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color3">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-11" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-11">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>C</span>PDF
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color4">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-12" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-12">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>D</span>MP3
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Form Group -->
+																<div class="form-group formify-mg-top-40">
+																	<div class="formify-forms__button">
+																		<button class="formify-btn prev-step">
+																			<img src="img/formify-arrow-left.svg"> LAST
+																			QUESTION
+																		</button>
+																		<button class="formify-btn next-step">
+																			NEXT QUESTION <img src="img/formify-arrow-right.svg">
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- Form Group -->
+												</div>
+
+												<!-- Step 3 -->
+												<div class="tab-pane fade" id="step4">
+													<div
+														class="formify-forms__quiz-single formify-forms__quiz-single--v3">
+														<h3
+															class="formify-forms__quiz-title formify-forms__quiz-title--v3 m-0">What
+															technology is used to make telephone calls over the
+															Internet possible?</h3>
+														<div class="formify-forms__quiz-form formify-mg-top-40">
+															<div class="formify-forms__quiz-form">
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-13" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-13">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>A</span>Bluetooth
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color2">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-14" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-14">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>B</span>Ethernet
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color3">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-15" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-15">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>C</span>NFC
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Single Group -->
+																<div class="form-group formify-mg-top-15">
+																	<div
+																		class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color4">
+																		<input class="formify-forms__input d-none"
+																			type="radio" value="" id="q-16" name="q-question"
+																			checked="checked"> <label
+																			class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+																			for="q-16">
+																			<div
+																				class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+																				<span>D</span>VOIP
+																			</div>
+																			<div class="formify-forms__quiz-check--v3">
+																				<svg xmlns="http://www.w3.org/2000/svg" width="28"
+																					height="28" viewbox="0 0 28 28" fill="none">
+                                                                                    <path
+																						d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																						stroke-width="2.2" stroke-linecap="round"
+																						stroke-linejoin="round" />
+                                                                                </svg>
+																			</div>
+																		</label>
+																	</div>
+																</div>
+																<!-- Form Group -->
+																<div class="form-group formify-mg-top-40">
+																	<div class="formify-forms__button">
+																		<button class="formify-btn prev-step">
+																			<img src="img/formify-arrow-left.svg"> LAST
+																			QUESTION
+																		</button>
+																		<button class="formify-btn next-step">
+																			COMPLETE QUIZ <img src="img/formify-arrow-right.svg">
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- Form Group -->
+												</div>
+
+												<!-- Step 5 -->
+												<div class="tab-pane fade" id="step5">
+													<div
+														class="formify-forms__quiz-single formify-forms__quiz-single--v3">
+														<h3
+															class="formify-forms__quiz-title formify-forms__quiz-title--v3 m-0">Congratulations!
+															You did Great Job.</h3>
+														<div class="formify-forms__quiz-form formify-mg-top-40">
+															<div class="formify-forms__quiz-form">
+																<!-- Form Group -->
+																<div class="form-group formify-mg-top-40">
+																	<div class="formify-forms__button">
+																		<button class="formify-btn prev-step">
+																			<img src="img/formify-arrow-left.svg"> LAST
+																			QUESTION
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- Form Group -->
+
+												</div>
+											</div>
+										</form>
+										<!-- End Form Area -->
+									</div>
+								</div>
+								<!-- End Form Area -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</div>
+
+		<script>
+			<script type="text/javascript">
+			$(document)
+					.ready(
+							function() {
+								const form = $('#multiStepForm');
+								const steps = form.find('.tab-pane');
+								const links = $('.nav-link');
+								const progress = $('.progress-bar');
+								let currentStep = 0;
+
+								function showStep(stepIndex) {
+									steps.removeClass('show active');
+									$(steps[stepIndex]).addClass('show active');
+									links.removeClass('active');
+									$(links[stepIndex]).addClass('active');
+									updateProgress();
+
+									// Apply zoom-out animation
+									$('.formify-form__quiz-current').addClass(
+											'zoom-out');
+
+									// Change the step number and apply zoom-in animation
+									setTimeout(
+											function() {
+												$('.formify-form__quiz-current')
+														.text(stepIndex + 1)
+														.removeClass('zoom-out')
+														.addClass('zoom-in');
+											}, 300); // Adjust the delay to match your CSS transition duration
+
+								}
+
+								function updateProgress() {
+									const percent = (currentStep / (steps.length - 1)) * 100;
+									progress.css('width', percent + '%');
+								}
+
+								$('.next-step').click(function(event) {
+									event.preventDefault(); // Prevent the default form submission behavior
+									currentStep++;
+									if (currentStep < steps.length) {
+										showStep(currentStep);
+									} else {
+										// Handle form submission or completion here For example, you can use AJAX to
+										// submit the form data You can add your form submission logic here
+									}
+								});
+
+								$('.prev-step').click(function(event) {
+									event.preventDefault(); // Prevent the default form submission behavior
+									currentStep--;
+									if (currentStep >= 0) {
+										showStep(currentStep);
+									}
+								});
+
+								showStep(currentStep);
+							});
+		</script>
+	<!-- </th:block> -->
+</body>
+</html>
