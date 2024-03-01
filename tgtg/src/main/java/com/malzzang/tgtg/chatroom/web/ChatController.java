@@ -1,8 +1,10 @@
 package com.malzzang.tgtg.chatroom.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import com.malzzang.tgtg.chatroom.model.Chat;
@@ -19,6 +21,9 @@ public class ChatController {
 	
 	private final ReadyUserService readyUserService;
 	private final ConnectedUserService connectedUserService;
+	
+	@Autowired
+	private SimpMessagingTemplate simpMessagingTemplate;
 
 	//메시지 전송 메소드
 	@MessageMapping("/{roomId}") //여기로 전송되면 메서드 호출 -> WebSocketConfig prefixes 에서 적용한건 앞에 생략
@@ -33,11 +38,17 @@ public class ChatController {
                 .build();
 	}
 	
+	
 	//게임 준비 메소드
 	@MessageMapping("/{roomId}/ready")
     @SendTo("/room/{roomId}/getReady")
     public int ready(@DestinationVariable int roomId) {
         readyUserService.readyUser(roomId);
+        if(readyUserService.getReady(roomId) == connectedUserService.getConnectedUserCount(roomId) && 
+        		readyUserService.getReady(roomId)>= 3	) {
+        	System.out.println("스타트");
+        	simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "Start");
+        }
         return readyUserService.getReady(roomId);
     }
 	

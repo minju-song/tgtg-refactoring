@@ -31,6 +31,10 @@ function connect() {
             showReady(JSON.parse(ready.body));
         });
 
+        stompClient.subscribe('/room/'+room.roomId+'/startGame', function (start) {
+            startGame(start.body);
+        });
+
         
         // 채팅방에 접속했음을 서버에 알림
         stompClient.send("/send/"+room.roomId+"/enter", {});
@@ -68,6 +72,8 @@ function sendChat() {
     }
 }
 
+
+//상태 업데이트
 function updateReady() {
     isReady = !isReady; // 상태를 반전
 
@@ -79,6 +85,7 @@ function updateReady() {
 
 }
 
+//버튼 업데이트
 function updateReadyButton() {
     if (isReady) {
         readyBtn.innerText = 'CANCEL'; // 준비 상태일 때는 정지 아이콘으로 변경
@@ -97,6 +104,27 @@ function sendReady() {
 function cancelReady() {
     stompClient.send("/send/"+room.roomId+"/unready", {});
     updateReadyButton();
+}
+
+//게임 시작 함수
+function startGame(start) {
+    console.log("시작 : "+start);
+    let timeLeft = 10;
+    const timerElement = document.getElementById('timer'); // 타이머를 표시할 요소
+
+    timerElement.style.display = 'flex'; // 타이머 활성화
+
+    const timerId = setInterval(function() {
+        if (timeLeft <= 0) {
+            clearInterval(timerId); // 타이머 종료
+            timerElement.innerText = "START";
+            window.location.href = '/user/textGame';// 타이머 숨기기
+        } else {
+            timerElement.innerText = timeLeft; // 화면 갱신
+            timeLeft--; // 시간 감소
+        }
+    }, 1000);
+
 }
 
 //현재 접속자 수
