@@ -63,10 +63,10 @@ function searchList() {
 // 검색항목 변경시 검색옵션 변경 함수
 function changeSearchArea() {
     const searchCategory = document.querySelector("select#searchCategory").value;
-    const searchInputClassList = document.querySelector("input[name='memberId']").classList;
+    const searchInputClassList = document.querySelector("input[name='memberEmail']").classList;
     const searchOptionClassList = document.querySelector(".member-stop").classList;
 
-    if(searchCategory === "memberId") {
+    if(searchCategory === "memberEmail") {
         if(searchInputClassList.contains("d-none")) {
             searchInputClassList.remove("d-none");
             searchInputClassList.add("d-block");
