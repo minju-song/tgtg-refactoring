@@ -32,6 +32,9 @@
 }
 
 /* 회원목록 */
+td {
+	word-break: break-word;
+}
 .custom-fs-5 {
 	font-size: 0.9em;
 }

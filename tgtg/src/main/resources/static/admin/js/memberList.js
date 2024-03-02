@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     searchButton.addEventListener("click", searchList);
 
     // 검색 엔터 이벤트
-    const searchInput = document.querySelector("input[name='memberId']");
+    const searchInput = document.querySelector("input[name='memberEmail']");
     searchInput.addEventListener("keydown", function(event) {
         if(event.key === "Enter") searchList();
     })
@@ -41,9 +41,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // 검색 함수
 function searchList() {
     const searchCategory = document.querySelector("select#searchCategory").value;
-    if(searchCategory === "memberId") {
-        const memberId = document.querySelector("input[name='memberId']").value;
-        location.href = "/admin/memberList?memberId=" + memberId;
+    if(searchCategory === "memberEmail") {
+        const memberEmail = document.querySelector("input[name='memberEmail']").value;
+        location.href = "/admin/memberList?memberEmail=" + memberEmail;
     }
     if(searchCategory === "memberStop") {
         const memberStop = document.querySelector("input[type='radio']:checked");

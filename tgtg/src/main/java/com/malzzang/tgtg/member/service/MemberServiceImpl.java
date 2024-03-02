@@ -32,7 +32,7 @@ public class MemberServiceImpl implements MemberService {
 		Page<Member> memberList = 
 				memberRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "memberJoin")));
 		Page<MemberDTO> memberDtoList = 
-				memberList.map(m -> new MemberDTO(m.getMemberId(), m.getMemberJoin(), m.getMemberMbti(), m.getMemberRole(), m.getMemberSocial(), m.getMemberStop()));
+				memberList.map(m -> new MemberDTO(m.getMemberId(), m.getMemberEmail(), m.getMemberJoin(), m.getMemberMbti(), m.getMemberRole(), m.getMemberSocial(), m.getMemberStop()));
 		
 		return memberDtoList;
 	}
@@ -52,14 +52,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Page<MemberDTO> searchMemberIdList(Pageable pageable, String memberId) {
+	public Page<MemberDTO> searchMemberEmailList(Pageable pageable, String memberId) {
 		int page = pageable.getPageNumber() - 1;
 		int pageLimit = pageable.getPageSize(); // 한페이지 당 보여지는 데이터 개수
 		
 		Page<Member> memberList = 
-				memberRepository.findByMemberIdContaining(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "memberJoin")), memberId);
+				memberRepository.findByMemberEmailContaining(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "memberJoin")), memberId);
 		Page<MemberDTO> memberDtoList = 
-				memberList.map(m -> new MemberDTO(m.getMemberId(), m.getMemberJoin(), m.getMemberMbti(), m.getMemberRole(), m.getMemberSocial(), m.getMemberStop()));
+				memberList.map(m -> new MemberDTO(m.getMemberId(), m.getMemberEmail(), m.getMemberJoin(), m.getMemberMbti(), m.getMemberRole(), m.getMemberSocial(), m.getMemberStop()));
 		
 		return memberDtoList;
 	}
@@ -74,12 +74,12 @@ public class MemberServiceImpl implements MemberService {
 			Page<Member> memberList = 
 					memberRepository.findByMemberStopIsNotNull(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "memberJoin")));
 			memberDtoList = 
-					memberList.map(m -> new MemberDTO(m.getMemberId(), m.getMemberJoin(), m.getMemberMbti(), m.getMemberRole(), m.getMemberSocial(), m.getMemberStop()));
+					memberList.map(m -> new MemberDTO(m.getMemberId(), m.getMemberEmail(), m.getMemberJoin(), m.getMemberMbti(), m.getMemberRole(), m.getMemberSocial(), m.getMemberStop()));
 		} else {
 			Page<Member> memberList = 
 					memberRepository.findByMemberStopIsNull(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "memberJoin")));
 			memberDtoList = 
-					memberList.map(m -> new MemberDTO(m.getMemberId(), m.getMemberJoin(), m.getMemberMbti(), m.getMemberRole(), m.getMemberSocial(), m.getMemberStop()));
+					memberList.map(m -> new MemberDTO(m.getMemberId(), m.getMemberEmail(), m.getMemberJoin(), m.getMemberMbti(), m.getMemberRole(), m.getMemberSocial(), m.getMemberStop()));
 		}
 		return memberDtoList;
 	}
