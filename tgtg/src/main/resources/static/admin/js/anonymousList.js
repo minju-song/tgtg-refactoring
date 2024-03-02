@@ -5,6 +5,21 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", (event) => {
+
+	const Toast = Swal.mixin({
+	    toast: true,
+	    position: 'top',
+	    showConfirmButton: false,
+	    timer: 2000,
+	    timerProgressBar: true,
+	    didOpen: (toast) => {
+	        toast.addEventListener('mouseenter', Swal.stopTimer)
+	        toast.addEventListener('mouseleave', Swal.resumeTimer)
+	    }
+	})
+	
+	document.querySelector(".nickname-list li").classList.add("selected");
+
     // 닉네임 목록 이벤트
     document.querySelectorAll(".nickname-list li").forEach((li) => {
         li.addEventListener("click", selectNickname);
@@ -22,120 +37,154 @@ document.addEventListener("DOMContentLoaded", (event) => {
 	document.querySelector(".update-button").addEventListener("click", activateInput);
 	
 	// 취소버튼 이벤트
-	document.querySelector(".cancle-button").addEventListener("click", cancleUpdate);
+	document.querySelector(".nickname-detail-area .cancle-button").addEventListener("click", cancleUpdate);
 	
 	// 첨부버튼 이벤트
-	document.querySelector(".add-file button").addEventListener("click", clickFileInput);
-	document.querySelector(".profile-image input").addEventListener("change", setFileName);
+	document.querySelectorAll(".add-file button").forEach((button) => {
+		button.addEventListener("click", (event) => {
+			event.target.closest(".profile-image").querySelector("input[type='file']").click();
+		});
+	})
+	document.querySelectorAll(".profile-image input").forEach((input) => {
+		input.addEventListener("change", setFileName);
+	})
+
+	// 닉네임 추가 버튼 이벤트
+	document.querySelector(".nickname-add").addEventListener("click", () => {
+		document.querySelector(".nickname-add-area").classList.add("show-area");
+		document.querySelector(".nickname-detail-area").classList.remove("show-area");
+	});
+
+	// 추가버튼 이벤트
+	document.querySelector(".add-button").addEventListener("click", addNickname);
+
+	// 추가 취소 버튼 이벤트
+	document.querySelector(".nickname-add-area .cancle-button").addEventListener("click", cancleAdd);
+
+
+	function selectNickname(event) {
+		if(event.target.tagName !== "INPUT") {
+			document.querySelector(".nickname-add-area").classList.remove("show-area");
+			document.querySelector(".nickname-detail-area").classList.add("show-area");
+
+			// 1. 이전 선택된 요소 .selected remove
+			document.querySelector(".nickname-list .selected").classList.remove("selected");
+
+			// 2. 현재 선택된 요소 .selected add, id 정보 상세보기 함수에 넘겨주기
+			event.currentTarget.classList.add("selected");
+			bindSelectedInfo(event.currentTarget.dataset.id);
+		}
+	}
+	
+	function bindSelectedInfo(id) {
+		// 해당 id의 닉네임 정보 상세보기 영역이 바인딩 시키기(data-id 수정 버튼에 저장)
+		console.log(id);
+		document.querySelector(".update-button").dataset.id = id;
+	}
+	
+	function showDeleteButton() {
+		const deleteButton = document.querySelector(".delete-nickname");
+		const isShow = document.querySelector("input[type='checkbox']:checked");
+
+		if(isShow) deleteButton.classList.add("show");
+		else deleteButton.classList.remove("show");
+	}
+	
+	function deleteNickname() {
+		const deleteList = document.querySelectorAll("input[type='checkbox']:checked");
+	
+		// 체크된 목록 삭제하기
+		console.log("delete list!");
+		console.log(deleteList);
+	}
+	
+	let nickName;
+	let fileName;
+	let imgSrc;
+	function activateInput() { // 수정버튼 클릭시 input 활성화.
+		const targetWrapper = event.target.closest(".nickname-detail-area");
+		// 사진첨부 css 수정
+		targetWrapper.querySelector(".add-file").classList.remove("disable-input");
+		targetWrapper.querySelector(".add-file button").classList.remove("disable-button");
+		
+		// input 활성화
+		targetWrapper.querySelector(".nickname input").disabled = false;
+		documtargetWrapperent.querySelector(".nickname input").readOnly = false;
+		targetWrapper.querySelector(".profile-image input").disabled = false;
+	
+		// 버튼 활성화
+		targetWrapper.querySelector(".update-button").style.display = "none";
+		targetWrapper.querySelector(".save-button").style.display = "block";
+		targetWrapper.querySelector(".cancle-button").style.display = "block";
+		
+		// id정보 버튼에 저장
+		const id = document.querySelector(".update-button").dataset.id;
+		targetWrapper.querySelector(".save-button").dataset.id = id;
+		targetWrapper.querySelector(".cancle-button").dataset.id = id;
+		
+		// 원래이름 저장
+		nickName = targetWrapper.querySelector(".nickname input").value;
+		fileName = targetWrapper.querySelector(".add-file span").textContent;
+		imgSrc = targetWrapper.querySelector(".thumnail").getAttribute("src");
+	}
+	
+	function cancleUpdate(event) { // 취소버튼 클릭시 input 비활성화.
+		const targetWrapper = event.target.closest(".nickname-detail-area");
+		// 사진첨부 css 수정
+		targetWrapper.querySelector(".add-file").classList.add("disable-input");
+		targetWrapper.querySelector(".add-file button").classList.add("disable-button");
+		
+		// input 비활성화
+		targetWrapper.querySelector(".nickname input").disabled = true;
+		targetWrapper.querySelector(".nickname input").readOnly = true;
+		targetWrapper.querySelector(".profile-image input").disabled = true;
+	
+		// 버튼 활성화
+		targetWrapper.querySelector(".update-button").style.display = "block";
+		targetWrapper.querySelector(".save-button").style.display = "none";
+		targetWrapper.querySelector(".cancle-button").style.display = "none";
+		
+		// 원래이름 세팅
+		targetWrapper.querySelector(".nickname input").value = nickName;
+		targetWrapper.querySelector(".add-file span").textContent = fileName;
+		targetWrapper.querySelector(".profile-image input").value = "";
+		targetWrapper.querySelector(".thumnail").setAttribute("src", imgSrc);
+	}
+	
+	function setFileName(event) {
+		const imageWrap = event.target.closest(".profile-image");
+		const fileName = imageWrap.querySelector("input[type='file']").files[0].name;
+		imageWrap.querySelector(".add-file span").textContent = fileName;
+
+		const reader = new FileReader();
+		reader.onload = (event) => {
+			const thumnail = imageWrap.querySelector(".thumnail");
+			thumnail.setAttribute("src", event.target.result);
+		};
+  
+		reader.readAsDataURL(event.target.files[0]);
+	}
+
+	function addNickname() {
+		alert("추가!");
+	}
+
+	function cancleAdd(event) {
+		Swal.fire({
+			icon: "info",
+			text: "작성하신 내용은 저장되지 않습니다",
+			showCancelButton: true,
+			confirmButtonText: "확인",
+			cancelButtonText: "취소"
+		}).then((result) => {
+			if(result.isConfirmed) {
+				const targetWrapper = event.target.closest(".nickname-add-area");
+				targetWrapper.querySelector("input[type='file']").value = "";
+				targetWrapper.querySelector("input[type='text']").value = "";
+				targetWrapper.querySelector(".add-file span").textContent = "파일을 선택하세요";
+				targetWrapper.querySelector(".thumnail").setAttribute("src", "/admin/images/profile/photo.svg");
+			}
+		});
+	}
 })
 
-function selectNickname(event) {
-	const nicknameList = document.querySelectorAll(".nickname-list li");
-    let classList = event.currentTarget.classList;
-
-	if(event.target.tagName !== "INPUT") {
-		nicknameList.forEach((li) => {
-	        if(li === event.currentTarget) {
-	        	// 1. 선택된 요소 강조
-	            li.classList.add("selected");
-	            
-	            // 2. 선택된 요소의 정보 바인딩
-	            const id = event.currentTarget.dataset.id;
-	            bindSelectedInfo(id);
-	            
-	        } else {
-	            li.classList.remove("selected");
-	        }
-	    })
-	}
-}
-
-function bindSelectedInfo(id) {
-	// 해당 id의 닉네임 정보 상세보기 영역이 바인딩 시키기(data-id 수정 버튼에 저장)
-	console.log(id);
-	document.querySelector(".update-button").dataset.id = id;
-}
-
-function showDeleteButton() {
-	let isShow = false;
-	const deleteButton = document.querySelector(".delete-nickname");
-	
-	document.querySelectorAll("input[type='checkbox']").forEach((input) => {
-		if(input.checked) {
-			isShow = true;
-			return;
-		}
-	})
-	
-	if(isShow) {
-		deleteButton.classList.add("show");
-	} else {
-		deleteButton.classList.remove("show");
-	}
-}
-
-function deleteNickname() {
-	const deleteList = document.querySelectorAll("input[type='checkbox']:checked");
-
-	// 체크된 목록 삭제하기
-	console.log("delete list!");
-	console.log(deleteList);
-}
-
-let nickName;
-let fileName;
-function activateInput() {
-	// css 수정
-	document.querySelector(".add-file").style.background = "#fff";
-	document.querySelector(".nickname input").style.background = "#fff";
-	document.querySelector(".add-file button").style.background = "#5D87FF";
-	
-	// input 활성화
-	document.querySelector(".nickname input").disabled = false;
-	document.querySelector(".nickname input").readOnly = false;
-	document.querySelector(".profile-image input").disabled = false;
-
-	// 버튼 활성화
-	document.querySelector(".update-button").style.display = "none";
-	document.querySelector(".save-button").style.display = "block";
-	document.querySelector(".cancle-button").style.display = "block";
-	
-	// id정보 버튼에 저장
-	const id = document.querySelector(".update-button").dataset.id;
-	document.querySelector(".save-button").dataset.id = id;
-	document.querySelector(".cancle-button").dataset.id = id;
-	
-	nickName = document.querySelector(".nickname input").value;
-	fileName = document.querySelector(".add-file span").textContent;
-}
-
-function cancleUpdate() {
-	// css 수정
-	document.querySelector(".add-file").style.background = "#eaeff4";
-	document.querySelector(".nickname input").style.background = "#eaeff4";
-	document.querySelector(".add-file button").style.background = "#949494";
-	
-	// input 비활성화
-	document.querySelector(".nickname input").disabled = true;
-	document.querySelector(".nickname input").readOnly = true;
-	document.querySelector(".profile-image input").disabled = true;
-
-	// 버튼 활성화
-	document.querySelector(".update-button").style.display = "block";
-	document.querySelector(".save-button").style.display = "none";
-	document.querySelector(".cancle-button").style.display = "none";
-	
-	// 원래이름 세팅
-	document.querySelector(".nickname input").value = nickName;
-	document.querySelector(".add-file span").textContent = fileName;
-	document.querySelector(".profile-image input").value = "";
-}
-
-function clickFileInput() {
-	document.querySelector(".profile-image input").click();
-}
-
-function setFileName(event) {
-	const fileName = document.querySelector(".profile-image input").files[0].name;
-	event.target.closest(".profile-image").querySelector(".add-file span").textContent = fileName;
-}
