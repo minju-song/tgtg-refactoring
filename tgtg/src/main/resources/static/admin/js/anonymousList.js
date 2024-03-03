@@ -78,8 +78,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
 	
 	function bindSelectedInfo(id) {
 		// 해당 id의 닉네임 정보 상세보기 영역이 바인딩 시키기(data-id 수정 버튼에 저장)
-		console.log(id);
 		document.querySelector(".update-button").dataset.id = id;
+		
+		fetch("/admin/anonymousInfo?anonymousId=" + id)
+			.then((response) => response.json())
+		  	.then((data) => {
+		  		const detailArea = document.querySelector(".nickname-detail-area");
+		  		detailArea.querySelector(".profile-image img").setAttribute("src", data.anonymousImage);
+		  		detailArea.querySelector(".add-file span").textContent = data.anonymousImageName;
+		  		detailArea.querySelector(".nickname input").value = data.anonymousNickname;
+		  	})
+		  	.catch((error) => console.log("error:", error));
+		
 	}
 	
 	function showDeleteButton() {
