@@ -38,7 +38,14 @@ public class MemberController {
 		return "member/login.html";
 	}
 	
-
+	/**
+	 * 관리자 회원목록
+	 * @param model
+	 * @param memberEmail
+	 * @param memberStop
+	 * @param pageable
+	 * @return
+	 */
 	@GetMapping("/admin/memberList")
 	public String adminMemberList(Model model, String memberEmail, String memberStop,
 			@PageableDefault(page = 1, size = 10, sort = "memberId", direction = Direction.DESC) Pageable pageable) {
@@ -64,6 +71,11 @@ public class MemberController {
 		return "admin/memberList.html";
 	}
 	
+	/**
+	 * 관리자 회원 계정정지 정보 업데이트
+	 * @param requestData
+	 * @return
+	 */
 	@PostMapping("/admin/member/update/memberStop")
 	@ResponseBody
 	public int adminUpdateMemberStop(@RequestBody Map<String, String> requestData) {
