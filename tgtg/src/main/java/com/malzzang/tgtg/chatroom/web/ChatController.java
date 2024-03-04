@@ -7,13 +7,13 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import com.malzzang.tgtg.chatroom.model.Chat;
-import com.malzzang.tgtg.chatroom.model.ChatMessage;
-
 import lombok.RequiredArgsConstructor;
 
 import com.malzzang.tgtg.chatroom.service.ConnectedUserService;
 import com.malzzang.tgtg.chatroom.service.ReadyUserService;
+
+import com.malzzang.tgtg.chatroom.dto.Chat;
+import com.malzzang.tgtg.chatroom.dto.ChatMessage;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,6 +34,7 @@ public class ChatController {
                 .roomId(roomId)
                 .sender(message.getSender())
                 .senderEmail(message.getSenderEmail())
+                .senderImage(message.getSenderImage())
                 .message(message.getMessage())
                 .build();
 	}

@@ -64,8 +64,9 @@ function sendChat() {
         // JSON형태로 바꾸어서 보냄
         stompClient.send("/send/"+room.roomId, {},
             JSON.stringify({
-                'sender': sender,
+                'sender': anonymous.name,
                 'senderEmail': senderEmail,
+                'senderImage': anonymous.img,
                 'message' : $("#message").val()
             }));
         $("#message").val('');
@@ -150,6 +151,14 @@ function showChat(chatMessage) {
     divbox.innerText = chatMessage.message;
   
 
+    let profile = document.createElement('div');
+    profile.style.display = 'flex';
+    profile.style.flexDirection = 'column';
+
+
+    let img = document.createElement('img');
+    img.setAttribute("class","profileImg");
+
     let name = document.createElement('span');
     name.setAttribute("class","bold-font");
 
@@ -159,8 +168,12 @@ function showChat(chatMessage) {
         div.setAttribute('class','other_div');
 
         name.innerHTML = chatMessage.sender;
+        img.setAttribute("src", chatMessage.senderImage);
 
-        div.appendChild(name);
+        profile.appendChild(img);
+        profile.appendChild(name);
+
+        div.appendChild(profile);
         div.appendChild(divbox);
 
     }
