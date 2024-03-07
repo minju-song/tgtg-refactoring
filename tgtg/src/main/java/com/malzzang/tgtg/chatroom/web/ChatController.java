@@ -1,5 +1,8 @@
 package com.malzzang.tgtg.chatroom.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -11,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 import com.malzzang.tgtg.chatroom.service.ConnectedUserService;
 import com.malzzang.tgtg.chatroom.service.ReadyUserService;
-
+import com.malzzang.tgtg.anonymous.Anonymous;
 import com.malzzang.tgtg.chatroom.dto.Chat;
 import com.malzzang.tgtg.chatroom.dto.ChatMessage;
 
@@ -71,16 +74,32 @@ public class ChatController {
 	//회원이 게임 대기방 들어왔을 때
 	@MessageMapping("/{roomId}/enter")
     @SendTo("/room/{roomId}/connectedCount")
-    public int enter(@DestinationVariable int roomId) {
+    public Map enter(@DestinationVariable int roomId, Anonymous anonymous) {
+		
+		//인원수 추가해줌
         connectedUserService.userEntered(roomId);
-        return connectedUserService.getConnectedUserCount(roomId);
+        
+        //리턴값 담을 맵
+        Map<String, Object> map = new HashMap<>();
+        map.put("connectUser", connectedUserService.getConnectedUserCount(roomId));
+        map.put("nickname", anonymous.getAnonymousNickname());
+        map.put("enter", true);
+        
+        return map;
     }
 
 	//회원이 게임 대기방 퇴장했을 때
     @MessageMapping("/{roomId}/leave")
     @SendTo("/room/{roomId}/connectedCount")
-    public int leave(@DestinationVariable int roomId) {
+    public Map leave(@DestinationVariable int roomId, Anonymous anonymous) {
         connectedUserService.userLeft(roomId);
-        return connectedUserService.getConnectedUserCount(roomId);
+        
+      //리턴값 담을 맵
+        Map<String, Object> map = new HashMap<>();
+        map.put("connectUser", connectedUserService.getConnectedUserCount(roomId));
+        map.put("nickname", anonymous.getAnonymousNickname());
+        map.put("enter", false);
+        
+        return map;
     }
 }

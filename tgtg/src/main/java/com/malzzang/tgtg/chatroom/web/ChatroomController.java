@@ -45,9 +45,9 @@ public class ChatroomController {
 	    
 	    int count = connectedUserService.getConnectedUserCount(room.getRoomId());
 	    Map<String, String> anonymous = new HashMap<>();
-	    String name = "익명" + (count+1);
-	    anonymous.put("name", name);
-	    anonymous.put("img", "img/v.gif");
+	    String name = "목청좋은 카다리아" + (count+1);
+	    anonymous.put("anonymousNickname", name);
+	    anonymous.put("anonymousImage", "/admin/images/profile/user-1.jpg");
 	    
 	    //타입은 text/voice
 	    room.setType(type);
