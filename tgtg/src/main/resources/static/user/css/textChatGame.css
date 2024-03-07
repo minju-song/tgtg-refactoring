@@ -11,10 +11,11 @@
     float: left;
     width: 45%;
     margin: 1vh;
+	margin-top: 10vh;
 }
 
 /* 채팅 보이는 영역 */
-#chatView {
+#gameChatView, #watchChatView {
     flex: 8;
     position: relative;
     overflow-y: auto;
@@ -101,7 +102,7 @@ span {
 /* 채팅 입력창 */
 #chatSend #message {
 	float: left;
-	width: calc(100% - 145px);
+	width: calc(100% - 105px);
 	border: 0;
 	font-size: 15px;
 	color: #33484f;
@@ -111,7 +112,7 @@ span {
 }
 
 /* 채팅창 스크롤 숨김 */
-#chatView::-webkit-scrollbar {
+#gameChatView::-webkit-scrollbar, #watchChatView::-webkit-scrollbar {
 	display:none;
 }
 
@@ -205,4 +206,8 @@ aside {
 /* 마우스 인식 시 원래의 위치로 이동 */
 .side-bar:hover {
   transform: translate(20px, 0);   /* 둥근 모서리의 너비만큼 X축 이동, Y축 고정 */
+}
+
+@media only screen and (max-width: 768px){
+		
 }

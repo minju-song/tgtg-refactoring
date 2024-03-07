@@ -82,8 +82,9 @@ public class ChatController {
 	            .senderEmail(message.getSenderEmail())
 	            .message(message.getMessage())
 	            .build();
-	    
+	    System.out.println(gameRole);
 	    messages.setGameRole(gameRole);
+	    //messages.setGameRole("game");
   		return messages;
   	}
 }

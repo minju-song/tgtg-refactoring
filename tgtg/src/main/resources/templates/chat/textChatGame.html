@@ -21,10 +21,9 @@
 				            <span id="remaining__sec">00</span>
 					</div>
 				</div>
-	            <div id="chatView">
+	            <div id="gameChatView">
 	            </div>
 	            <div id="chatSend">
-	            	<img class="icon" th:src="@{/user/img/happy-face.png}">
 	                <input id="message" placeholder="채팅을 입력하세요.">
 	                <img id="msgBtn" th:src="@{/user/img/plane.png}">
 	            </div>
@@ -33,10 +32,9 @@
 	        	<div class="fontStyle">
 					<div>| 관전자 채팅</div>
 				</div>
-	            <div id="chatView">
+	            <div id="watchChatView">
 	            </div>
 	            <div id="chatSend">
-	            	<img class="icon" th:src="@{/user/img/happy-face.png}">
 	                <input id="message" placeholder="채팅을 입력하세요.">
 	                <img id="msgBtn" th:src="@{/user/img/plane.png}">
 	            </div>
@@ -47,7 +45,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
         <script th:inline="javascript">
             // 채팅박스
-            let chatBox = document.getElementById('chatView');
+            let gameChatBox = document.getElementById('gameChatView');
+            let watchChatBox = document.getElementById('watchChatView');
             // 소켓관련
             let stompClient = null;
             // 채팅방 아이디
