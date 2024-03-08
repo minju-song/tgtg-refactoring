@@ -1,7 +1,9 @@
 package com.malzzang.tgtg.member.oauth;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -20,16 +22,22 @@ public class PrincipalDetails implements OAuth2User{
 	public PrincipalDetails(Member member, Map<String, Object> attributes) {
 		this.member = member;
 		this.attributes = attributes;
-		System.out.println("OAuth2User === "+this.attributes);
+		//System.out.println("OAuth2User === "+this.attributes);
+		check();
 	}
 	
-	public Member getMember() {
-		return member;
+	public void check() {
+		System.out.println("member === "+member);
+		System.out.println("attributes === "+attributes);
 	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		// 해당 사용자의 권한을 리턴하는 곳 
+		Collection<GrantedAuthority> collect = new ArrayList<>();
+		collect.add(() -> member.getMemberRole());
+		
+		return collect;
 	}
 	
 	// 리소스 서버로부터 받은 회원정보 

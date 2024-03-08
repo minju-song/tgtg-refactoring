@@ -11,9 +11,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @Entity
 @NoArgsConstructor
 public class Member {

@@ -1,20 +1,14 @@
 package com.malzzang.tgtg.member;
 
-
 import java.sql.Timestamp;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import java.util.Optional;
-
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface MemberRepository extends JpaRepository<Member, String> {
-	
 
 	// findBy(컬럼명)Containing : 컬럼에서 키워드가 포함된 것을 찾겠다
 	Page<Member> findByMemberEmailContaining(Pageable pageable, String memberEmail);

@@ -3,7 +3,7 @@ package com.malzzang.tgtg.chatroom.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.malzzang.tgtg.chatroom.model.Chatroom;
+import com.malzzang.tgtg.chatroom.dto.Chatroom;
 
 public interface ChatroomService {
 	

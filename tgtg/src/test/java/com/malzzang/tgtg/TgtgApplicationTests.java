@@ -14,7 +14,7 @@ class TgtgApplicationTests {
 	@Test
 	   void encryptor() {
 	      String[] datas = {
-	      
+
 	      };
 	      
 	      for(String data : datas) {

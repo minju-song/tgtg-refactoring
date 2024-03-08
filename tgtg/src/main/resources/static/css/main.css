@@ -1731,7 +1731,7 @@ body {
     -webkit-transform: translateZ(0) translateX(0) rotateY(0deg);
     transform: translateZ(0) translateX(0) rotateY(0deg);
     min-height: 100%;
-    outline: 30px solid #0f33ff;
+    /* outline: 30px solid #0f33ff; */
     -webkit-transition: -webkit-transform .4s;
     transition: -webkit-transform .4s;
     transition: transform .4s;
