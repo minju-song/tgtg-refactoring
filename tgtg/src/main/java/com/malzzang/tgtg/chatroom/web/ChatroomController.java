@@ -73,8 +73,9 @@ public class ChatroomController {
 	       // 쿠키를 응답에 추가
 	       response.addCookie(cookie);
 
-	       Chatroom room = chatroomService.findTextRoom();
-
+	       //Chatroom room = chatroomService.findTextRoom();
+	       Chatroom room = new Chatroom(3, "text");
+	       
 	       model.addAttribute("room", room);
 	      
 	      return "chat/textChatGame.html";

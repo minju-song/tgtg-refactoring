@@ -6,23 +6,42 @@
 </head>
 <body>
 	<th:block th:fragment="headerFragment">
-		<!-- <div class="perspective effect-rotate-left">
-			<div class="container">
-				<div id="viewport" class="l-viewport"> -->
-						<header class="header">
-							<a class="header--logo" href="/"> <img src="/img/logo.png" alt="Global">
-								<h3 style="margin: 0 0 0 1rem; font-weight: 800; font-size: 1.75rem; font-family: 'Pretendard'">
-									티격태격</h3>
-							</a>
-							<!-- <div class="header--nav-toggle"> -->
-								<a class="header--nav" href="/login">
-									<span></span>
-								</a>
-							<!-- </div> -->
-						</header>
-<!-- 				</div>
-			</div>		
-		</div> -->
+		<header class="header">
+			<a class="header--logo" href="/"> <img src="/img/logo.png"
+				alt="Global">
+				<h3 style="margin: 0 0 0 1rem; font-weight: 800; font-size: 1.75rem; font-family: 'Pretendard'">
+					티격태격
+				</h3>
+			</a>
+			<!-- <div class="header--nav-toggle"> -->
+			<!-- <a class="header--nav" href="/login">
+								<span></span>
+							</a> -->
+			<!-- </div> -->
+			
+			<!-- 로그인 X -->
+			<th:block sec:authorize="isAnonymous()">
+				<a class="header-user" href="/login"> 
+					<!-- <i class="fa-regular fa-user fa-2x" id="icon-user"></i> -->
+					<i class="fa-regular fa-circle-user" id="icon-user"></i>
+				</a>
+			</th:block>
+
+			<!-- 로그인 O -->
+			<th:block sec:authorize="isAuthenticated()">
+				<div style="height: 27px;">
+					<a class="header-user" href="/logout">
+						<i class="fa-solid fa-right-to-bracket" id="icon-logout"></i>					
+					</a>				
+
+					<a class="header-user" href="/mypage">
+						<!-- <i class="fa-regular fa-user fa-2x" id="icon-user"></i> -->
+						<i class="fa-regular fa-circle-user" id="icon-user"></i>
+					</a>					
+				</div>
+				
+			</th:block>			
+		</header>
 	</th:block>
 </body>
 </html>

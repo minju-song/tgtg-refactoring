@@ -17,8 +17,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{l
         		<div id="chatBox" style="margin-top: 100px;">        		
 		            <div style="display: flex;">
 		                <h3 style="color: black; flex: 1;">
-		                    <span th:if="${room.type} == 'text'">| 텍스트 싸움 대기방</span>
-		                    <span th:if="${room.type} == 'voice'">| 음성 싸움 대기방</span>
+		                    <span th:if="${room.type} == 'text'">| 텍스트 싸움 대기방 [[${room.roomId}]]</span>
+		                    <span th:if="${room.type} == 'voice'">| 음성 싸움 대기방 [[${room.roomId}]]</span>
 		                </h3>                
 		                <div id="btnDiv" style="flex: 1;">
 		                    <button id="readyBtn" class="unreadyStatus">READY</button>
@@ -62,19 +62,16 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{l
         	</div>
         </div>
 
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    
         <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-
 
         <script th:inline="javascript">
 
             // 소켓관련
             let stompClient = null;
 
-            // 채팅방 아이디
+            // 채팅방
             let room = /*[[${room}]]*/null;
 
             // 채팅방 타입

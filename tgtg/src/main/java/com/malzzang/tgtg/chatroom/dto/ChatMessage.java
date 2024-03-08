@@ -11,11 +11,12 @@ import lombok.Setter;
 public class ChatMessage {
 	private int roomId;
 	private String sender;
-
+	private String gameRole;
     private String senderEmail;
     private String senderImage;
     private String message;
     private LocalDateTime sendDate;
+    private Integer count;
     
     @Builder
     public ChatMessage(int roomId, String sender, String senderEmail,String senderImage, String message) {

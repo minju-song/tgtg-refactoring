@@ -8,46 +8,32 @@
 </head>
 <body>
    <th:block layout:fragment="mainContent">
-	   <div>
-	        <div id="gameChatBox">
-	        	<div class="chatHead">
-		        	<div class="fontStyle">
-						<div>주제 | </div>
-						<div id="gameAlarm" style="color:#a397c6;">" 게임이 시작되었습니다. 티격태격 시작해 주십시오. "</div>
-					</div>
-					<div class="timerSircle">
-				            <span id="remaining__min">05</span>
-				            <span> : </span>
-				            <span id="remaining__sec">00</span>
-					</div>
-				</div>
-	            <div id="chatView">
-	            </div>
-	            <div id="chatSend">
-	            	<img class="icon" th:src="@{/user/img/happy-face.png}">
-	                <input id="message" placeholder="채팅을 입력하세요.">
-	                <img id="msgBtn" th:src="@{/user/img/plane.png}">
-	            </div>
-	        </div>
-	        <div id="watchChatBox">
+        <div id="gameChatBox">
+        	<div class="chatHead">
 	        	<div class="fontStyle">
-					<div>| 관전자 채팅</div>
+					<div>주제 | </div>
+					<div id="gameAlarm" style="color:#a397c6;">" 게임이 시작되었습니다. 티격태격 시작해 주십시오. [[${room.roomId}]]"</div>
 				</div>
-	            <div id="chatView">
-	            </div>
-	            <div id="chatSend">
-	            	<img class="icon" th:src="@{/user/img/happy-face.png}">
-	                <input id="message" placeholder="채팅을 입력하세요.">
-	                <img id="msgBtn" th:src="@{/user/img/plane.png}">
-	            </div>
-	        </div>
-	   </div>
+				<div class="timerSircle">
+			            <span id="remaining__min">05</span>
+			            <span> : </span>
+			            <span id="remaining__sec">00</span>
+				</div>
+			</div>
+            <div id="gameChatView">
+            </div>
+            <div id="chatSend">
+                <input id="message" placeholder="채팅을 입력하세요.">
+                <img id="msgBtn" th:src="@{/user/img/plane.png}">
+            </div>
+        </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
         <script th:inline="javascript">
             // 채팅박스
-            let chatBox = document.getElementById('chatView');
+            let gameChatBox = document.getElementById('gameChatView');
+            let watchChatBox = document.getElementById('watchChatView');
             // 소켓관련
             let stompClient = null;
             // 채팅방 아이디
@@ -56,6 +42,7 @@
             let sender = '밍주이름';
             // 내 아이디
             let senderEmail = document.cookie;
+            
         </script>
         <script th:src="@{/user/js/textChatGame.js}"></script>
     </th:block>
