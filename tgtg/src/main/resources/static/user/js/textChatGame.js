@@ -3,33 +3,13 @@
  */
  
 // 메시지 전송 버튼 이벤트
-let gameRole = "";
-let msgBtn = document.querySelectorAll('#msgBtn');
-for(let i=0; i<msgBtn.length; i++){
-    msgBtn[i].addEventListener("click", function(){
-        if(i == 0){
-            gameRole = "game";
-            sendChat(msgBtn[i]);
-        }else{
-            gameRole = "watch";
-            sendChat(msgBtn[i]);
-        }
-    });
-}
+document.querySelector('#msgBtn').addEventListener("click", sendChat);
 
 //엔터키
 let chatSendButton = document.querySelectorAll('#chatSend');
-for(let i=0; i<chatSendButton.length; i++){
-    chatSendButton[i].onkeypress = function(e){
-        if (e.keyCode === 13) {
-            if(i == 0){
-                gameRole = "game";
-                sendChat(chatSendButton[i].querySelector('#msgBtn'));
-            }else{
-                gameRole = "watch";
-                sendChat(chatSendButton[i].querySelector('#msgBtn'));
-            }
-        }
+document.querySelector('#chatSend').onkeypress = function(e){
+    if (e.keyCode === 13) {
+        sendChat();
     }
 }
 
@@ -52,14 +32,13 @@ function connect() {
 
 // 채팅 전송
 function sendChat(Btn, num) {
-    console.log(Btn)
-    if(Btn.previousElementSibling.value != ''){
+    console.log("dddddddddddd")
+    if($("#message").val() != ""){
         stompClient.send("/send/"+room.roomId+"/game", {},
             JSON.stringify({
                 'sender': sender,
                 'senderEmail': senderEmail,
-                'message' : Btn.previousElementSibling.value,
-                gameRole
+                'message' : $("#message").val()
             }));
         $("#message").val('');
     }
@@ -67,47 +46,27 @@ function sendChat(Btn, num) {
 
 // 수신된 채팅 화면에 그려주는 함수
 function showChat(chatMessage) {
-    console.log(chatMessage.gameRole)
+    let div = document.createElement('div');
+    let divbox = document.createElement('div');
+    divbox.innerText = chatMessage.message;
+    let name = document.createElement('span');
+    name.setAttribute("class","bold-font");
     if(chatMessage.senderEmail != senderEmail) {
-        let div = document.createElement('div');
-
-        let divbox = document.createElement('div');
-        divbox.classList.add('box', 'other');
-        divbox.innerText = chatMessage.message;
-
-        div.appendChild(divbox);
-
-        let name = document.createElement('span');
-        name.innerHTML = '상대방';
-        div.appendChild(name);
-
+        divbox.classList.add('box', 'other', 'bold-font' );
         div.setAttribute('class','other_div');
-        if(gameRole == 'game'){
-            gameChatBox.appendChild(div);
-        }else{
-            watchChatBox.appendChild(div);
-        }
-            //console.log(chatMessage.sender + " : " + chatMessage.message);
-    } else {
-        let div = document.createElement('div');
-        
-        let divbox = document.createElement('div');
-        divbox.classList.add('box', 'me');
-
-        divbox.innerText = chatMessage.message;
-        div.appendChild(divbox);
-        div.setAttribute('class','me_div');
-
-        let name = document.createElement('span');
-        name.innerHTML = '나';
+        name.innerHTML = chatMessage.sender;
         div.appendChild(name);
-        if(gameRole == 'game'){
-            gameChatBox.appendChild(div);
-        }else{
-            watchChatBox.appendChild(div);
-        }
-            //console.log(chatMessage.sender + " : " + chatMessage.message);
+        div.appendChild(divbox);
     }
+    else {       
+        divbox.classList.add('box', 'me', 'bold-font');
+        div.setAttribute('class','me_div');
+        name.innerHTML = '나';
+        div.appendChild(divbox);
+        div.appendChild(name);
+    }
+    gameChatBox.appendChild(div);
+    console.log(chatMessage.sender + " : " + chatMessage.message);
 }
 
 //창 키면 바로 연결
