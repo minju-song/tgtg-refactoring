@@ -178,3 +178,7 @@
         cursor: pointer;
         }
             
+
+        .box {
+        	overflow-wrap: anywhere;
+        }
