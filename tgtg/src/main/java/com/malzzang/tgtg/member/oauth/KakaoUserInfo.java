@@ -2,27 +2,27 @@ package com.malzzang.tgtg.member.oauth;
 
 import java.util.Map;
 
-public class GoogleUserInfo implements OAuth2UserInfo{
-	
+public class KakaoUserInfo implements OAuth2UserInfo {
+
 	private Map<String, Object> attributes; //oauth2User.getAttributes()
 	
-	public GoogleUserInfo(Map<String, Object> attributes) {
+	public KakaoUserInfo(Map<String, Object> attributes) {
 		this.attributes = attributes;
 	}
 	
 	@Override
 	public String getProvideId() {
-		return "google"+"_"+(String) attributes.get("sub");
+		return "kakao"+"_"+String.valueOf(attributes.get("id"));
 	}
 
 	@Override
 	public String getProvider() {
-		return "google";
+		return "kakao";
 	}
 
 	@Override
 	public String getMemberEmail() {
-		return (String) attributes.get("email");
+		Map<String, Object> kakaoAccount = (Map)attributes.get("kakao_account");
+		return (String) kakaoAccount.get("email");
 	}
-	
 }
