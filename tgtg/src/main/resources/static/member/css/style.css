@@ -129,7 +129,7 @@ Author Name: PicmaticWeb
     width:100%;
 }
 .formify-btn:hover {
-	background: #101010;
+	background: #1c1d22;
 }
 .formify-forms__icon-valid {
 	width: 20px;
@@ -175,7 +175,7 @@ Author Name: PicmaticWeb
 		height: 460px;
 	}
 	.formify-form__acenter{
-		align-items: start !important;
+		/* align-items: start !important; */
 	}
 }
 @media only screen and (min-width: 0px) and (max-width: 767px) {
@@ -3893,15 +3893,16 @@ visibility: visible;
 }
 .formify-forms__quiz-form .formify-btn{
 	min-width: 228px;
-	background: #107EEB;
+	background: #1c1d22;
 	font-size: 18px;
 	font-weight: 600;
-	border-radius: 5px;
+	border-radius: 30px;
 }
 .formify-forms__quiz-form .formify-btn:hover,
 .formify-forms__quiz-form .formify-btn.prev-step:hover{
 	background-color: #fff;
-	color:#107EEB;
+	color:#1c1d22;
+
 }
 .formify-forms__quiz-form .formify-btn.prev-step {
 	background: #5E3595;
@@ -3909,7 +3910,7 @@ visibility: visible;
 .formify-forms__quiz-form  .formify-forms__button {
 	display: flex;
 	justify-content: space-between;
-	gap:20px;
+	gap:15px;
 }
 .formify-form__timing {
 	position: absolute;
@@ -3966,7 +3967,7 @@ visibility: visible;
 }
 .formify-forms__quiz-form.formify-mg-top-40,
 .formify-forms__quiz-form .formify-mg-top-40{
-	margin-top:20px !important;
+	margin-top:40px !important;
 }
 .formify-form__progress.formify-mg-btm-40{
 	margin-bottom: 20px !important;
@@ -4068,8 +4069,8 @@ visibility: visible;
 
 /* Form V3 */
 .formify-forms__head.formify-forms__head--v3 {
-	height: 220px;
-	min-height: 220px;
+	height: 200px;
+	min-height: 200px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -4091,7 +4092,7 @@ visibility: visible;
 	font-weight: 600;
 }
 .formify-forms__quiz--v3 .formify-forms__input--quiz-label {
-	border-radius: 6px;
+	border-radius: 20px;
 	background: #FFF !important;
 	box-shadow: 0px 2px 12px 0px rgba(16, 24, 40, 0.06);
 
@@ -4101,24 +4102,24 @@ visibility: visible;
 }
 .formify-forms__quiz-value--v3 span {
 	background: #E5FBFE;
-	border-radius: 4px;
+	border-radius: 15px;
 	min-width: 40px;
 	min-height: 40px;
-	color: #09D3EE;
+	color: #5a93ff;
 }
 .formify-forms__quiz--v3 input:checked + .formify-forms__input--quiz-label--v3 {
-	border-color:#09D3EE;
+	border-color:#5a93ff;
 }
 .formify-forms__quiz--v3 input:checked + .formify-forms__input--quiz-label--v3 span{
-	background-color: #09D3EE;
+	background-color: #5a93ff;
 	color:#fff;
 }
 .formify-forms__quiz--v3 input:checked + .formify-forms__input--quiz-label--v3 .formify-forms__quiz-value--v3 {
-	color: #09D3EE;
+	color: #5a93ff;
 }
 
 .formify-forms__quiz-check--v3 svg {
-	stroke: #09D3EE;
+	stroke: #5a93ff;
   }
   .formify-forms__quiz-check--v3 {
 	opacity: 0;
@@ -4238,8 +4239,8 @@ visibility: visible;
 	max-width: 20px;
 }
 .formify-forms__quiz--v3 .formify-btn {
-	min-height: 55px;
-	height: 55px;
+	min-height: 50px;
+	height: 50px;
 	font-size: 15px;
 }
 }
