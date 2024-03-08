@@ -1,49 +1,13 @@
 
-// 메시지 전송 버튼 이벤트
-document.querySelector('#sendBtn').addEventListener("click", sendChat);
+
 
 //게임 준비 버튼 이벤트
 document.querySelector('#readyBtn').addEventListener("click", updateReady);
-
-//이모지토스트 활성화 / 비활성화
-let emojiToast = document.getElementById('emojiToast');
-
-document.querySelector('#emojiBtn').addEventListener("click", function(e) {
-    emojiToast.classList.add('active');
-});
-document.querySelector('#emojiClose').addEventListener("click", function(e) {
-    emojiToast.classList.remove('active'); 
-})
-
-
-// 스크롤
-let chatView = document.getElementById('chatView');
-
 
 
 //준비 상태
 let isReady = false;
 
-//메시지 input
-let msgInput = document.getElementById('message');
-
-let emojis = document.querySelectorAll('.emoji');
-
-emojis.forEach(function(emoji) {
-    emoji.addEventListener('click', function(e){
-        console.log(this.textContent + "클릭");
-        msgInput.value += this.textContent;
-    })
-})
-
-msgInput.onkeyup = function(e) {
-    if(e.keyCode == 13 ) {
-        sendChat();
-    }
-    else {
-        return;
-    }
-}
 
 // 소켓 연결
 function connect() {
@@ -212,6 +176,7 @@ function showChat(chatMessage) {
     let div = document.createElement('div');
     let div2 = document.createElement('div');
     div2.setAttribute("class","divBox");
+    div2.style.flex = 1;
 
 
     //프로필이미지
@@ -230,6 +195,10 @@ function showChat(chatMessage) {
     let imgMsg = document.createElement('div');
     imgMsg.style.display = 'flex';
 
+    let tempdiv = document.createElement('div');
+    tempdiv.style.flex = 1;
+    tempdiv.setAttribute("class",'temp');
+
     if(chatMessage.senderEmail != senderEmail) {
 
         messageBox.classList.add('box', 'other');
@@ -244,6 +213,9 @@ function showChat(chatMessage) {
         div2.appendChild(name);
         div2.appendChild(imgMsg);
 
+        div.appendChild(div2);
+        div.appendChild(tempdiv);
+
     }
 
     else {
@@ -254,8 +226,9 @@ function showChat(chatMessage) {
         
         div2.appendChild(messageBox);
 
+        div.appendChild(tempdiv);
+        div.appendChild(div2);
     }
-    div.appendChild(div2);
     chatView.appendChild(div);
 
     chatView.scrollTop = chatView.scrollHeight;
