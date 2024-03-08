@@ -4,15 +4,27 @@
         font-family: 'NanumSquare' !important;
       }
 
+      #content {
+        flex-direction: row;
+        justify-content: space-around;
+      }
+
     /* 채팅 영역 전체 */
     #chatBox {
-        /* width: 100%; */
+        width: 70%;
         height: 70vh;
         background-color: white;
         border-radius: 20px;
         display: flex;
         flex-direction: column;
         padding: 3vh;
+    }
+
+    #memberList {
+      width: 20%;
+      height: 70vh;
+      background-color: white;
+      border-radius: 20px;
     }
 
     /* 채팅 보이는 영역 */
