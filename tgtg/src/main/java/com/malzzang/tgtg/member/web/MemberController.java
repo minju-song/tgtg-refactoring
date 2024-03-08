@@ -88,7 +88,7 @@ public class MemberController {
 	 *
 	 * 소셜 최초 로그인 시 MBTI 검사 페이지로 이동 
 	 */
-	@GetMapping("/admin/memberList")
+	@GetMapping("/management/memberList")
 	public String adminMemberList(Model model, String memberEmail, String memberStop,
 			@PageableDefault(page = 1, size = 10, sort = "memberId", direction = Direction.DESC) Pageable pageable) {
 		
@@ -118,7 +118,7 @@ public class MemberController {
 	 * @param requestData
 	 * @return
 	 */
-	@PostMapping("/admin/member/update/memberStop")
+	@PostMapping("/management/member/update/memberStop")
 	@ResponseBody
 	public int adminUpdateMemberStop(@RequestBody Map<String, String> requestData) {
 		int result = 0;

@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 	    const searchCategory = document.querySelector("select#searchCategory").value;
 	    if(searchCategory === "memberEmail") {
 	        const memberEmail = document.querySelector("input[name='memberEmail']").value;
-	        location.href = "/admin/memberList?memberEmail=" + memberEmail;
+	        location.href = "/management/memberList?memberEmail=" + memberEmail;
 	    }
 	    if(searchCategory === "memberStop") {
 	        const memberStop = document.querySelector("input[type='radio']:checked");
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 	            })
 	        } else {
 	            const memberStopValue = memberStop.value;
-	            location.href = "/admin/memberList?memberStop=" + memberStopValue;
+	            location.href = "/management/memberList?memberStop=" + memberStopValue;
 	        }
 	    }
 	}
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 	        stopYn = "active";
 	    }
 	
-	    fetch("/admin/member/update/memberStop", {
+	    fetch("/management/member/update/memberStop", {
 	        method: "POST",
 	        headers: {
 	            "Content-Type": "application/json",
