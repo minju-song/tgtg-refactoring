@@ -71,4 +71,26 @@ public class ChatController {
         connectedUserService.userLeft(roomId);
         return connectedUserService.getConnectedUserCount(roomId);
     }
+    
+    //게임방 메시지 전송 메소드
+  	@MessageMapping("/{roomId}/game")
+	@SendTo("/room/{roomId}/game")
+	public ChatMessage gameChat(@DestinationVariable int roomId, ChatMessage message) {
+	    ChatMessage messages = ChatMessage.builder()
+	            .roomId(roomId)
+	            .sender(message.getSender())
+	            .senderEmail(message.getSenderEmail())
+	            .message(message.getMessage())
+	            .build();
+	    
+	    /*if(messages.getCount()%3 == 0) {
+	    	messages.setGameRole("teamB");
+	    }else if(messages.getCount()%3 == 1) {
+	    	messages.setGameRole("watch");
+	    }else {
+	    	messages.setGameRole("teamA");
+	    }*/
+	    
+  		return messages;
+  	}
 }
