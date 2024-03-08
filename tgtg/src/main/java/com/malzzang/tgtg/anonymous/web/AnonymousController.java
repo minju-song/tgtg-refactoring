@@ -20,7 +20,7 @@ public class AnonymousController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/admin/anonymousList")
+	@GetMapping("/management/anonymousList")
 	public String anonymousList(Model model) {
 		model.addAttribute("anonymousList", anonymousService.selectAnonymousList());
 		return "admin/anonymousList.html";
@@ -31,7 +31,7 @@ public class AnonymousController {
 	 * @param anonymousId
 	 * @return
 	 */
-	@GetMapping("/admin/anonymousInfo")
+	@GetMapping("/management/anonymousInfo")
 	@ResponseBody
 	public AnonymousDTO anonymousInfo(int anonymousId) {
 		return anonymousService.selectAnonymous(anonymousId);

@@ -83,18 +83,18 @@
 					</table>
 					<div class="pagination d-flex gap-2 justify-content-center mt-4">
 						<!-- /* 첫번째 페이지로 이동 */ -->
-						<a th:href="@{/admin/memberList(page=1, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevrons-left"></i></a>
+						<a th:href="@{/management/memberList(page=1, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevrons-left"></i></a>
 						<!--/* 이전 링크 활성화 비활성화 */-->
-						<a th:href="${memberList.first} ? '#' : @{/admin/memberList(page=${nowPage - 1}, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevron-left"></i></a>
+						<a th:href="${memberList.first} ? '#' : @{/management/memberList(page=${nowPage - 1}, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevron-left"></i></a>
 						<!--/* 페이지 번호 출력 */-->
 						<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
 							<strong th:if="${page == nowPage}" class="ps-1 pe-1">[[${page}]]</strong>
-							<a th:if="${page != nowPage && memberList.totalPages != 0}" th:href="@{/admin/memberList(page=${page}, memberEmail=${memberEmail}, memberStop=${memberStop})}" class="ps-1 pe-1">[[${page}]]</a>
+							<a th:if="${page != nowPage && memberList.totalPages != 0}" th:href="@{/management/memberList(page=${page}, memberEmail=${memberEmail}, memberStop=${memberStop})}" class="ps-1 pe-1">[[${page}]]</a>
 						</th:block>
 						<!--/* 다음 링크 활성화 비활성화 */-->
-						<a th:href="${memberList.last} ? '#' : @{/admin/memberList(page=${nowPage + 1}, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevron-right"></i></a>
+						<a th:href="${memberList.last} ? '#' : @{/management/memberList(page=${nowPage + 1}, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevron-right"></i></a>
 						<!--/* 마지막 페이지로 이동 */-->
-						<a th:href="@{/admin/memberList(page=${memberList.totalPages}, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevrons-right"></i></a>
+						<a th:href="@{/management/memberList(page=${memberList.totalPages}, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevrons-right"></i></a>
 					</div>
 				</div>
 			</div>

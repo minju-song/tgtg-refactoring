@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 		// 해당 id의 닉네임 정보 상세보기 영역이 바인딩 시키기(data-id 수정 버튼에 저장)
 		document.querySelector(".update-button").dataset.id = id;
 		
-		fetch("/admin/anonymousInfo?anonymousId=" + id)
+		fetch("/management/anonymousInfo?anonymousId=" + id)
 			.then((response) => response.json())
 		  	.then((data) => {
 		  		const detailArea = document.querySelector(".nickname-detail-area");
@@ -102,16 +102,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
 	
 	function deleteNickname() {
 		const deleteList = document.querySelectorAll("input[type='checkbox']:checked");
+		
+		deleteList.forEach((target) => {
+			target.closest("li").remove();
+		})
+		
+		location.reload();
+		
 	
 		// 체크된 목록 삭제하기
 		console.log("delete list!");
-		console.log(deleteList);
+		console.log(deleteList[0].closest("li"));
 	}
 	
 	let nickName;
 	let fileName;
 	let imgSrc;
-	function activateInput() { // 수정버튼 클릭시 input 활성화.
+	function activateInput(event) { // 수정버튼 클릭시 input 활성화.
 		const targetWrapper = event.target.closest(".nickname-detail-area");
 		// 사진첨부 css 수정
 		targetWrapper.querySelector(".add-file").classList.remove("disable-input");
@@ -119,7 +126,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 		
 		// input 활성화
 		targetWrapper.querySelector(".nickname input").disabled = false;
-		documtargetWrapperent.querySelector(".nickname input").readOnly = false;
+		targetWrapper.querySelector(".nickname input").readOnly = false;
 		targetWrapper.querySelector(".profile-image input").disabled = false;
 	
 		// 버튼 활성화
@@ -161,18 +168,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
 		targetWrapper.querySelector(".thumnail").setAttribute("src", imgSrc);
 	}
 	
+	let file = "";
 	function setFileName(event) {
 		const imageWrap = event.target.closest(".profile-image");
-		const fileName = imageWrap.querySelector("input[type='file']").files[0].name;
-		imageWrap.querySelector(".add-file span").textContent = fileName;
-
-		const reader = new FileReader();
-		reader.onload = (event) => {
-			const thumnail = imageWrap.querySelector(".thumnail");
-			thumnail.setAttribute("src", event.target.result);
-		};
-  
-		reader.readAsDataURL(event.target.files[0]);
+		const target = imageWrap.querySelector("input[type='file']").files[0];
+		
+		if(target !== undefined) {
+			imageWrap.querySelector(".add-file span").textContent = target.name;
+			file = imageWrap.querySelector("input[type='file']").files[0];
+			
+			const reader = new FileReader();
+			reader.onload = (event) => {
+				const thumnail = imageWrap.querySelector(".thumnail");
+				thumnail.setAttribute("src", event.target.result);
+			};
+			
+			reader.readAsDataURL(event.target.files[0]);
+		}
+		console.log(file); // 보낼 파일 정보
 	}
 
 	function addNickname() {
