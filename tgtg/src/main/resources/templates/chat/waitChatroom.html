@@ -13,7 +13,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{l
     <th:block layout:fragment="mainContent">
     	<div class="l-main-content">
 			<div id="timer" style="display: none; position: fixed; top: 0; left: 0; font-weight: bold; width: 100%; height: 100%; background: rgba(0, 0, 0, 0); color: black; font-size: 50px;  justify-content: center; align-items: center; z-index: 9999;"></div>
-	        <div class="content">
+	        <div class="content" id="content">
         		<div id="chatBox" style="margin-top: 100px;">        		
 		            <div style="display: flex;">
 		                <h3 style="color: black; flex: 1;">
@@ -58,7 +58,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{l
 							<img src="/user/img/chat/send.png"/>
 						</button>
 		            </div>
-        		</div>      	
+        		</div>  
+				<div id="memberList" style="margin-top: 100px;"></div>    	
         	</div>
         </div>
 
