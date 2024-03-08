@@ -35,9 +35,6 @@ public class MemberController {
 		return "member/login.html";
 	}
 	
-	/**
-	 * 소셜 최초 로그인 시 MBTI 검사 페이지로 이동 
-	 */
 	@GetMapping("/oauth2/check")
 	public String oauth2Check(@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		
@@ -81,15 +78,25 @@ public class MemberController {
 		return "OAuth2 세션 확인";
 	}
 
+  /**
+	 * 관리자 회원목록
+	 * @param model
+	 * @param memberEmail
+	 * @param memberStop
+	 * @param pageable
+	 * @return
+	 *
+	 * 소셜 최초 로그인 시 MBTI 검사 페이지로 이동 
+	 */
 	@GetMapping("/admin/memberList")
-	public String adminMemberList(Model model, String memberId, String memberStop,
+	public String adminMemberList(Model model, String memberEmail, String memberStop,
 			@PageableDefault(page = 1, size = 10, sort = "memberId", direction = Direction.DESC) Pageable pageable) {
 		
 		Page<MemberDTO> memberDtoList = null;
 		if(memberStop != null && !memberStop.isEmpty()) {
 			memberDtoList = memberService.searchMemberStopList(pageable, memberStop);
-		} else if(memberId != null && !memberId.isEmpty()) {
-			memberDtoList = memberService.searchMemberIdList(pageable, memberId);
+		} else if(memberEmail != null && !memberEmail.isEmpty()) {
+			memberDtoList = memberService.searchMemberEmailList(pageable, memberEmail);
 		} else {
 			memberDtoList = memberService.selectMemberList(pageable);		
 		}
@@ -100,12 +107,17 @@ public class MemberController {
 		model.addAttribute("nowPage", memberDtoList.getNumber() + 1);
 		model.addAttribute("startPage", pagingInfo.get("startPage"));
 		model.addAttribute("endPage", pagingInfo.get("endPage"));
-		model.addAttribute("memberId", memberId);
+		model.addAttribute("memberEmail", memberEmail);
 		model.addAttribute("memberStop", memberStop);
 		
 		return "admin/memberList.html";
 	}
 	
+	/**
+	 * 관리자 회원 계정정지 정보 업데이트
+	 * @param requestData
+	 * @return
+	 */
 	@PostMapping("/admin/member/update/memberStop")
 	@ResponseBody
 	public int adminUpdateMemberStop(@RequestBody Map<String, String> requestData) {

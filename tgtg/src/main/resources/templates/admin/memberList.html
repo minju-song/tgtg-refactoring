@@ -12,14 +12,14 @@
 			<div class="card-body">
 				<h5 class="card-title fw-semibold mb-4">회원목록</h5>
 				<div class="search-area d-flex align-items-center justify-content-end">
-					<form class="search-wrapper d-flex" id="search-form">
+					<div class="search-wrapper d-flex" id="search-form">
 						<select class="form-select" name="searchCategory" id="searchCategory">
-							<option value="memberId" th:selected="${memberId != null && memberId != ''}">회원아이디</option>
+							<option value="memberEmail" th:selected="${memberEmail != null && memberEmail != ''}">회원이메일</option>
 							<option value="memberStop" th:selected="${memberStop != null && memberStop != ''}">정지유무</option>
 						</select>
 						<div class="search-input-wrapper d-flex align-items-center justify-content-between">
-							<input class="form-control input-text" type="text" name="memberId" 
-								   placeholder="검색어를 입력하세요" th:value="${memberId}"
+							<input class="form-control input-text" type="text" name="memberEmail" 
+								   placeholder="검색어를 입력하세요" th:value="${memberEmail}"
 								   th:classappend="${(memberStop == null || memberStop == '') ? 'd-block' : 'd-none'}">
 							<div class="member-stop ps-3" th:classappend="${(memberStop != null && memberStop != '') ? 'd-block' : 'd-none'}">
 								<input type="radio" name="memberStop" value="stop" id="stop" th:checked="${memberStop eq 'stop'}">
@@ -32,13 +32,22 @@
 								<i class="ti ti-search"></i>
 							</button>
 						</div>
-					</form>
+					</div>
 				</div>
 				<div class="mt-4">
 					<table class="table table-hover table-bordered">
+						<colgroup>
+							<col span="1" style="width:35%;">
+							<col span="1" style="width:22%">
+							<col span="1" style="width:10%">
+							<col span="1" style="width:12%">
+							<col span="1" style="width:10%">
+							<col span="1" style="width:10%">
+						</colgroup>
 						<thead>
 							<tr class="table-light">
 								<th>회원 아이디</th>
+								<th>회원 이메일</th>
 								<th>MBTI</th>
 								<th>가입일자</th>
 								<th>소셜종류</th>
@@ -48,11 +57,13 @@
 						<tbody>
 							<tr th:each="member : ${memberList}">
 								<td>
-									<span th:if="${member.memberRole == 'role_admin'}" class="badge bg-dark rounded-2 custom-fs-6">관리자</span>
+									<span th:if="${#strings.toLowerCase(member.memberRole) == 'role_admin'}" class="badge bg-dark rounded-2 custom-fs-6">관리자</span>
 									<span>[[${member.memberId}]]</span>
 								</td>
-								<td class="text-uppercase">[[${member.memberMbti}]]</td>
-								<td>[[${member.memberJoin}]]</td>
+								<td>[[${member.memberEmail}]]</td>
+								<td class="text-uppercase" th:if="${member.memberMbti != null}">[[${member.memberMbti}]]</td>
+								<td class="text-uppercase" th:unless="${member.memberMbti != null}">-</td>
+								<td th:text="${#dates.format(member.memberJoin, 'yyyy-MM-dd')}"></td>
 								<td>
 									<th:block th:switch="${member.memberSocial}">
 										<span th:case="kakao" class="badge bg-warning rounded-3 custom-fs-6">카카오</span>
@@ -72,18 +83,18 @@
 					</table>
 					<div class="pagination d-flex gap-2 justify-content-center mt-4">
 						<!-- /* 첫번째 페이지로 이동 */ -->
-						<a th:href="@{/admin/memberList(page=1, memberId=${memberId}, memberStop=${memberStop})}"><i class="ti ti-chevrons-left"></i></a>
+						<a th:href="@{/admin/memberList(page=1, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevrons-left"></i></a>
 						<!--/* 이전 링크 활성화 비활성화 */-->
-						<a th:href="${memberList.first} ? '#' : @{/admin/memberList(page=${nowPage - 1}, memberId=${memberId}, memberStop=${memberStop})}"><i class="ti ti-chevron-left"></i></a>
+						<a th:href="${memberList.first} ? '#' : @{/admin/memberList(page=${nowPage - 1}, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevron-left"></i></a>
 						<!--/* 페이지 번호 출력 */-->
 						<th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
 							<strong th:if="${page == nowPage}" class="ps-1 pe-1">[[${page}]]</strong>
-							<a th:if="${page != nowPage && memberList.totalPages != 0}" th:href="@{/admin/memberList(page=${page}, memberId=${memberId}, memberStop=${memberStop})}" class="ps-1 pe-1">[[${page}]]</a>
+							<a th:if="${page != nowPage && memberList.totalPages != 0}" th:href="@{/admin/memberList(page=${page}, memberEmail=${memberEmail}, memberStop=${memberStop})}" class="ps-1 pe-1">[[${page}]]</a>
 						</th:block>
 						<!--/* 다음 링크 활성화 비활성화 */-->
-						<a th:href="${memberList.last} ? '#' : @{/admin/memberList(page=${nowPage + 1}, memberId=${memberId}, memberStop=${memberStop})}"><i class="ti ti-chevron-right"></i></a>
+						<a th:href="${memberList.last} ? '#' : @{/admin/memberList(page=${nowPage + 1}, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevron-right"></i></a>
 						<!--/* 마지막 페이지로 이동 */-->
-						<a th:href="@{/admin/memberList(page=${memberList.totalPages}, memberId=${memberId}, memberStop=${memberStop})}"><i class="ti ti-chevrons-right"></i></a>
+						<a th:href="@{/admin/memberList(page=${memberList.totalPages}, memberEmail=${memberEmail}, memberStop=${memberStop})}"><i class="ti ti-chevrons-right"></i></a>
 					</div>
 				</div>
 			</div>

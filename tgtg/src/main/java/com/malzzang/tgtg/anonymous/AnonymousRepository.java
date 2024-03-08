@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.malzzang.tgtg.subject.Subject;
 
-public interface AnonymousRepository extends JpaRepository<Subject, Integer> {
+public interface AnonymousRepository extends JpaRepository<Anonymous, Integer> {
 
+	Anonymous findByAnonymousId(int anonymousId);
 }

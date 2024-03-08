@@ -10,37 +10,31 @@
 	<div class="container-fluid">
 		<div class="card">
 			<div class="card-body">
-				<h5 class="card-title fw-semibold mb-4">익명관리</h5>
-				<div class="nickname-add d-flex gap-2 align-items-center">
+				<h5 class="card-title fw-semibold mb-5">익명관리</h5>
+				<span class="nickname-add d-flex gap-2 align-items-center">
 					<i class="ti ti-square-plus"></i>
 					<span class="fw-bolder">닉네임 추가하기</span>
-				</div>
-				<div class="anonymous-container row d-flex gap-2 mt-2">
+				</span>
+				<div class="anonymous-container row d-flex gap-2 mt-3">
+					<!--/* 닉네임 리스트 영역 start */-->
 					<div class="col card bg-light p-4">
 						<div class="d-flex justify-content-between header">
 							<span>닉네임 목록</span>
 							<span class="text-danger fw-bolder delete-nickname">선택 삭제</span>
 						</div>
 						<ul class="nickname-list mt-4">
-							<li class="d-flex align-items-center gap-2 mb-1" data-id="1">
+							<th:block th:each="anonymous : ${anonymousList}">
+							<li class="d-flex align-items-center gap-2 mb-1" th:data-id="${anonymous.anonymousId}">
 								<input type="checkbox">
-								<span>열일하는 감자</span>
+								<span>[[${anonymous.anonymousNickname}]]</span>
 							</li>
-							<li class="d-flex align-items-center gap-2 mb-1" data-id="2">
-								<input type="checkbox">
-								<span>목청좋은 카나리아</span>
-							</li>
-							<li class="d-flex align-items-center gap-2 mb-1" data-id="3">
-								<input type="checkbox">
-								<span>힘없는 치타</span>
-							</li>
-							<li class="d-flex align-items-center gap-2 mb-1" data-id="4">
-								<input type="checkbox">
-								<span>힘없는 치타</span>
-							</li>
+							</th:block>
 						</ul>
 					</div>
-					<div class="col card bg-light p-4">
+					<!--/* 닉네임 리스트 영역 end */-->
+					
+					<!--/* 상세보기 영역 start */-->
+					<div class="nickname-detail-area col card bg-light p-4 show-area">
 						<div class="d-flex justify-content-between">
 							<span>상세 보기</span>
 						</div>
@@ -48,10 +42,10 @@
 							<div class="profile-image mt-4">
 								<span class="fw-bolder">프로필 사진</span>
 								<div class="mt-2">
-									<img th:src="@{/admin/images/profile/test.jpg}" alt="프로필 사진" class="shadow-sm">
-									<div class="add-file d-flex gap-2 align-items-center form-control mt-2">
-										<button><i class="ti ti-photo-plus"></i>첨부</button>
-										<span>프로필_사진.jpg</span>
+									<img th:src="@{${anonymousList[0].anonymousImage}}" alt="프로필 사진" class="shadow-sm thumnail">
+									<div class="add-file d-flex gap-2 align-items-center form-control mt-2 disable-input">
+										<button class="add-file-button disable-button"><i class="ti ti-photo-plus"></i>첨부</button>
+										<span>[[${anonymousList[0].anonymousImageName}]]</span>
 									</div>
 									<input type="file" hidden disabled="disabled" accept="image/*">
 								</div>
@@ -59,7 +53,7 @@
 							<div class="nickname mt-4">
 								<span class="fw-bolder">닉네임</span>
 								<div class="d-flex align-items-end gap-2 mt-2">
-									<input type="text" class="form-control" value="열일하는 감자" readonly="readonly" disabled="disabled">
+									<input type="text" class="form-control" th:value="${anonymousList[0].anonymousNickname}" readonly="readonly" disabled="disabled">
 								</div>
 							</div>
 							<div class="d-flex justify-content-end gap-2 mt-4">
@@ -69,6 +63,38 @@
 							</div>
 						</div>
 					</div>
+					<!--/* 상세보기 영역 end */-->
+					
+					<!--/* 닉네임 추가 영역 start */-->
+					<div class="nickname-add-area col card bg-light p-4">
+						<div class="d-flex justify-content-between">
+							<span>닉네임 추가</span>
+						</div>
+						<div class="nickname-detail">
+							<div class="profile-image mt-4">
+								<span class="fw-bolder required">프로필 사진</span>
+								<div class="mt-2">
+									<img th:src="@{/admin/images/profile/photo.svg}" alt="프로필 사진" class="shadow-sm thumnail">
+									<div class="add-file d-flex gap-2 align-items-center form-control mt-2">
+										<button class="add-file-button"><i class="ti ti-photo-plus"></i>첨부</button>
+										<span>파일을 선택하세요</span>
+									</div>
+									<input type="file" hidden accept="image/*">
+								</div>
+							</div>
+							<div class="nickname mt-4">
+								<span class="fw-bolder required">닉네임</span>
+								<div class="d-flex align-items-end gap-2 mt-2">
+									<input type="text" class="form-control" placeholder="닉네임을 입력해 주세요">
+								</div>
+							</div>
+							<div class="d-flex justify-content-end gap-2 mt-4">
+								<button type="reset" class="btn btn-danger cancle-button">취소</button>
+								<button type="button" class="btn btn-primary add-button">추가</button>
+							</div>
+						</div>
+					</div>
+					<!--/* 닉네임 추가 영역 end */-->
 				</div>
 			</div>
 		</div>

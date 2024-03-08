@@ -32,6 +32,9 @@
 }
 
 /* 회원목록 */
+td {
+	word-break: break-word;
+}
 .custom-fs-5 {
 	font-size: 0.9em;
 }
@@ -152,6 +155,7 @@ td {
 .nickname-add {
 	cursor: pointer;
 	user-select: none;
+	width: fit-content;
 }
 .nickname-add .ti {
 	font-size: 20px;
@@ -204,26 +208,55 @@ td {
 	border: 1px solid #E5EAEF;
 	padding: 0.3rem;
 	border-radius: 7px;
+	background: #fff;
+}
+.disable-input {
 	background: #eaeff4;
 }
-.add-file button {
+.add-file-button {
 	min-width: 62px;
 	border: none;
 	border-radius: 5px;
-	background: #949494;
+	background: #5D87FF;
 	padding: 5px 8px;
 	color: #fff;
 	user-select: none;
 	cursor: default;
 }
+.disable-button {
+	background: #949494;
+}
 .add-file button .ti {
 	color: #fff;
 	margin-right: 5px;
 }
-.cancle-button, .save-button {
+.nickname-detail-area .cancle-button,
+.nickname-detail-area .save-button {
 	display: none;
 }
-
+input.form-control,
+input.form-control:focus {
+	background: #ffffff;
+}
+.thumnail {
+	border: 1px solid #E5EAEF;
+}
+.required:after {
+	content: "*";
+	color: #ff0000;
+	font-weight: 900;
+	margin-left: 5px;
+}
+.nickname-add-area,
+.nickname-detail-area {
+	display: none;
+}
+.nickname-add-area .thumnail {
+	background: #ffffff;
+}
+.show-area {
+	display: block;
+}
 
 
 /* 미디어쿼리 */
