@@ -1,5 +1,7 @@
 package com.malzzang.tgtg.chatroom.web;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -9,9 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.malzzang.tgtg.chatroom.model.Chatroom;
 import com.malzzang.tgtg.chatroom.service.ChatroomService;
-
+import com.malzzang.tgtg.chatroom.service.ConnectedUserService;
+import com.malzzang.tgtg.chatroom.dto.Chatroom;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -20,6 +22,9 @@ public class ChatroomController {
 	
 	@Autowired
 	ChatroomService chatroomService;
+	
+	@Autowired
+	ConnectedUserService connectedUserService;
 	
 	@GetMapping("/user/waitChatroom")
 	public String startChat(@RequestParam String type, HttpServletResponse response, Model model) {
@@ -38,10 +43,17 @@ public class ChatroomController {
 
 	    Chatroom room = chatroomService.findTextRoom();
 	    
+	    int count = connectedUserService.getConnectedUserCount(room.getRoomId());
+	    Map<String, String> anonymous = new HashMap<>();
+	    String name = "목청좋은 카다리아" + (count+1);
+	    anonymous.put("anonymousNickname", name);
+	    anonymous.put("anonymousImage", "/admin/images/profile/user-1.jpg");
+	    
 	    //타입은 text/voice
 	    room.setType(type);
 
 	    model.addAttribute("room", room);
+	    model.addAttribute("anonymous", anonymous);
 	    
 		return "chat/waitChatroom.html";
 	}

@@ -4,7 +4,7 @@ import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
-import com.malzzang.tgtg.chatroom.model.Chatroom;
+import com.malzzang.tgtg.chatroom.dto.Chatroom;
 
 @Service
 public class ChatroomServiceImpl implements ChatroomService{

@@ -1,55 +1,23 @@
 @charset "UTF-8";
 
-    /* 채팅 영역 전체 */
-    #chatBox {
-        /* width: 100%; */
-        height: 70vh;
-        background-color: white;
-        border-radius: 20px;
-        display: flex;
-        flex-direction: column;
-        padding: 3vh;
-    }
-
-    /* 채팅 보이는 영역 */
-    #chatView {
-        flex: 8;
-        position: relative;
-    }
-
-    /* 채팅 보내는 영역 */
-    #chatSend {
-        align-items: center;
-    }
-
-    /* 말풍선 */
-    .box {
-        margin: 1vh;
-        border-radius: 1vh; 
-        width: 35%; 
-        padding: 1vh;
-    }
-
     /* 내가 보낸 채팅 */
     .me {
-        background-color: pink; 
+        background-color: rgb(18, 99, 248); 
+        color: white;
     }
 
     /* 상대가 보낸 채팅 */
     .other {
         background-color: lightgray; 
+        color: rgb(35, 35, 35);
     }
 
-    /* 내가 보낸 채팅을 감싸는 박스*/
-    .me_div {
-        display: flex; 
-        justify-content: end;
-    }
+    
 
-    /* 상대가 보낸 채팅을 감싸는 박스 */
-    .other_div {
-        display: flex;
-        justify-content: start;
+    .connectAlert {
+      color: gray;
+      text-align: center;
+      padding: 5px;
     }
 
     /* 말풍선 글자색 */
@@ -57,10 +25,7 @@
         color: black;
     }
 
-    /* input 안에 글자색 임의로 바꿔준거임 */
-    #message {
-        color: black;
-    }
+   
 
     /* 준비 버튼 영역 */
     #btnDiv {
@@ -71,41 +36,70 @@
         flex-direction: column;
     }
 
+    /* 준비버튼 */
     #readyBtn {
         padding: 10px 20px;
         border-radius: 10px;
         border: 0;
-        background-color: rgb(255, 56, 86);
+        /* background-color: rgb(255, 56, 86); */
+        /* background-color: rgb(43, 43, 238); */
         letter-spacing: 1.5px;
         font-size: 15px;
         transition: all 0.3s ease;
-        box-shadow: rgb(201, 46, 70) 0px 10px 0px 0px;
-        color: hsl(0, 0%, 100%);
+        /* box-shadow: rgb(201, 46, 70) 0px 10px 0px 0px; */
         cursor: pointer;
         width: 50%;
         margin: 0 auto;
+        font-weight: bold;
       }
-      
-      #readyBtn:hover {
-        box-shadow: rgb(201, 46, 70) 0px 7px 0px 0px;
+
+      .unreadyStatus {
+        color: white;
+        background-color: rgb(18, 99, 248);
+        box-shadow: rgb(16, 81, 201) 0px 10px 0px 0px;
       }
-      
-      #readyBtn:active {
-        background-color: rgb(255, 56, 86);
+
+      .unreadyStatus:hover {
+        box-shadow: rgb(16, 81, 201) 0px 7px 0px 0px;
+      }
+
+      .unreadyStatus:active {
+        background-color: rgb(18, 99, 248);
         /*50, 168, 80*/
-        box-shadow: rgb(201, 46, 70) 0px 0px 0px 0px;
+        box-shadow: rgb(16, 81, 201)  0px 0px 0px 0px;
         transform: translateY(5px);
         transition: 200ms;
       }
 
-      #countReady, #countConnect, #countDiv {
-        color: black;
+      .readyStatus {
+        color: rgb(18, 99, 248);
+        background-color: lightgray;
+        box-shadow: rgb(157, 156, 156) 0px 10px 0px 0px;
+      }
+
+      .readyStatus:hover {
+        box-shadow: rgb(157, 156, 156)  0px 7px 0px 0px;
+      }
+
+      .readyStatus:active {
+        background-color: lightgray;
+        /*50, 168, 80*/
+        box-shadow: rgb(157, 156, 156)  0px 0px 0px 0px;
+        transform: translateY(5px);
+        transition: 200ms;
+      }
+
+      #countReady, #countConnect {
+        font-weight: bolder;
+        font-size: larger;
+        color: rgb(18, 99, 248);
       }
 
       #countDiv {
+        color: black;
         text-align: center;
+        margin-top: 10px;
       }
 
-      .bold-font {
-        font-weight: bold;
-      }
+
+
