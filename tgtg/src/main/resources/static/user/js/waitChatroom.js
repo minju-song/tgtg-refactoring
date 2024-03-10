@@ -135,7 +135,8 @@ function startGame(start) {
         if (timeLeft <= 0) {
             clearInterval(timerId); // 타이머 종료
             timerElement.innerText = "START";
-            window.location.href = '/user/textGame';// 타이머 숨기기
+            window.location.href = '/user/textGame?anonymousNickname=' + anonymous.anonymousNickname + '&anonymousImage=' + anonymous.anonymousImage;// 타이머 숨기기
+            
         } else {
             timerElement.innerText = timeLeft; // 화면 갱신
             timeLeft--; // 시간 감소

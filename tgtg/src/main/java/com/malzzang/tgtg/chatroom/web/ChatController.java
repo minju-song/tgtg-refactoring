@@ -114,14 +114,6 @@ public class ChatController {
 	            .message(message.getMessage())
 	            .build();
 	    
-	    /*if(messages.getCount()%3 == 0) {
-	    	messages.setGameRole("teamB");
-	    }else if(messages.getCount()%3 == 1) {
-	    	messages.setGameRole("watch");
-	    }else {
-	    	messages.setGameRole("teamA");
-	    }*/
-	    
   		return messages;
   	}
 }
