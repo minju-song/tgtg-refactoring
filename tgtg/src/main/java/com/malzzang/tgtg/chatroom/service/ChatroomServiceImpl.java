@@ -1,9 +1,13 @@
 package com.malzzang.tgtg.chatroom.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
+import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 import com.malzzang.tgtg.chatroom.dto.Chatroom;
 
 @Service

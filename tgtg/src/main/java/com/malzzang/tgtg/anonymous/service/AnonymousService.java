@@ -8,5 +8,17 @@ public interface AnonymousService {
 	
 	public List<AnonymousDTO> selectAnonymousList();
 	public AnonymousDTO selectAnonymous(int anonymousId);
+	
+	//채팅방 입장 순으로 익명닉네임, 프로필 가져오기
+	public AnonymousDTO getAnonymous(int count);
+	
+	//회원의 익명객체 생성 및 저장
+	public AnonymousDTO createAnonymous(int roomId, String memberId);
+	
+	//회원의 익명객체 삭제
+	public void deleteAnonymous(int anonymousId);
+	
+	//회원의 진짜 아이디 얻기
+	public String findMemberId(String anonymousId);
 
 }
