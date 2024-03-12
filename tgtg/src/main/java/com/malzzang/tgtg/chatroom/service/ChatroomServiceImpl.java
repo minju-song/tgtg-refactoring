@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
@@ -12,14 +13,19 @@ import com.malzzang.tgtg.chatroom.dto.Chatroom;
 
 @Service
 public class ChatroomServiceImpl implements ChatroomService{
+	
+	@Autowired
+	ConnectedUserService connectedUserService;
 
 	@Override
 	public Chatroom findTextRoom() {
 		
-		//방 찾거나 개설하는 알고리즘 짜기
-		// 일단 임의로 1 ~ 3 방 아이디만 지정
-	    Random rand = new Random();
-        int roomId = rand.nextInt(3) + 1;
+		int roomId = 0;
+		while(true) {
+			int count = connectedUserService.getConnectedUserCount(roomId);
+			if(count < 12) break;
+			roomId++;
+		}
 	    
         Chatroom room = Chatroom.builder()
         		.roomId(roomId)

@@ -22,7 +22,11 @@ public class AnonymousServiceImpl implements AnonymousService {
 	@Autowired
 	ConnectedUserService connectedUserService;
 	
+	//익명아이디 - 실제아이디 맵핑
 	private final Map<String, String> anonymousMemberMapping = new HashMap<>();
+	
+	//익명아이디 가져오기 위해 count
+	private final Map<Integer, Integer> anonymousCount = new HashMap<>();
 
 	@Override
 	public List<AnonymousDTO> selectAnonymousList() {
@@ -46,15 +50,17 @@ public class AnonymousServiceImpl implements AnonymousService {
 	//회원의 익명 객체 및 저장
 	@Override
 	public AnonymousDTO createAnonymous(int roomId, String memberId) {
-		int count = connectedUserService.getConnectedUserCount(roomId)+1;
+		int count = anonymousCount.getOrDefault(roomId, 0) + 1;
 	    
 	    //방번호2자리 + 익명아이디 2자리
 	    int anonyId = Integer.parseInt(String.format("%02d%02d", roomId, count));
 	    
+	    //익명객체 생성
 	    AnonymousDTO anonymous = getAnonymous(count);
 	    anonymous.setAnonymousId(anonyId);
 	    
 	    anonymousMemberMapping.put(String.valueOf(anonymous.getAnonymousId()), memberId);
+	    anonymousCount.put(roomId, anonymousCount.getOrDefault(roomId, 0)+1);
 		return anonymous;
 	}
 

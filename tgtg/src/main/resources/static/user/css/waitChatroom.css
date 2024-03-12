@@ -10,6 +10,7 @@
     .other {
         background-color: lightgray; 
         color: rgb(35, 35, 35);
+        cursor: pointer;
     }
 
     
@@ -89,7 +90,7 @@
         transition: 200ms;
       }
 
-      #countReady, #countConnect {
+      #countReady, .countConnect {
         font-weight: bolder;
         font-size: larger;
         color: rgb(18, 99, 248);

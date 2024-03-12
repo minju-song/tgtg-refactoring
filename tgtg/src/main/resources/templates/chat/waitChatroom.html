@@ -23,7 +23,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{l
 		                <div id="btnDiv" style="flex: 1;">
 		                    <button id="readyBtn" class="unreadyStatus">READY</button>
 		                    <div id="countDiv">
-		                        <span id="countConnect">-</span>명 중 <span id="countReady">-</span>명이 준비했어요! 
+		                        <span class="countConnect">-</span>명 중 <span id="countReady">-</span>명이 준비했어요! 
 		                    </div>
 		                </div>
 		                <div style="flex: 1;"></div>
@@ -58,9 +58,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{l
 							<img src="/user/img/chat/send.png"/>
 						</button>
 		            </div>
-        		</div>  
-				<div id="memberList" style="margin-top: 100px;">
-				</div>    	
+        		</div>
+				<div id="sideMenu">
+					<div class="bold-font sideMenuTitle">참여 목록 (<span class="countConnect"></span>)</div>
+					<div id="memberList">
+					</div>    	
+				</div>
         	</div>
         </div>
 

@@ -20,11 +20,18 @@
         padding: 3vh;
     }
 
-    #memberList {
+    #sideMenu {
       width: 20%;
       background-color: white;
       border-radius: 20px;
-      padding: 3vh;
+      padding-top: 3vh;
+      padding-bottom: 3vh;
+      height: 70vh;
+      margin-top: 100px;
+    }
+
+    #memberList {
+      overflow-y: auto;
     }
 
     /* 채팅 보이는 영역 */
@@ -40,17 +47,17 @@
     }
 
     /* 채팅영역 스크롤바 */
-    #chatView::-webkit-scrollbar {
+    #chatView::-webkit-scrollbar, #memberList::-webkit-scrollbar {
         width: 5px;
       }
 
-    #chatView::-webkit-scrollbar-thumb {
+    #chatView::-webkit-scrollbar-thumb, #memberList::-webkit-scrollbar-thumb {
     height: 30%;
     background: rgba(18, 99, 248, 0.7);
     border-radius: 10px;
     }
 
-    #chatView::-webkit-scrollbar-track {
+    #chatView::-webkit-scrollbar-track, #memberList::-webkit-scrollbar-track {
     background: rgba(64, 100, 167, 0.5);
     }  
 
@@ -140,13 +147,16 @@
     }
 
     .bold-font {
-        font-weight: bold;
-      }
+      font-weight: bold;
+    }
+
+    .member .profileImg {
+      width: 3vh;
+    }
 
     .profileImg {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+      height: 6vh;
+      border-radius: 50%;
     }
 
     textarea:focus {outline:none;}
@@ -202,6 +212,22 @@
       margin-bottom: 1vh;
     }
 
+    .sideMenuTitle {
+      color: black;
+      padding-left: 3vh;
+      padding-right: 3vh;
+      padding-bottom: 1vh;
+    }
+
+    .member {
+      display: flex;
+      padding-left: 3vh;
+      padding-right: 3vh;
+      padding-top: 1vh;
+      padding-bottom: 1vh;
+      align-items : center;
+    }
+
     /* 회원목록프로필 */
     .memberListImg {
       flex: 1;
@@ -209,12 +235,13 @@
 
     .memberListNickname {
       flex: 3;
-      line-height: 8vh;
+      line-height: 100%;
       text-indent: 2vh;
+      font-size: smaller;
     }
 
-    .memberList-me span {
-      color: rgb(0, 68, 255);
+    .memberList-me {
+      background-color: rgb(169, 216, 235);
     }
 
     .reportDiv {
