@@ -157,5 +157,5 @@ setInterval(function () {
         event.cancelBubble = true;
         event.returnValue = false;
     } 
-}*/
-document.onkeydown = NotReload;
+}
+document.onkeydown = NotReload;*/

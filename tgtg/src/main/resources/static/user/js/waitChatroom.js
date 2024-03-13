@@ -121,14 +121,14 @@ function startGame(start) {
     let timerInterval;
     Swal.fire({
     title: "게임이 시작됩니다!",
-    html: "<b>10</b>초 후 게임방으로 이동됩니다.",
-    timer: 10000,
+    html: "<b>5</b>초 후 게임방으로 이동됩니다.",
+    timer: 5000,
     timerProgressBar: true,
     allowOutsideClick: false,
     didOpen: () => {
         Swal.showLoading();
         const timer = Swal.getPopup().querySelector("b");
-        let timeLeft = 9; // 남은 시간 설정 (10초)
+        let timeLeft = 4; // 남은 시간 설정 (10초)
         timerInterval = setInterval(() => {
             timer.textContent = `${timeLeft}`;
             timeLeft--; // 시간 감소
@@ -139,7 +139,8 @@ function startGame(start) {
     }
     }).then((result) => {
         if (result.dismiss === Swal.DismissReason.timer) {
-            window.location.href = '/user/textGame';
+            window.location.href = '/user/textGame?roomId='+room.roomId;
+            //document.getElementById('hiddenForm').submit();
         }
     });
 
