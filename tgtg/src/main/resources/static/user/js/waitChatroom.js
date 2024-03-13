@@ -144,42 +144,8 @@ function startGame(start) {
             
             localStorage.setItem("anonymous", localAnonymous);
             window.location.href = '/user/textGame?roomId='+room.roomId;
-            
-           /* let data = {
-                method : 'POST',
-                body : JSON.stringify({anonymousId: anonymous.anonymousId, anonymousImage: anonymous.anonymousImage, anonymousNickname: anonymous.anonymousNickname, roomId: room.roomId}),
-                headers : {
-                    'Content-Type' : 'application/json'
-                }
-            };
-
-            fetch(`/user/textGame`, data)
-                .then(response => {
-                    if (response.ok) {
-                        // 서버로부터 정상적인 응답을 받았을 때, 예를 들어 textGame.html 페이지로 리다이렉트
-                        window.location.href = 'chat/textChatGame.html';
-                      } 
-                });*/
-            //document.getElementById('hiddenForm').submit();
         }
     });
-
-    // let timeLeft = 10;
-    // const timerElement = document.getElementById('timer'); // 타이머를 표시할 요소
-
-    // timerElement.style.display = 'flex'; // 타이머 활성화
-
-    // const timerId = setInterval(function() {
-    //     if (timeLeft <= 0) {
-    //         clearInterval(timerId); // 타이머 종료
-    //         timerElement.innerText = "START";
-    //         window.location.href = '/user/textGame';// 타이머 숨기기
-    //     } else {
-    //         timerElement.innerText = timeLeft; // 화면 갱신
-    //         timeLeft--; // 시간 감소
-    //     }
-    // }, 1000);
-
 }
 
 //현재 접속자 수
