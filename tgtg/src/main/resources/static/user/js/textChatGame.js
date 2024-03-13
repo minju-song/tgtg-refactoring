@@ -39,7 +39,7 @@ function sendChat() {
         stompClient.send("/send/"+room.roomId, {},
             JSON.stringify({
                 'sender': anonymous.anonymousNickname,
-                'senderEmail': senderEmail,
+                'senderEmail': anonymous.anonymousId,
                 'senderImage': anonymous.anonymousImage,
                 'message' : $("#message").val()
             }));
@@ -75,7 +75,7 @@ function showChat(chatMessage) {
     tempdiv.style.flex = 1;
     tempdiv.setAttribute("class",'temp');
 
-    if(chatMessage.senderEmail != senderEmail) {
+    if(chatMessage.senderEmail != anonymous.anonymousId) {
 
         messageBox.classList.add('box', 'other');
         div.setAttribute('class','other_div');

@@ -1,6 +1,7 @@
 package com.malzzang.tgtg.chatroom.web;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import com.malzzang.tgtg.chatroom.service.ConnectedUserService;
 import com.malzzang.tgtg.chatroom.service.ReadyUserService;
 import com.malzzang.tgtg.anonymous.Anonymous;
+import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
+import com.malzzang.tgtg.anonymous.service.AnonymousService;
 import com.malzzang.tgtg.chatroom.dto.Chat;
 import com.malzzang.tgtg.chatroom.dto.ChatMessage;
 
@@ -24,6 +27,7 @@ public class ChatController {
 	
 	private final ReadyUserService readyUserService;
 	private final ConnectedUserService connectedUserService;
+	private final AnonymousService anonymousService;
 	
 	@Autowired
 	private SimpMessagingTemplate simpMessagingTemplate;
@@ -40,8 +44,7 @@ public class ChatController {
                 .senderImage(message.getSenderImage())
                 .message(message.getMessage())
                 .build();
-	}
-	
+	} 
 	
 	//게임 준비 메소드
 	@MessageMapping("/{roomId}/ready")
@@ -73,32 +76,42 @@ public class ChatController {
 	
 	//회원이 게임 대기방 들어왔을 때
 	@MessageMapping("/{roomId}/enter")
-    @SendTo("/room/{roomId}/connectedCount")
-    public Map enter(@DestinationVariable int roomId, Anonymous anonymous) {
+    @SendTo("/room/{roomId}/connect")
+    public Map enter(@DestinationVariable int roomId, AnonymousDTO anonymous) {
 		
 		//인원수 추가해줌
-        connectedUserService.userEntered(roomId);
+        connectedUserService.userEntered(roomId, anonymous);
+        
+        //해당방 회원
+        List<AnonymousDTO> list = connectedUserService.getAllMembersInRoom(roomId);
         
         //리턴값 담을 맵
         Map<String, Object> map = new HashMap<>();
         map.put("connectUser", connectedUserService.getConnectedUserCount(roomId));
-        map.put("nickname", anonymous.getAnonymousNickname());
+        map.put("anonymous", anonymous);
         map.put("enter", true);
+        map.put("memberList", list);
         
         return map;
     }
 
 	//회원이 게임 대기방 퇴장했을 때
     @MessageMapping("/{roomId}/leave")
-    @SendTo("/room/{roomId}/connectedCount")
-    public Map leave(@DestinationVariable int roomId, Anonymous anonymous) {
-        connectedUserService.userLeft(roomId);
+    @SendTo("/room/{roomId}/connect")
+    public Map leave(@DestinationVariable int roomId, AnonymousDTO anonymous) {
+
+        connectedUserService.userLeft(roomId, anonymous);
+        anonymousService.deleteAnonymous(anonymous.getAnonymousId());
         
-      //리턴값 담을 맵
+        //해당방 회원
+        List<AnonymousDTO> list = connectedUserService.getAllMembersInRoom(roomId);
+        
+        //리턴값 담을 맵
         Map<String, Object> map = new HashMap<>();
         map.put("connectUser", connectedUserService.getConnectedUserCount(roomId));
-        map.put("nickname", anonymous.getAnonymousNickname());
+        map.put("anonymous", anonymous);
         map.put("enter", false);
+        map.put("memberList", list);
         
         return map;
     }
@@ -113,6 +126,7 @@ public class ChatController {
 	            .senderEmail(message.getSenderEmail())
 	            .message(message.getMessage())
 	            .build();
+	    
 	    
   		return messages;
   	}
