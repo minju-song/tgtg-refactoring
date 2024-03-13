@@ -10,9 +10,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.malzzang.tgtg.chatroom.service.ChatroomService;
 import com.malzzang.tgtg.chatroom.service.ConnectedUserService;
@@ -58,16 +60,17 @@ public class ChatroomController {
 	}
 	
 	@GetMapping("/user/textGame")
-	   public String textGame(HttpSession session, int roomId, Model model) {
+	   public String textGame(int roomId, Model model) {
 	      
-		AnonymousDTO anonymous = (AnonymousDTO) session.getAttribute("anonymous");
-			System.out.println("====>"+anonymous.getAnonymousNickname());
+		//AnonymousDTO anonymous = (AnonymousDTO) session.getAttribute("anonymous");
+			//System.out.println("====>"+anonymous.getAnonymousNickname());
 			System.out.println(roomId);
 //			System.out.println(roomId);
 	       //Chatroom room = chatroomService.findTextRoom();
-	       //Chatroom room = new Chatroom(3, "text");
+	       Chatroom room = new Chatroom(roomId, "text");
 	       
-	       //model.addAttribute("room", roomId);
+		   model.addAttribute("room", room);
+	       //model.addAttribute("anonymous", anonymous);
 	      
 	      return "chat/textChatGame.html";
 	   }

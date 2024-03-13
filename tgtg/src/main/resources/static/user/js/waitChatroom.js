@@ -139,7 +139,27 @@ function startGame(start) {
     }
     }).then((result) => {
         if (result.dismiss === Swal.DismissReason.timer) {
+            console.log(anonymous)
+            let localAnonymous = JSON.stringify({anonymousId: anonymous.anonymousId, anonymousImage: anonymous.anonymousImage, anonymousNickname: anonymous.anonymousNickname});
+            
+            localStorage.setItem("anonymous", localAnonymous);
             window.location.href = '/user/textGame?roomId='+room.roomId;
+            
+           /* let data = {
+                method : 'POST',
+                body : JSON.stringify({anonymousId: anonymous.anonymousId, anonymousImage: anonymous.anonymousImage, anonymousNickname: anonymous.anonymousNickname, roomId: room.roomId}),
+                headers : {
+                    'Content-Type' : 'application/json'
+                }
+            };
+
+            fetch(`/user/textGame`, data)
+                .then(response => {
+                    if (response.ok) {
+                        // 서버로부터 정상적인 응답을 받았을 때, 예를 들어 textGame.html 페이지로 리다이렉트
+                        window.location.href = 'chat/textChatGame.html';
+                      } 
+                });*/
             //document.getElementById('hiddenForm').submit();
         }
     });

@@ -1,7 +1,8 @@
 /**
  * textChatGame.js
  */
- 
+console.log(JSON.parse(localStorage.getItem("anonymous"))); 
+
 // 소켓 연결
 function connect() {
 
