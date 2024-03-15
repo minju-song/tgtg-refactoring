@@ -1,8 +1,7 @@
 /**
  * textChatGame.js
  */
-console.log(JSON.parse(localStorage.getItem("anonymous"))); 
-
+ 
 // 소켓 연결
 function connect() {
 
@@ -17,6 +16,11 @@ function connect() {
             
             // 채팅 수신되면 화면에 그려줌
             showChat(JSON.parse(chatMessage.body));
+        });
+
+        //연결된 사용자의 수
+        stompClient.subscribe('/room/'+room.roomId+'/connect', function (connectedCount) {
+            showConnectedCount(JSON.parse(connectedCount.body));
         });
     });  
 };
@@ -46,6 +50,83 @@ function sendChat() {
             }));
         $("#message").val('');
     }
+}
+
+//현재 접속자 수
+function showConnectedCount(connect) {
+
+    let connectText = document.querySelectorAll('.countConnect');
+    connectText.forEach(ct => ct.innerText = connect.connectUser);
+
+    let div = document.createElement('div');
+    if(connect.enter) {
+        div.innerText = connect.anonymous.anonymousNickname+"님이 입장하였습니다.";
+    }
+    else {
+        div.innerText = connect.anonymous.anonymousNickname+"님이 퇴장하였습니다.";
+    }
+
+    drawMemberList(connect.memberList);
+
+    div.setAttribute("class", "connectAlert");
+    chatView.appendChild(div);
+    chatView.scrollTop = chatView.scrollHeight;
+}
+
+//멤버목록
+function drawMemberList(list) {
+    const memberListDiv = document.getElementById('memberList');
+
+    while (memberListDiv.firstChild) {
+        memberListDiv.removeChild(memberListDiv.firstChild);
+    }
+
+    for (let i = 0; i < list.length; i++) {
+
+        // 회원 감싸는 div
+        let div = document.createElement('div');
+        div.setAttribute("class", 'member');
+
+        if(list[i].anonymousId == anonymous.anonymousId) {
+            div.classList.add('memberList-me');
+        }
+
+        // 프로필이미지
+        let img = document.createElement('img');
+        img.setAttribute('src', list[i].anonymousImage);
+        img.classList.add('memberListImg', 'profileImg');
+
+        // 닉네임
+        let name = document.createElement('span');
+        name.classList.add('bold-font', 'memberListNickname');
+        name.innerText = list[i].anonymousNickname;
+
+        // 신고영역
+        let reportDiv = document.createElement('div');
+        reportDiv.classList.add('reportDiv');
+
+        if(list[i].anonymousId != anonymous.anonymousId) {
+            let reportBtn = document.createElement('button');
+            reportBtn.classList.add('reportBtn');
+            let btnImg = document.createElement('img');
+            btnImg.setAttribute('src', '/user/img/chat/siren.png');
+            reportBtn.appendChild(btnImg);
+            reportDiv.appendChild(reportBtn);
+    
+            reportBtn.addEventListener('click', function() {
+                reportMember(list[i].anonymousId, list[i].anonymousNickname);
+            });
+        }
+
+
+        div.appendChild(img);
+        div.appendChild(name);
+        div.appendChild(reportDiv);
+
+        memberListDiv.appendChild(div);
+
+    }
+
 }
 
 // 수신된 채팅 화면에 그려주는 함수
@@ -109,6 +190,144 @@ function showChat(chatMessage) {
     chatView.appendChild(div);
 
     chatView.scrollTop = chatView.scrollHeight;
+
+}
+
+function reportMember(anonymousId, nickname) {
+    Swal.fire({
+        title: nickname+"님 신고",
+        input: "select",
+        inputOptions: {
+            욕설: "욕설",
+            성희롱: "성희롱",
+            기타: "기타"
+        },
+        inputPlaceholder: "신고 카테고리를 선택해주세요.",
+        showCancelButton: true,
+        preConfirm: (value) => {
+            if (value === "") {
+                Swal.showValidationMessage("신고 카테고리를 선택해주세요."); // 유효성 검사 메시지를 보여주기
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed && result.value) {
+            // 사용자가 카테고리를 선택하고 'OK'를 누른 경우
+            Swal.fire({
+                title: nickname+"님을 신고하는 사유",
+                input: "textarea",
+                inputLabel: "상세 이유",
+                inputPlaceholder: "신고 상세 사유를 입력해주세요.",
+                inputAttributes: {
+                    "aria-label": "Type your message here"
+                },
+                showCancelButton: true
+            }).then((textResult) => {
+                if (textResult.isConfirmed && textResult.value) {
+
+                    fetch("/insertReport", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            reportCategory : result.value,
+                            reportReason : textResult.value,
+                            reportStatus : '접수',
+                            reporterId : anonymous.anonymousId,
+                            reportedId : anonymousId 
+                        }),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(resolve => resolve.text())
+                    .then(result => {
+                        if (result) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "신고 완료",
+                                text: nickname+"님을 신고하였습니다."
+                              });
+                        }
+                        else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "신고 실패",
+                                text: "오류가 발생하였습니다."
+                              });
+                        }
+                    })
+                }
+            });
+        }
+    });
+}
+
+//채팅 신고
+function reportChat(anonymousId, nickname, message) {
+    Swal.fire({
+        title: nickname+"님의 채팅 신고",
+        input: "select",
+        text:"\""+message+"\"",
+        inputOptions: {
+            욕설: "욕설",
+            성희롱: "성희롱",
+            기타: "기타"
+        },
+        inputPlaceholder: "신고 카테고리를 선택해주세요.",
+        showCancelButton: true,
+        preConfirm: (value) => {
+            if (value === "") {
+                Swal.showValidationMessage("신고 카테고리를 선택해주세요."); // 유효성 검사 메시지를 보여주기
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed && result.value) {
+            // 사용자가 카테고리를 선택하고 'OK'를 누른 경우
+            Swal.fire({
+                title: nickname+"님을 신고하는 사유",
+                input: "textarea",
+                inputLabel: "상세 이유",
+                inputPlaceholder: "신고 상세 사유를 입력해주세요.",
+                inputAttributes: {
+                    "aria-label": "Type your message here"
+                },
+                showCancelButton: true
+            }).then((textResult) => {
+                if (textResult.isConfirmed && textResult.value) {
+
+                    fetch("/insertReport", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            reportCategory : result.value,
+                            reportReason : textResult.value,
+                            reportStatus : '접수',
+                            reporterId : anonymous.anonymousId,
+                            reportedId : anonymousId, 
+                            reportChat : message
+                        }),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(resolve => resolve.text())
+                    .then(result => {
+                        if (result) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "신고 완료",
+                                text: nickname+"님을 신고하였습니다."
+                              });
+                        }
+                        else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "신고 실패",
+                                text: "오류가 발생하였습니다."
+                              });
+                        }
+                    })
+                }
+            });
+        }
+    });
 
 }
 

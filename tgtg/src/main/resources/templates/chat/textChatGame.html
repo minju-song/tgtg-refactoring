@@ -60,8 +60,7 @@
 				</div>
 				<div id="sideMenu">
 					<div class="bold-font sideMenuTitle">참여 목록 (<span class="countConnect"></span>)</div>
-					<div id="memberList">
-					</div>    	
+					<div id="memberList"></div>    	
 				</div>
 			</div>
 		</div>
@@ -90,7 +89,7 @@
 			let senderEmail = document.cookie;
 
 			//익명처리
-			let anonymous = /*[[${anonymous}]]*/null;
+			let anonymous = JSON.parse(localStorage.getItem("anonymous"));
 
 			//채팅박스
 			let chatView = document.getElementById('chatView');

@@ -45,7 +45,7 @@ public class ChatroomController {
 	
 	@GetMapping("/user/textGame")
 	   public String textGame(int roomId, Model model) {
-
+		
 	       //Chatroom room = chatroomService.findTextRoom();
 	       Chatroom room = new Chatroom(roomId, "text");
 	       

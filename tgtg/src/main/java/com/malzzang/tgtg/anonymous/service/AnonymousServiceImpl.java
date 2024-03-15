@@ -57,7 +57,7 @@ public class AnonymousServiceImpl implements AnonymousService {
 	    
 	    //익명객체 생성
 	    AnonymousDTO anonymous = getAnonymous(count);
-	    anonymous.setanonymousId(anonyId);
+	    anonymous.setAnonymousId(anonyId);
 	    
 	    anonymousMemberMapping.put(String.valueOf(anonymous.getAnonymousId()), memberId);
 	    anonymousCount.put(roomId, anonymousCount.getOrDefault(roomId, 0)+1);
