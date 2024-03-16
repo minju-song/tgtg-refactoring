@@ -53,7 +53,7 @@ public class AnonymousServiceImpl implements AnonymousService {
 		int count = anonymousCount.getOrDefault(roomId, 0) + 1;
 	    
 	    //방번호2자리 + 익명아이디 2자리
-	    int anonyId = Integer.parseInt(String.format("%02d%02d", roomId, count));
+	    int anonyId = Integer.parseInt(String.format("%03d%02d", roomId, count));
 	    
 	    //익명객체 생성
 	    AnonymousDTO anonymous = getAnonymous(count);

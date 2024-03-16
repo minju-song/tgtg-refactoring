@@ -10,4 +10,6 @@ public interface ChatroomService {
 	final List<Chatroom> textRooms = new ArrayList<>();
 	
 	public Chatroom findTextRoom();
+	
+	public Chatroom findVoiceRoom();
 }

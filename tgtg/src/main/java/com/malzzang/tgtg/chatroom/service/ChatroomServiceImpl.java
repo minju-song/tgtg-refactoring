@@ -35,4 +35,21 @@ public class ChatroomServiceImpl implements ChatroomService{
         return room;
 	}
 
+	@Override
+	public Chatroom findVoiceRoom() {
+		int roomId = 100;
+		while(true) {
+			int count = connectedUserService.getConnectedUserCount(roomId);
+			if(count < 12) break;
+			roomId++;
+		}
+	    
+        Chatroom room = Chatroom.builder()
+        		.roomId(roomId)
+        		.type("voice")
+        		.build();
+        
+        return room;
+	}
+
 }

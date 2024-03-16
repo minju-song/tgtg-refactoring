@@ -30,7 +30,14 @@ public class ChatroomController {
 	@GetMapping("/user/waitChatroom")
 	public String startChat(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestParam String type, HttpServletResponse response, Model model) {
 		
-	    Chatroom room = chatroomService.findTextRoom();
+		Chatroom room = new Chatroom(0, type);
+		
+		if(type.equals("text")) {			
+			room = chatroomService.findTextRoom();
+		}
+		else {
+			room = chatroomService.findVoiceRoom();
+		}
 
 	    AnonymousDTO anonymous = anonymousService.createAnonymous(room.getRoomId(), principalDetails.getName());
 	    
