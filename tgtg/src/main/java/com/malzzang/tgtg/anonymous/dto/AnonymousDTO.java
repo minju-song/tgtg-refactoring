@@ -19,6 +19,10 @@ public class AnonymousDTO {
 	@JsonProperty("roomId")
 	private int roomId;
 	
+	//역할
+	// answerA, answerB, judge 
+	private String role;
+	
 	public void setanonymousId(int anonymousId) {
 		this.anonymousId = anonymousId;
 	}
@@ -39,5 +43,7 @@ public class AnonymousDTO {
 		this.roomId = roomId;
 	}
 	
-	
+	public void setrole(String role) {
+		this.role = role;
+	}
 }

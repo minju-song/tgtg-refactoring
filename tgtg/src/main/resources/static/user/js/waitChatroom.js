@@ -34,7 +34,9 @@ function connect() {
         });
 
         stompClient.subscribe('/room/'+room.roomId+'/startGame', function (start) {
-            startGame(start.body);
+            console.log(JSON.parse(start.body).url);
+
+            startGame(JSON.parse(start.body));
         });
 
         
@@ -141,9 +143,14 @@ function startGame(start) {
         if (result.dismiss === Swal.DismissReason.timer) {
             console.log(anonymous)
             let localAnonymous = JSON.stringify({anonymousId: anonymous.anonymousId, anonymousImage: anonymous.anonymousImage, anonymousNickname: anonymous.anonymousNickname});
-            
-            localStorage.setItem("anonymous", localAnonymous);
-            window.location.href = '/user/textGame?roomId='+room.roomId;
+            //역할받아오기
+            localStorage.setItem(anonymous.anonymousId, localAnonymous);
+            if(room.type == 'text') {
+                window.location.href = start.url+room.roomId+"&anonymousId="+anonymous.anonymousId;
+            }
+            else {
+                window.location.href = start.url+room.roomId+"&anonymousId="+anonymous.anonymousId;
+            }
         }
     });
 }

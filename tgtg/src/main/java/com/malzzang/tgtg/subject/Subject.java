@@ -1,5 +1,7 @@
 package com.malzzang.tgtg.subject;
 
+import com.malzzang.tgtg.subject.dto.SubjectDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,4 +26,13 @@ public class Subject {
 	
 	@Column(name = "subject_answer_b")
 	private String subjectAnswerB;
+	
+	public SubjectDTO toResponseDto() {
+		return SubjectDTO.builder()
+				.subjectId(subjectId)
+				.subjectTitle(subjectTitle)
+				.subjectAnswerA(subjectAnswerA)
+				.subjectAnswerB(subjectAnswerB)
+				.build();
+	}
 }

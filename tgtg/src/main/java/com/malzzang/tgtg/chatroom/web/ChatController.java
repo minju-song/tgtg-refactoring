@@ -13,8 +13,11 @@ import org.springframework.stereotype.Controller;
 
 import lombok.RequiredArgsConstructor;
 
+import com.malzzang.tgtg.chatroom.service.ChatroomService;
 import com.malzzang.tgtg.chatroom.service.ConnectedUserService;
 import com.malzzang.tgtg.chatroom.service.ReadyUserService;
+import com.malzzang.tgtg.common.GameRoleDTO;
+import com.malzzang.tgtg.report.dto.ReportDTO;
 import com.malzzang.tgtg.anonymous.Anonymous;
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 import com.malzzang.tgtg.anonymous.service.AnonymousService;
@@ -28,6 +31,9 @@ public class ChatController {
 	private final ReadyUserService readyUserService;
 	private final ConnectedUserService connectedUserService;
 	private final AnonymousService anonymousService;
+	
+	@Autowired
+	ChatroomService chatroomService;
 	
 	@Autowired
 	private SimpMessagingTemplate simpMessagingTemplate;
@@ -53,8 +59,17 @@ public class ChatController {
         readyUserService.readyUser(roomId);
         if(readyUserService.getReady(roomId) == connectedUserService.getConnectedUserCount(roomId) && 
         		readyUserService.getReady(roomId)>= 3	) {
-        	System.out.println("스타트");
-        	simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "Start");
+        	List<AnonymousDTO> list = chatroomService.startGame(roomId);
+        	
+        	GameRoleDTO role = new GameRoleDTO();
+        	role.setRoleList(list);
+        	if(roomId < 100) {  
+        		role.setUrl("/user/textGame?roomId=");        		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "/user/textGame?roomId=");
+        	}
+        	else {
+        		role.setUrl("/user/voiceGame?roomId=");        		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "/user/voiceGame?roomId=");
+        	}
+        	simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", role);
         }
         return readyUserService.getReady(roomId);
     }

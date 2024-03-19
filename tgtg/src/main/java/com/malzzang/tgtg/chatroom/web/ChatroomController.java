@@ -30,7 +30,7 @@ public class ChatroomController {
 	@GetMapping("/user/waitChatroom")
 	public String startChat(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestParam String type, HttpServletResponse response, Model model) {
 		
-		Chatroom room = new Chatroom(0, type);
+		Chatroom room = new Chatroom(0, type, "ready");
 		
 		if(type.equals("text")) {			
 			room = chatroomService.findTextRoom();
@@ -51,13 +51,24 @@ public class ChatroomController {
 	}
 	
 	@GetMapping("/user/textGame")
-	   public String textGame(int roomId, Model model) {
+	   public String textGame(int roomId,int anonymousId,Model model) {
 
 	       //Chatroom room = chatroomService.findTextRoom();
-	       Chatroom room = new Chatroom(roomId, "text");
+	       Chatroom room = chatroomService.getRoomById(roomId);
 	       
 	       model.addAttribute("room", room);
 	      
 	      return "chat/textChatGame.html";
+	   }
+	
+	@GetMapping("/user/voiceGame")
+	   public String voiceGame(int roomId, int anonymousId, Model model) {
+
+		   Chatroom room = chatroomService.getRoomById(roomId);
+	       
+	       model.addAttribute("room", room);
+	       model.addAttribute("anonymousId", anonymousId);
+	      
+	      return "chat/voiceChatGame.html";
 	   }
 }
