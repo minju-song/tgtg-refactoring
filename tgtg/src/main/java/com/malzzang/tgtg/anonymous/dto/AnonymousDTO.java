@@ -1,22 +1,17 @@
 package com.malzzang.tgtg.anonymous.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 @Builder
 public class AnonymousDTO {
-	@JsonProperty("anonymousId")
 	private int anonymousId;
-	@JsonProperty("anonymousImage")
 	private String anonymousImage;
-	@JsonProperty("anonymousNickname")
 	private String anonymousNickname;
-	@JsonProperty("anonymousImageName")
 	private String anonymousImageName;
-	@JsonProperty("roomId")
 	private int roomId;
 	
 	//역할
@@ -46,4 +41,5 @@ public class AnonymousDTO {
 	public void setrole(String role) {
 		this.role = role;
 	}
+
 }
