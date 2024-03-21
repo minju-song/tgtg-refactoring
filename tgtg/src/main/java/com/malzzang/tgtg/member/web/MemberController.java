@@ -2,6 +2,7 @@ package com.malzzang.tgtg.member.web;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class MemberController {
 		return "member/login.html";
 	}
 	
+	/*
+	 *  소셜 최초 로그인 시 MBTI 검사 페이지로 이동 
+	 */
 	@GetMapping("/oauth2/check")
 	public String oauth2Check(@AuthenticationPrincipal PrincipalDetails principalDetails) {
 		
@@ -45,13 +49,31 @@ public class MemberController {
 	}
 	
 	/**
-	 * MBTI 검
+	 * MBTI 검사 
 	 */
 	@GetMapping("/checkMbti")
 	public String checkMbti() {
 		return "member/checkMbti.html";
 	}
 	
+	/**
+	 *  MBTI 업데이트
+	 *  @param userMbti
+	 *  @param principalDetails
+	 * 	@return
+	 */
+	@PostMapping("/updateMbti")
+	@ResponseBody
+	public Map<String, Object> updateMbti(@RequestBody Map<String, Object> userMbti,
+										  @AuthenticationPrincipal PrincipalDetails principalDetails) {
+		//Map<String, Object> result = new HashMap<String, Object>();
+		String memberId = principalDetails.getMember().getMemberId();
+		String memberRole = principalDetails.getMember().getMemberRole();
+		String memberMbti = (String) userMbti.get("mbti");
+		
+		System.out.println("==="+ memberId +"//"+ memberRole +"//"+ memberMbti);
+		return memberService.updateMemberMbti(memberId, memberRole, memberMbti);
+	}
 	
 	@GetMapping("/mypage")
 	public String mypage() {
@@ -86,7 +108,6 @@ public class MemberController {
 	 * @param pageable
 	 * @return
 	 *
-	 * 소셜 최초 로그인 시 MBTI 검사 페이지로 이동 
 	 */
 	@GetMapping("/management/memberList")
 	public String adminMemberList(Model model, String memberEmail, String memberStop,

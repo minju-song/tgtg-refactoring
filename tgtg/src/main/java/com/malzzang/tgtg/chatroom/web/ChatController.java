@@ -7,20 +7,26 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import com.malzzang.tgtg.chatroom.service.ChatroomService;
 import com.malzzang.tgtg.chatroom.service.ConnectedUserService;
 import com.malzzang.tgtg.chatroom.service.ReadyUserService;
+import com.malzzang.tgtg.common.GameRoleDTO;
+import com.malzzang.tgtg.report.dto.ReportDTO;
 import com.malzzang.tgtg.anonymous.Anonymous;
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 import com.malzzang.tgtg.anonymous.service.AnonymousService;
 import com.malzzang.tgtg.chatroom.dto.Chat;
 import com.malzzang.tgtg.chatroom.dto.ChatMessage;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class ChatController {
@@ -28,6 +34,9 @@ public class ChatController {
 	private final ReadyUserService readyUserService;
 	private final ConnectedUserService connectedUserService;
 	private final AnonymousService anonymousService;
+	
+	@Autowired
+	ChatroomService chatroomService;
 	
 	@Autowired
 	private SimpMessagingTemplate simpMessagingTemplate;
@@ -53,8 +62,17 @@ public class ChatController {
         readyUserService.readyUser(roomId);
         if(readyUserService.getReady(roomId) == connectedUserService.getConnectedUserCount(roomId) && 
         		readyUserService.getReady(roomId)>= 3	) {
-        	System.out.println("스타트");
-        	simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "Start");
+        	List<AnonymousDTO> list = chatroomService.startGame(roomId);
+        	
+        	GameRoleDTO role = new GameRoleDTO();
+        	role.setRoleList(list);
+        	if(roomId < 100) {  
+        		role.setUrl("/user/textGame?roomId=");        		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "/user/textGame?roomId=");
+        	}
+        	else {
+        		role.setUrl("/user/voiceGame?roomId=");        		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "/user/voiceGame?roomId=");
+        	}
+        	simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", role);
         }
         return readyUserService.getReady(roomId);
     }
@@ -130,4 +148,45 @@ public class ChatController {
 	    
   		return messages;
   	}
+  	
+  	@MessageMapping("/peer/offer/{camKey}/{roomId}")
+    @SendTo("/room/peer/offer/{camKey}/{roomId}")
+    public String PeerHandleOffer(@Payload String offer, @DestinationVariable(value = "roomId") int roomId,
+                                  @DestinationVariable(value = "camKey") String camKey) {
+        log.info("[OFFER] {} : {}", camKey, offer);
+        return offer;
+    }
+    
+	//iceCandidate 정보를 주고 받기 위한 webSocket
+	//camKey : 각 요청하는 캠의 key , roomId : 룸 아이디
+	@MessageMapping("/peer/iceCandidate/{camKey}/{roomId}")
+	@SendTo("/room/peer/iceCandidate/{camKey}/{roomId}")
+	public String PeerHandleIceCandidate(@Payload String candidate, @DestinationVariable(value = "roomId") int roomId,
+	                                     @DestinationVariable(value = "camKey") String camKey) {
+	    log.info("[ICECANDIDATE] {} : {}", camKey, candidate);
+	    return candidate;
+	}
+	
+    @MessageMapping("/peer/answer/{camKey}/{roomId}")
+    @SendTo("/room/peer/answer/{camKey}/{roomId}")
+    public String PeerHandleAnswer(@Payload String answer, @DestinationVariable(value = "roomId") int roomId,
+                                   @DestinationVariable(value = "camKey") String camKey) {
+        log.info("[ANSWER] {} : {}", camKey, answer);
+        return answer;
+    }
+    
+    //camKey 를 받기위해 신호를 보내는 webSocket
+    @MessageMapping("/call/key")
+    @SendTo("/room/call/key")
+    public String callKey(@Payload String message) {
+        log.info("[Key] : {}", message);
+        return message;
+    }
+		
+	//자신의 camKey 를 모든 연결된 세션에 보내는 webSocket
+    @MessageMapping("/send/key")
+    @SendTo("/room/send/key")
+    public String sendKey(@Payload String message) {
+        return message;
+    }
 }

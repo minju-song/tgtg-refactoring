@@ -81,6 +81,9 @@
 
 			// 채팅방 타입
 			let type = /*[[${type}]]*/null;
+      
+      //익명아이디
+      let anonymousId = /*[[${anonymousId}]]*/null;
 
 			// 내 이름
 			let sender = '밍주이름';
@@ -89,7 +92,8 @@
 			let senderEmail = document.cookie;
 
 			//익명처리
-			let anonymous = JSON.parse(localStorage.getItem("anonymous"));
+			let anonymous =JSON.parse(localStorage.getItem(anonymousId));
+
 
 			//채팅박스
 			let chatView = document.getElementById('chatView');

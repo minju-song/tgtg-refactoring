@@ -34,7 +34,9 @@ function connect() {
         });
 
         stompClient.subscribe('/room/'+room.roomId+'/startGame', function (start) {
-            startGame(start.body);
+            console.log(JSON.parse(start.body).roleList);
+
+            startGame(JSON.parse(start.body));
         });
 
         
@@ -116,7 +118,7 @@ function cancelReady() {
 
 //게임 시작 함수
 function startGame(start) {
-    console.log("시작 : "+start);
+    console.log("시작 : "+start.roleList);
 
     let timerInterval;
     Swal.fire({
@@ -140,10 +142,22 @@ function startGame(start) {
     }).then((result) => {
         if (result.dismiss === Swal.DismissReason.timer) {
             console.log(anonymous)
-            let localAnonymous = JSON.stringify({anonymousId: anonymous.anonymousId, anonymousImage: anonymous.anonymousImage, anonymousNickname: anonymous.anonymousNickname});
+            //역할받아오기
+            for(a of start.roleList) {
+                if(a.anonymousId == anonymous.anonymousId) {
+                    anonymous.role = a.role;
+                }
+            }
             
-            localStorage.setItem("anonymous", localAnonymous);
-            window.location.href = '/user/textGame?roomId='+room.roomId;
+            let localAnonymous = JSON.stringify({anonymousId: anonymous.anonymousId, anonymousImage: anonymous.anonymousImage, anonymousNickname: anonymous.anonymousNickname, role : anonymous.role});
+
+            localStorage.setItem(anonymous.anonymousId, localAnonymous);
+            if(room.type == 'text') {
+                window.location.href = start.url+room.roomId+"&anonymousId="+anonymous.anonymousId;
+            }
+            else {
+                window.location.href = start.url+room.roomId+"&anonymousId="+anonymous.anonymousId;
+            }
         }
     });
 }

@@ -1,7 +1,7 @@
 /**
  * textChatGame.js
  */
- 
+
 // 소켓 연결
 function connect() {
 
