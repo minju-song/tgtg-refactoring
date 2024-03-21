@@ -16,7 +16,6 @@ public class ChatMessage {
     private String senderImage;
     private String message;
     private LocalDateTime sendDate;
-    private Integer count;
     
     @Builder
     public ChatMessage(int roomId, String sender, String senderEmail,String senderImage, String message) {

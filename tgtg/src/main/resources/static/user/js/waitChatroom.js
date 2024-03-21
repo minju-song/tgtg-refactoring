@@ -25,7 +25,7 @@ function connect() {
             showChat(JSON.parse(chatMessage.body));
         });
 
-        stompClient.subscribe('/room/'+room.roomId+'/connectedCount', function (connectedCount) {
+        stompClient.subscribe('/room/'+room.roomId+'/connect', function (connectedCount) {
             showConnectedCount(JSON.parse(connectedCount.body));
         });
 
@@ -34,17 +34,14 @@ function connect() {
         });
 
         stompClient.subscribe('/room/'+room.roomId+'/startGame', function (start) {
-            startGame(start.body);
+            console.log(JSON.parse(start.body).roleList);
+
+            startGame(JSON.parse(start.body));
         });
 
         
         // 채팅방에 접속했음을 서버에 알림
-        stompClient.send("/send/"+room.roomId+"/enter", {}, 
-            JSON.stringify({
-                'anonymousNickname' : anonymous.anonymousNickname,
-                'anonymousImage' : anonymous.anonymousImage
-            })
-        );
+        stompClient.send("/send/"+room.roomId+"/enter", {}, JSON.stringify(anonymous));
 
 
         // 준비한 사용자의 수 요청
@@ -58,12 +55,8 @@ function connect() {
 function disconnect() {
 
     // 채팅방에 나갔음을 서버에 알림
-    stompClient.send("/send/"+room.roomId+"/leave", {}, 
-        JSON.stringify({
-            'anonymousNickname' : anonymous.anonymousNickname,
-            'anonymousImage' : anonymous.anonymousImage
-        })
-    );
+    stompClient.send("/send/"+room.roomId+"/leave", {},JSON.stringify(anonymous));
+
     if(isReady) {
         stompClient.send("/send/"+room.roomId+"/unready", {});
     }
@@ -78,7 +71,7 @@ function sendChat() {
         stompClient.send("/send/"+room.roomId, {},
             JSON.stringify({
                 'sender': anonymous.anonymousNickname,
-                'senderEmail': senderEmail,
+                'senderEmail': anonymous.anonymousId,
                 'senderImage': anonymous.anonymousImage,
                 'message' : $("#message").val()
             }));
@@ -125,41 +118,125 @@ function cancelReady() {
 
 //게임 시작 함수
 function startGame(start) {
-    console.log("시작 : "+start);
-    let timeLeft = 10;
-    const timerElement = document.getElementById('timer'); // 타이머를 표시할 요소
+    console.log("시작 : "+start.roleList);
 
-    timerElement.style.display = 'flex'; // 타이머 활성화
-
-    const timerId = setInterval(function() {
-        if (timeLeft <= 0) {
-            clearInterval(timerId); // 타이머 종료
-            timerElement.innerText = "START";
-            window.location.href = '/user/textGame';// 타이머 숨기기
-        } else {
-            timerElement.innerText = timeLeft; // 화면 갱신
+    let timerInterval;
+    Swal.fire({
+    title: "게임이 시작됩니다!",
+    html: "<b>5</b>초 후 게임방으로 이동됩니다.",
+    timer: 5000,
+    timerProgressBar: true,
+    allowOutsideClick: false,
+    didOpen: () => {
+        Swal.showLoading();
+        const timer = Swal.getPopup().querySelector("b");
+        let timeLeft = 4; // 남은 시간 설정 (10초)
+        timerInterval = setInterval(() => {
+            timer.textContent = `${timeLeft}`;
             timeLeft--; // 시간 감소
-        }
-    }, 1000);
+        }, 1000); // 1초마다 실행
+    },
+    willClose: () => {
+        clearInterval(timerInterval);
+    }
+    }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+            console.log(anonymous)
+            //역할받아오기
+            for(a of start.roleList) {
+                if(a.anonymousId == anonymous.anonymousId) {
+                    anonymous.role = a.role;
+                }
+            }
+            
+            let localAnonymous = JSON.stringify({anonymousId: anonymous.anonymousId, anonymousImage: anonymous.anonymousImage, anonymousNickname: anonymous.anonymousNickname, role : anonymous.role});
 
+            localStorage.setItem(anonymous.anonymousId, localAnonymous);
+            if(room.type == 'text') {
+                window.location.href = start.url+room.roomId+"&anonymousId="+anonymous.anonymousId;
+            }
+            else {
+                window.location.href = start.url+room.roomId+"&anonymousId="+anonymous.anonymousId;
+            }
+        }
+    });
 }
 
 //현재 접속자 수
 function showConnectedCount(connect) {
-    // console.log(connectCount);
-    let connectText = document.querySelector('#countConnect');
-    connectText.innerText = connect.connectUser;
+
+    let connectText = document.querySelectorAll('.countConnect');
+    connectText.forEach(ct => ct.innerText = connect.connectUser);
 
     let div = document.createElement('div');
     if(connect.enter) {
-        div.innerText = connect.nickname+"님이 입장하였습니다.";
+        div.innerText = connect.anonymous.anonymousNickname+"님이 입장하였습니다.";
     }
     else {
-        div.innerText = connect.nickname+"님이 퇴장하였습니다.";
+        div.innerText = connect.anonymous.anonymousNickname+"님이 퇴장하였습니다.";
     }
+
+    drawMemberList(connect.memberList);
+
     div.setAttribute("class", "connectAlert");
     chatView.appendChild(div);
     chatView.scrollTop = chatView.scrollHeight;
+}
+
+//멤버목록
+function drawMemberList(list) {
+    const memberListDiv = document.getElementById('memberList');
+
+    while (memberListDiv.firstChild) {
+        memberListDiv.removeChild(memberListDiv.firstChild);
+    }
+
+    for (let i = 0; i < list.length; i++) {
+
+        // 회원 감싸는 div
+        let div = document.createElement('div');
+        div.setAttribute("class", 'member');
+
+        if(list[i].anonymousId == anonymous.anonymousId) {
+            div.classList.add('memberList-me');
+        }
+
+        // 프로필이미지
+        let img = document.createElement('img');
+        img.setAttribute('src', list[i].anonymousImage);
+        img.classList.add('memberListImg', 'profileImg');
+
+        // 닉네임
+        let name = document.createElement('span');
+        name.classList.add('bold-font', 'memberListNickname');
+        name.innerText = list[i].anonymousNickname;
+
+        // 신고영역
+        let reportDiv = document.createElement('div');
+        reportDiv.classList.add('reportDiv');
+
+        if(list[i].anonymousId != anonymous.anonymousId) {
+            let reportBtn = document.createElement('button');
+            reportBtn.classList.add('reportBtn');
+            let btnImg = document.createElement('img');
+            btnImg.setAttribute('src', '/user/img/chat/siren.png');
+            reportBtn.appendChild(btnImg);
+            reportDiv.appendChild(reportBtn);
+    
+            reportBtn.addEventListener('click', function() {
+                reportMember(list[i].anonymousId, list[i].anonymousNickname);
+            });
+        }
+
+
+        div.appendChild(img);
+        div.appendChild(name);
+        div.appendChild(reportDiv);
+
+        memberListDiv.appendChild(div);
+
+    }
+
 }
 
 
@@ -199,9 +276,13 @@ function showChat(chatMessage) {
     tempdiv.style.flex = 1;
     tempdiv.setAttribute("class",'temp');
 
-    if(chatMessage.senderEmail != senderEmail) {
+    if(chatMessage.senderEmail != anonymous.anonymousId) {
 
         messageBox.classList.add('box', 'other');
+        messageBox.addEventListener('click', function() {
+            reportChat(chatMessage.senderEmail, chatMessage.sender, chatMessage.message);
+        })
+
         div.setAttribute('class','other_div');
 
         name.innerHTML = chatMessage.sender;
@@ -232,6 +313,144 @@ function showChat(chatMessage) {
     chatView.appendChild(div);
 
     chatView.scrollTop = chatView.scrollHeight;
+
+}
+
+function reportMember(anonymousId, nickname) {
+    Swal.fire({
+        title: nickname+"님 신고",
+        input: "select",
+        inputOptions: {
+            욕설: "욕설",
+            성희롱: "성희롱",
+            기타: "기타"
+        },
+        inputPlaceholder: "신고 카테고리를 선택해주세요.",
+        showCancelButton: true,
+        preConfirm: (value) => {
+            if (value === "") {
+                Swal.showValidationMessage("신고 카테고리를 선택해주세요."); // 유효성 검사 메시지를 보여주기
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed && result.value) {
+            // 사용자가 카테고리를 선택하고 'OK'를 누른 경우
+            Swal.fire({
+                title: nickname+"님을 신고하는 사유",
+                input: "textarea",
+                inputLabel: "상세 이유",
+                inputPlaceholder: "신고 상세 사유를 입력해주세요.",
+                inputAttributes: {
+                    "aria-label": "Type your message here"
+                },
+                showCancelButton: true
+            }).then((textResult) => {
+                if (textResult.isConfirmed && textResult.value) {
+
+                    fetch("/insertReport", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            reportCategory : result.value,
+                            reportReason : textResult.value,
+                            reportStatus : '접수',
+                            reporterId : anonymous.anonymousId,
+                            reportedId : anonymousId 
+                        }),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(resolve => resolve.text())
+                    .then(result => {
+                        if (result) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "신고 완료",
+                                text: nickname+"님을 신고하였습니다."
+                              });
+                        }
+                        else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "신고 실패",
+                                text: "오류가 발생하였습니다."
+                              });
+                        }
+                    })
+                }
+            });
+        }
+    });
+}
+
+//채팅 신고
+function reportChat(anonymousId, nickname, message) {
+    Swal.fire({
+        title: nickname+"님의 채팅 신고",
+        input: "select",
+        text:"\""+message+"\"",
+        inputOptions: {
+            욕설: "욕설",
+            성희롱: "성희롱",
+            기타: "기타"
+        },
+        inputPlaceholder: "신고 카테고리를 선택해주세요.",
+        showCancelButton: true,
+        preConfirm: (value) => {
+            if (value === "") {
+                Swal.showValidationMessage("신고 카테고리를 선택해주세요."); // 유효성 검사 메시지를 보여주기
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed && result.value) {
+            // 사용자가 카테고리를 선택하고 'OK'를 누른 경우
+            Swal.fire({
+                title: nickname+"님을 신고하는 사유",
+                input: "textarea",
+                inputLabel: "상세 이유",
+                inputPlaceholder: "신고 상세 사유를 입력해주세요.",
+                inputAttributes: {
+                    "aria-label": "Type your message here"
+                },
+                showCancelButton: true
+            }).then((textResult) => {
+                if (textResult.isConfirmed && textResult.value) {
+
+                    fetch("/insertReport", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            reportCategory : result.value,
+                            reportReason : textResult.value,
+                            reportStatus : '접수',
+                            reporterId : anonymous.anonymousId,
+                            reportedId : anonymousId, 
+                            reportChat : message
+                        }),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(resolve => resolve.text())
+                    .then(result => {
+                        if (result) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "신고 완료",
+                                text: nickname+"님을 신고하였습니다."
+                              });
+                        }
+                        else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "신고 실패",
+                                text: "오류가 발생하였습니다."
+                              });
+                        }
+                    })
+                }
+            });
+        }
+    });
 
 }
 
