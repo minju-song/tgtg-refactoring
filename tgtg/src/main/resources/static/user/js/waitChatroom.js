@@ -8,7 +8,6 @@ document.querySelector('#readyBtn').addEventListener("click", updateReady);
 //준비 상태
 let isReady = false;
 
-
 // 소켓 연결
 function connect() {
 
@@ -35,6 +34,7 @@ function connect() {
 
         stompClient.subscribe('/room/'+room.roomId+'/startGame', function (start) {
             console.log(JSON.parse(start.body).roleList);
+            disconnect();
 
             startGame(JSON.parse(start.body));
         });
@@ -146,6 +146,7 @@ function startGame(start) {
             for(a of start.roleList) {
                 if(a.anonymousId == anonymous.anonymousId) {
                     anonymous.role = a.role;
+                    console.log(a.role);
                 }
             }
             
@@ -461,5 +462,7 @@ window.onload = function (){
 
 // 페이지를 벗어나면 연결끊음
 window.addEventListener('beforeunload', function (event) {
+	
     disconnect();
+
 });

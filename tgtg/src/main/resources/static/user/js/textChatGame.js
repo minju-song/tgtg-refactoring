@@ -1,7 +1,7 @@
 /**
  * textChatGame.js
  */
-
+console.log(">>>"+anonymous.anonymousNickname)
 // 소켓 연결
 function connect() {
 
@@ -22,6 +22,9 @@ function connect() {
         stompClient.subscribe('/room/'+room.roomId+'/connect', function (connectedCount) {
             showConnectedCount(JSON.parse(connectedCount.body));
         });
+        
+        // 채팅방에 접속했음을 서버에 알림
+        stompClient.send("/send/"+room.roomId+"/enter", {}, JSON.stringify(anonymous));
     });  
 };
 
@@ -49,12 +52,11 @@ function sendChat() {
 
 //현재 접속자 수
 function showConnectedCount(connect) {
-console.log(connect);
+    let connectText = document.querySelectorAll('.countConnect');
+    connectText.forEach(ct => ct.innerText = connect.connectUser);
+
     let div = document.createElement('div');
-    if(connect.enter) {
-        div.innerText = connect.anonymous.anonymousNickname+"님이 입장하였습니다.";
-    }
-    else {
+    if(!connect.enter) {
         div.innerText = connect.anonymous.anonymousNickname+"님이 퇴장하였습니다.";
     }
 
@@ -152,6 +154,10 @@ function showChat(chatMessage) {
     if(chatMessage.senderEmail != anonymous.anonymousId) {
 
         messageBox.classList.add('box', 'other');
+        messageBox.addEventListener('click', function() {
+            reportChat(chatMessage.senderEmail, chatMessage.sender, chatMessage.message);
+        })
+
         div.setAttribute('class','other_div');
 
         name.innerHTML = chatMessage.sender;
