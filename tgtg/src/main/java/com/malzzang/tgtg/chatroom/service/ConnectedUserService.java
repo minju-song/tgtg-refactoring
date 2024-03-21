@@ -60,7 +60,7 @@ public class ConnectedUserService {
     	}
     	//3명일때
     	if(list.size() == 3) {
-    		list.get(0).setRole(null);
+    		list.get(0).setRole("answerA");
     		list.get(1).setRole("answerB");
     		list.get(2).setRole("judge");
     	}

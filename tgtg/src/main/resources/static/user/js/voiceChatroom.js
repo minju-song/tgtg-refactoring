@@ -2,9 +2,7 @@
  * 
  */
 
-// SockJS와 Stomp를 사용하여 서버의 WebSocket에 연결
-let socket = new SockJS('/ws-stomp');
-stompClient = Stomp.over(socket);
+
 
 let localStreamElement = document.querySelector('#localStream');
 
@@ -53,7 +51,66 @@ const startCam = async () =>{
 let timerInterval;
 
 function connect() {
-    startCam();
+    console.log(myKey);
+    // SockJS와 Stomp를 사용하여 서버의 WebSocket에 연결
+    let socket = new SockJS('/ws-stomp');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function () {
+        console.log('연결- ');
+
+                         //iceCandidate peer 교환을 위한 subscribe
+        stompClient.subscribe('/room/peer/iceCandidate/'+myKey+'/'+room.roomId, candidate => {
+            const key = JSON.parse(candidate.body).key
+            const message = JSON.parse(candidate.body).body;
+
+                        // 해당 key에 해당되는 peer 에 받은 정보를 addIceCandidate 해준다.
+            pcListMap.get(key).addIceCandidate(new RTCIceCandidate({candidate:message.candidate,sdpMLineIndex:message.sdpMLineIndex,sdpMid:message.sdpMid}));
+
+        });
+
+                    //offer peer 교환을 위한 subscribe
+        stompClient.subscribe(`/room/peer/offer/${myKey}/${room.roomId}`, offer => {
+            const key = JSON.parse(offer.body).key;
+            const message = JSON.parse(offer.body).body;
+                        
+                        // 해당 key에 새로운 peerConnection 를 생성해준후 pcListMap 에 저장해준다.
+            pcListMap.set(key,createPeerConnection(key));
+                        // 생성한 peer 에 offer정보를 setRemoteDescription 해준다.
+            pcListMap.get(key).setRemoteDescription(new RTCSessionDescription({type:message.type,sdp:message.sdp}));
+            //sendAnswer 함수를 호출해준다.
+                        sendAnswer(pcListMap.get(key), key);
+
+        });
+
+        //answer peer 교환을 위한 subscribe
+        stompClient.subscribe(`/room/peer/answer/${myKey}/${room.roomId}`, answer =>{
+            const key = JSON.parse(answer.body).key;
+            const message = JSON.parse(answer.body).body;
+                        
+                        // 해당 key에 해당되는 Peer 에 받은 정보를 setRemoteDescription 해준다.
+            pcListMap.get(key).setRemoteDescription(new RTCSessionDescription(message));
+
+        });
+
+        //key를 보내라는 신호를 받은 subscribe
+        stompClient.subscribe(`/room/call/key`, message =>{
+                    //자신의 key를 보내는 send
+        stompClient.send(`/send/send/key`, {}, JSON.stringify(myKey));
+
+        });
+
+        //상대방의 key를 받는 subscribe
+        stompClient.subscribe(`/room/send/key`, message => {
+            const key = JSON.parse(message.body);
+                        
+                        //만약 중복되는 키가 ohterKeyList에 있는지 확인하고 없다면 추가해준다.
+            if(myKey !== key && otherKeyList.find((mapKey) => mapKey === myKey) === undefined){
+                otherKeyList.push(key);
+            }
+        });
+
+    });
+    // startCam();
     Swal.fire({
         title: "주제 : "+room.title,
         html: "회원님의 역할은 <b>"+role+"</b> 입니다",
@@ -74,76 +131,7 @@ function connect() {
         }
         }).then((result) => {
             if (result.dismiss === Swal.DismissReason.timer) {
-                console.log("실행");
-                // alert('시작');
-                stompClient.connect({}, function() {
-                    console.log('연결- ');
-        
-                                     //iceCandidate peer 교환을 위한 subscribe
-                    stompClient.subscribe(`/room/peer/iceCandidate/${myKey}/${room.roomId}`, candidate => {
-                        const key = JSON.parse(candidate.body).key
-                        const message = JSON.parse(candidate.body).body;
-            
-                                    // 해당 key에 해당되는 peer 에 받은 정보를 addIceCandidate 해준다.
-                        pcListMap.get(key).addIceCandidate(new RTCIceCandidate({candidate:message.candidate,sdpMLineIndex:message.sdpMLineIndex,sdpMid:message.sdpMid}));
-            
-                    });
-        
-                                //offer peer 교환을 위한 subscribe
-                    stompClient.subscribe(`/room/peer/offer/${myKey}/${room.roomId}`, offer => {
-                        const key = JSON.parse(offer.body).key;
-                        const message = JSON.parse(offer.body).body;
-                                    
-                                    // 해당 key에 새로운 peerConnection 를 생성해준후 pcListMap 에 저장해준다.
-                        pcListMap.set(key,createPeerConnection(key));
-                                    // 생성한 peer 에 offer정보를 setRemoteDescription 해준다.
-                        pcListMap.get(key).setRemoteDescription(new RTCSessionDescription({type:message.type,sdp:message.sdp}));
-                        //sendAnswer 함수를 호출해준다.
-                                    sendAnswer(pcListMap.get(key), key);
-            
-                    });
-        
-                    //answer peer 교환을 위한 subscribe
-                    stompClient.subscribe(`/room/peer/answer/${myKey}/${room.roomId}`, answer =>{
-                        const key = JSON.parse(answer.body).key;
-                        const message = JSON.parse(answer.body).body;
-                                    
-                                    // 해당 key에 해당되는 Peer 에 받은 정보를 setRemoteDescription 해준다.
-                        pcListMap.get(key).setRemoteDescription(new RTCSessionDescription(message));
-            
-                    });
-        
-                    //key를 보내라는 신호를 받은 subscribe
-                    stompClient.subscribe(`/room/call/key`, message =>{
-                                //자신의 key를 보내는 send
-                    stompClient.send(`/send/send/key`, {}, JSON.stringify(myKey));
-        
-                    });
-        
-                    //상대방의 key를 받는 subscribe
-                    stompClient.subscribe(`/room/send/key`, message => {
-                        const key = JSON.parse(message.body);
-                                    
-                                    //만약 중복되는 키가 ohterKeyList에 있는지 확인하고 없다면 추가해준다.
-                        if(myKey !== key && otherKeyList.find((mapKey) => mapKey === myKey) === undefined){
-                            otherKeyList.push(key);
-                        }
-                    });
-        
-                    stompClient.send(`/send/call/key`, {}, {});
-            
-                    setTimeout(() =>{
-                    
-                        otherKeyList.map((key) =>{
-                            if(!pcListMap.has(key)){
-                                pcListMap.set(key, createPeerConnection(key));
-                                sendOffer(pcListMap.get(key),key);
-                            }
-                    
-                        });
-                    
-                    },1000);
-                });
+                console.log('닫힘');
             }
         });
 
@@ -152,24 +140,38 @@ function connect() {
 
 
     
-if(localStream !== undefined){
-    document.querySelector('#localStream').style.display = 'block';
-   //  document.querySelector('#startSteamBtn').style.display = '';
-}
-
-
-    
-     setTimeout(() =>{
-    
-         otherKeyList.map((key) =>{
-             if(!pcListMap.has(key)){
-                 pcListMap.set(key, createPeerConnection(key));
-                 sendOffer(pcListMap.get(key),key);
-             }
-    
-         });
-    
-     },1000);
+document.querySelector('#enterRoomBtn').addEventListener('click', async () =>{
+    await startCam();
+   
+    if(localStream !== undefined){
+        document.querySelector('#localStream').style.display = 'block';
+        document.querySelector('#startSteamBtn').style.display = '';
+    }
+    roomId = room.roomId;
+    // document.querySelector('#roomIdInput').disabled = true;
+    document.querySelector('#enterRoomBtn').disabled = true;
+   
+    await connect();
+});
+   
+// 스트림 버튼 클릭시 , 다른 웹 key들 웹소켓을 가져 온뒤에 offer -> answer -> iceCandidate 통신
+// peer 커넥션은 pcListMap 으로 저장
+document.querySelector('#startSteamBtn').addEventListener('click', async () =>{
+    await stompClient.send(`/send/call/key`, {}, {});
+   
+    setTimeout(() =>{
+        // console.log('실행');
+        otherKeyList.map((key) =>{
+            console.log('key : '+key);
+            if(!pcListMap.has(key)){
+                pcListMap.set(key, createPeerConnection(key));
+                sendOffer(pcListMap.get(key),key);
+            }
+   
+        });
+   
+    },1000);
+});
 
 const createPeerConnection = (otherKey) =>{
     const pc = new RTCPeerConnection();
@@ -222,6 +224,7 @@ let onTrack = (event, otherKey) => {
 };
 
 let sendOffer = (pc ,otherKey) => {
+    console.log("sendOffer");
     pc.createOffer().then(offer =>{
         setLocalAndSendMessage(pc, offer);
         stompClient.send(`/send/peer/offer/${otherKey}/${room.roomId}`, {}, JSON.stringify({
@@ -248,7 +251,7 @@ const setLocalAndSendMessage = (pc ,sessionDescription) =>{
 }
 
 window.onload = function (){
-    connect();
+    // connect();
 }
 
 

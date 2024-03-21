@@ -43,6 +43,9 @@
 						<!-- <audio id="remoteAudio">
 
 						</audio> -->
+						<button type="button" id="enterRoomBtn">enter Room</button>
+		<!-- enterRoomBtn 클릭시 나타남, Streams 정보를 담은 Peer 를 웹소켓 ( 시그널링 )   -->
+    					<button type="button" id="startSteamBtn" style="display: none;">start Streams</button>
 						<!-- <video id="localStream" autoplay controls src=""></video> -->
 						<video id="localStream" autoplay playsinline controls></video>
 		
@@ -116,7 +119,7 @@
 
 		</script>
 		<script th:src="@{/user/js/voiceChatroom.js}"></script>
-		<script th:src="@{/user/js/chat.js}"></script>
+		<!-- <script th:src="@{/user/js/chat.js}"></script> -->
 
 	</th:block>
 </body>
