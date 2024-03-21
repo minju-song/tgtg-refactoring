@@ -12,4 +12,12 @@ public class AnonymousDTO {
 	private String anonymousImage;
 	private String anonymousNickname;
 	private String anonymousImageName;
+	private int roomId;
+	
+	//역할
+	// answerA, answerB, judge 
+	private String role;
+	
+	
+
 }

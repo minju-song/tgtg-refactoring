@@ -88,5 +88,37 @@ public class MemberServiceImpl implements MemberService {
 	public int updateMemberStop(Timestamp memberStop, String memberId) {
 		return memberRepository.updateMemberStop(memberStop, memberId);
 	}
+
+	
+	// MBTI 검사 후 업데이트
+	@Override
+	public Map<String, Object> updateMemberMbti(String memberId, String memberRole, String memberMbti) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		boolean isSuccessed = false;		
+		int afterUpdate = 0;		
+		
+		if (memberRole.toUpperCase().equals("ROLE_GUEST")) {
+			// 회원가입 후 MBTI 검사
+			memberRole = "ROLE_USER";
+			afterUpdate = memberRepository.updateMemberMbti(memberId, memberRole, memberMbti);
+			result.put("checkFirst", "first");
+		} else {
+			// 마이페이지에서 MBTI 재검사 
+			afterUpdate = memberRepository.updateMemberMbti(memberId, memberRole, memberMbti);
+			result.put("checkFirst", "again");
+		}
+		
+		if (afterUpdate == 1) {
+			isSuccessed = true;
+		}
+		
+		result.put("result", isSuccessed);
+		System.out.println("MBTI 업데이트 디비 변경 후 === " + afterUpdate);
+		System.out.println("MBTI 업데이트 디비 변경 후 === " + result);
+		
+		return result;
+	}
 	
 }

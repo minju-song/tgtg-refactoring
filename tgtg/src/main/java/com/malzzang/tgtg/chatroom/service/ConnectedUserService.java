@@ -50,4 +50,24 @@ public class ConnectedUserService {
     public List<AnonymousDTO> getAllMembersInRoom(int roomId) {
         return chatRoomMemberList.getOrDefault(roomId, new ArrayList<>());
     }
+    
+    //회원 역할
+    public List<AnonymousDTO> setRole(int roomId) {
+    	System.out.println("멤버리스트>>>>>"+chatRoomMemberList.get(roomId));
+    	List<AnonymousDTO> list = chatRoomMemberList.get(roomId);
+    	for(int i = 0; i < list.size(); i++) {
+    		System.out.println(">>>>>>"+list.get(i).getAnonymousNickname()+"   "+list.get(i).getRole());
+    	}
+    	//3명일때
+    	if(list.size() == 3) {
+    		list.get(0).setRole(null);
+    		list.get(1).setRole("answerB");
+    		list.get(2).setRole("judge");
+    	}
+    	
+    	chatRoomMemberList.put(roomId, list);
+    	
+    	return chatRoomMemberList.get(roomId);
+    	
+    }
 }

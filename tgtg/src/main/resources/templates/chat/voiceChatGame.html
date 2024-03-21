@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>채팅 대기방</title>
+<title>음성싸움방</title>
 <link rel="stylesheet" href="/user/css/chat.css">
 <link rel="stylesheet" href="/user/css/waitChatroom.css">
 <link
@@ -27,9 +27,8 @@
 				<div id="chatBox" style="margin-top: 100px;">
 					<div style="display: flex;">
 						<h3 style="color: black; flex: 1;">
-							<span th:if="${room.type} == 'text'">| 텍스트 싸움 대기방
-								[[${room.roomId}]]</span> <span th:if="${room.type} == 'voice'">|
-								음성 싸움 대기방 [[${room.roomId}]]</span>
+							<span>주제 |
+								음성 싸움 대기방</span>
 						</h3>
 						<div id="btnDiv" style="flex: 1;">
 							<button id="readyBtn" class="unreadyStatus">READY</button>
@@ -40,7 +39,17 @@
 						</div>
 						<div style="flex: 1;"></div>
 					</div>
-					<div id="chatView"></div>
+					<div id="chatView">
+						<!-- <audio id="remoteAudio">
+
+						</audio> -->
+						<!-- <video id="localStream" autoplay controls src=""></video> -->
+						<video id="localStream" autoplay playsinline controls></video>
+		
+		<!-- WebRTC에 연결된 웹캠들이 추가되는 Div  -->
+						<div id="remoteStreamDiv">
+						</div>
+					</div>
 					<div id="emojiToast">
 						<strong>원하는 이모티콘 선택<span id="emojiClose"
 							style="padding: 5px; color: red;">X</span></strong>
@@ -95,14 +104,18 @@
 			// 채팅방
 			let room = /*[[${room}]]*/null;
 
+            let anonymousId = /*[[${anonymousId}]]*/null;
+
 			//익명처리
-			let anonymous = /*[[${anonymous}]]*/null;
+			let anonymous = JSON.parse(localStorage.getItem(anonymousId));
 
 			let chatView = document.getElementById('chatView');
 
-			console.log("익명처리" + anonymous);
+			console.log(anonymous);
+			console.log(room);
+
 		</script>
-		<script th:src="@{/user/js/waitChatroom.js}"></script>
+		<script th:src="@{/user/js/voiceChatroom.js}"></script>
 		<script th:src="@{/user/js/chat.js}"></script>
 
 	</th:block>
