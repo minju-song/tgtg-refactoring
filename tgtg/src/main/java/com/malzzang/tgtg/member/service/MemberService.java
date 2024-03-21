@@ -15,4 +15,7 @@ public interface MemberService {
 	public Page<MemberDTO> searchMemberEmailList(Pageable pageable, String memberId); // 검색리스트(회원이메일)
 	public Page<MemberDTO> searchMemberStopList(Pageable pageable, String memberStop); // 검색리스트(계정정지유무)
 	public int updateMemberStop(Timestamp memberStop, String memberId);
+	
+	// MBTI 검사 후 업데이트
+	public Map<String, Object> updateMemberMbti(String memberId, String memberRole, String memberMbti);
 }

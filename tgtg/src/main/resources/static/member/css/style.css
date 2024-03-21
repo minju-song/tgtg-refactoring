@@ -162,6 +162,9 @@ Author Name: PicmaticWeb
 	align-items: center;
 	margin: 0;
 }
+svg, path, span, i, img {
+	pointer-events: none;
+}
 
 @media only screen and (min-width: 1278px) and (max-width: 1600px) {
 	.formify-iframe {
@@ -4090,6 +4093,7 @@ visibility: visible;
 	font-size: 28px;
 	color: #101010;
 	font-weight: 600;
+	margin-bottom: 2rem !important;
 }
 .formify-forms__quiz--v3 .formify-forms__input--quiz-label {
 	border-radius: 20px;
