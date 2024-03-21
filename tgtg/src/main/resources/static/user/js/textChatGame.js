@@ -29,12 +29,7 @@ function connect() {
 function disconnect() {
 
     // 채팅방에 나갔음을 서버에 알림
-    stompClient.send("/send/"+room.roomId+"/leave", {}, 
-        JSON.stringify({
-            'anonymousNickname' : anonymous.anonymousNickname,
-            'anonymousImage' : anonymous.anonymousImage
-        })
-    );
+    stompClient.send("/send/"+room.roomId+"/leave", {},JSON.stringify(anonymous));
 }
 
 // 채팅 전송
@@ -54,10 +49,7 @@ function sendChat() {
 
 //현재 접속자 수
 function showConnectedCount(connect) {
-
-    let connectText = document.querySelectorAll('.countConnect');
-    connectText.forEach(ct => ct.innerText = connect.connectUser);
-
+console.log(connect);
     let div = document.createElement('div');
     if(connect.enter) {
         div.innerText = connect.anonymous.anonymousNickname+"님이 입장하였습니다.";
