@@ -60,9 +60,9 @@ public class ConnectedUserService {
     	}
     	//3명일때
     	if(list.size() == 3) {
-    		list.get(0).setrole("answerA");
-    		list.get(1).setrole("answerB");
-    		list.get(2).setrole("judge");
+    		list.get(0).setRole(null);
+    		list.get(1).setRole("answerB");
+    		list.get(2).setRole("judge");
     	}
     	
     	chatRoomMemberList.put(roomId, list);
