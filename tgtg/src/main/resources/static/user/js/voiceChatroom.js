@@ -167,7 +167,7 @@ function connect() {
             console.log('연결- ');
 
             stompClient.subscribe('/room/'+room.roomId+'/connect', function (connectedCount) {
-                drawMemberList(JSON.parse(connectedCount.body).memberList);
+                showConnectedCount(JSON.parse(connectedCount.body));
             });
 
             //해당 채팅방 구독
@@ -272,29 +272,52 @@ function connect() {
 
 //멤버목록
 function drawMemberList(list) {
-    list.forEach(member => {
-        console.log(member);
-    });
+
     const memberListDiv = document.getElementById('memberList');
+
+    let teamA = document.getElementById('answerA');
+    let teamB = document.getElementById('answerB');
 
     while (memberListDiv.firstChild) {
         memberListDiv.removeChild(memberListDiv.firstChild);
+    }
+
+
+    while (teamA.firstChild) {
+        teamA.removeChild(teamA.firstChild);
+
+    }
+
+    while (teamB.firstChild) {
+        teamB.removeChild(teamB.firstChild);
     }
 
     for (let i = 0; i < list.length; i++) {
 
         // 회원 감싸는 div
         let div = document.createElement('div');
-        div.classList.add("class", 'member', list[i].key);
+        div.classList.add("class", 'member');
 
         if(list[i].anonymousId == anonymous.anonymousId) {
-            div.classList.add('memberList-me', list[i].key);
+            div.classList.add('memberList-me');
         }
 
         // 프로필이미지
         let img = document.createElement('img');
         img.setAttribute('src', list[i].anonymousImage);
         img.classList.add('memberListImg', 'profileImg');
+
+        // 프로필이미지2
+        let img2 = document.createElement('img');
+        img2.setAttribute('src', list[i].anonymousImage);
+        img2.classList.add('memberListImg', 'profileImg', list[i].key);
+
+        if(list[i].role == 'answerA') {
+            teamA.appendChild(img2);
+        }
+        else if(list[i].role == 'answerB') {
+            teamB.appendChild(img2);
+        }
 
         // 닉네임
         let name = document.createElement('span');
@@ -327,6 +350,24 @@ function drawMemberList(list) {
 
     }
 
+}
+
+//현재 접속자 수
+function showConnectedCount(connect) {
+
+    let connectText = document.querySelectorAll('.countConnect');
+    connectText.forEach(ct => ct.innerText = connect.connectUser);
+
+    let div = document.createElement('div');
+    if(!connect.enter) {
+        // div.innerText = connect.anonymous.anonymousNickname+"님이 퇴장하였습니다.";
+    }
+
+    drawMemberList(connect.memberList);
+
+    div.setAttribute("class", "connectAlert");
+    chatView.appendChild(div);
+    chatView.scrollTop = chatView.scrollHeight;
 }
 
    
@@ -455,7 +496,7 @@ function disconnect() {
 
 
 //오디오 임계치 설정
-const volumeThreshold = 20;
+const volumeThreshold = 30;
 
 //볼륨 모니터링 함수
 function monitorVolume(stream, interval, otherKey) {
@@ -497,7 +538,9 @@ function monitorVolume(stream, interval, otherKey) {
             speakUser.classList.add('speaker');
         }
         else {
-            speakUser.classList.remove('speaker');
+            if (speakUser.classList.contains('speaker')) {
+                    speakUser.classList.remove('speaker');
+            }
         }
 
         setTimeout(measure, interval); // 설정된 간격으로 반복 측정
@@ -520,7 +563,15 @@ window.onload = async () =>{
     }
 }
 
+
+// 페이지를 벗어나면 연결끊음
 window.addEventListener('beforeunload', function (event) {
+    event.preventDefault();
+    event.returnValue = '';
+    disconnect();
+});
+
+window.addEventListener('pagehide', function (event) {
     disconnect();
 });
 

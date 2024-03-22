@@ -40,7 +40,7 @@ public class ChatroomController {
 		}
 
 		//principalDetails.getName()
-	    AnonymousDTO anonymous = anonymousService.createAnonymous(room.getRoomId(), principalDetails.getName());
+	    AnonymousDTO anonymous = anonymousService.createAnonymous(room.getRoomId(), "mm");
 	    
 	    //타입은 text/voice
 	    room.setType(type);

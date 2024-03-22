@@ -30,6 +30,8 @@
 						<h3 style="color: black; flex: 1;">
 							<span>주제 |
 								[[${room.title}]]</span>
+							<br>
+							<span id="myRole"></span>
 						</h3>
 						<div>
 							<button id="voiceMuteBtn">
@@ -37,6 +39,14 @@
 							</button>
 						</div>
 						<div style="flex: 1;"></div>
+					</div>
+					<div style="display: flex;">
+						<div id="answerA" style="flex: 1;">
+							<span>[[${room.answerA}]] -> </span>
+						</div>
+						<div id="answerB" style="flex: 1;">
+							<span>[[${room.answerB}]] -> </span>
+						</div>
 					</div>
 					<div id="chatView">
 					</div>
@@ -101,14 +111,16 @@
 			//익명처리
 			let anonymous = JSON.parse(localStorage.getItem(anonymousId));
 
+			document.getElementById('myRole').innerText = '나의 팀은 '+anonymous.role;
+
 			let chatView = document.getElementById('chatView');
 
 			console.log(anonymous);
 			console.log(room);
 
 		</script>
-		<script th:src="@{/user/js/chat.js}"></script>
 		<script th:src="@{/user/js/voiceChatroom.js}"></script>
+		<script th:src="@{/user/js/chat.js}"></script>
 
 	</th:block>
 </body>

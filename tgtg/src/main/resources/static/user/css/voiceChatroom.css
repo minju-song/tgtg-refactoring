@@ -3,3 +3,11 @@
 .speaker {
     border: 2px solid blue;
 }
+
+#answerA {
+    background-color: pink;
+}
+
+#answerB {
+    background-color: skyblue;;
+}
