@@ -3,6 +3,7 @@ document.querySelector('#sendBtn').addEventListener("click", sendChat);
 
 
 
+
 //이모지토스트 활성화 / 비활성화
 let emojiToast = document.getElementById('emojiToast');
 

@@ -18,6 +18,6 @@ public class AnonymousDTO {
 	// answerA, answerB, judge 
 	private String role;
 	
-	
+	private String key;
 
 }

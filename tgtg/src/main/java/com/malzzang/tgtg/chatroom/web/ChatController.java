@@ -179,18 +179,18 @@ public class ChatController {
     }
     
     //camKey 를 받기위해 신호를 보내는 webSocket
-    @MessageMapping("/call/key")
-    @SendTo("/room/call/key")
-    public String callKey(@Payload String message) {
+    @MessageMapping("/call/key/{roomId}")
+    @SendTo("/room/call/key/{roomId}")
+    public String callKey(@Payload String message, @DestinationVariable(value = "roomId") int roomId) {
         log.info("[Key] : {}", message);
         System.out.println(">>>"+message);
         return message;
     }
 		
 	//자신의 camKey 를 모든 연결된 세션에 보내는 webSocket
-    @MessageMapping("/send/key")
-    @SendTo("/room/send/key")
-    public String sendKey(@Payload String message) {
+    @MessageMapping("/send/key/{roomId}")
+    @SendTo("/room/send/key/{roomId}")
+    public String sendKey(@Payload String message,@DestinationVariable(value = "roomId") int roomId) {
         return message;
     }
 }

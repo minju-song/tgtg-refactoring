@@ -8,6 +8,7 @@
 <title>음성싸움방</title>
 <link rel="stylesheet" href="/user/css/chat.css">
 <link rel="stylesheet" href="/user/css/waitChatroom.css">
+<link rel="stylesheet" href="/user/css/voiceChatroom.css">
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
 	rel="stylesheet">
@@ -28,30 +29,16 @@
 					<div style="display: flex;">
 						<h3 style="color: black; flex: 1;">
 							<span>주제 |
-								음성 싸움 대기방</span>
+								[[${room.title}]]</span>
 						</h3>
-						<div id="btnDiv" style="flex: 1;">
-							<button id="readyBtn" class="unreadyStatus">READY</button>
-							<div id="countDiv">
-								<span class="countConnect">-</span>명 중 <span id="countReady">-</span>명이
-								준비했어요!
-							</div>
+						<div>
+							<button id="voiceMuteBtn">
+								음소거
+							</button>
 						</div>
 						<div style="flex: 1;"></div>
 					</div>
 					<div id="chatView">
-						<!-- <audio id="remoteAudio">
-
-						</audio> -->
-						<button type="button" id="enterRoomBtn">enter Room</button>
-		<!-- enterRoomBtn 클릭시 나타남, Streams 정보를 담은 Peer 를 웹소켓 ( 시그널링 )   -->
-    					<button type="button" id="startSteamBtn" style="display: none;">start Streams</button>
-						<!-- <video id="localStream" autoplay controls src=""></video> -->
-						<video id="localStream" autoplay playsinline controls></video>
-		
-		<!-- WebRTC에 연결된 웹캠들이 추가되는 Div  -->
-						<div id="remoteStreamDiv">
-						</div>
 					</div>
 					<div id="emojiToast">
 						<strong>원하는 이모티콘 선택<span id="emojiClose"
@@ -89,6 +76,8 @@
 					</div>
 					<div id="memberList"></div>
 				</div>
+				<div id="remoteStreamDiv" hidden>
+				</div>
 			</div>
 		</div>
 
@@ -118,8 +107,8 @@
 			console.log(room);
 
 		</script>
+		<script th:src="@{/user/js/chat.js}"></script>
 		<script th:src="@{/user/js/voiceChatroom.js}"></script>
-		<!-- <script th:src="@{/user/js/chat.js}"></script> -->
 
 	</th:block>
 </body>
