@@ -22208,7 +22208,7 @@ body .bi:before,
 .avatar img {
   width: 32px;
   height: 32px;
-  border-radius: 50%
+  /* border-radius: 50% */
 }
 
 .avatar .avatar-status {
@@ -23910,10 +23910,10 @@ body .bi:before,
 }
 
 .stats-icon {
-  width: 3rem;
-  height: 3rem;
-  border-radius: .5rem;
-  background-color: #000;
+  width: 3.5rem;
+  /* height: 3rem; */
+  /* border-radius: .5rem;
+  background-color: #000; */
   float: right;
   display: flex;
   align-items: center;

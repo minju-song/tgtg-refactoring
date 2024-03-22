@@ -2,7 +2,6 @@
 <html xmlns:th="https://www.thymeleaf.org/"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<!-- <title>Insert title here</title> -->
 </head>
 <body>
 	<th:block th:fragment="headerFragment">
@@ -13,30 +12,28 @@
 					티격태격
 				</h3>
 			</a>
-			<!-- <div class="header--nav-toggle"> -->
-			<!-- <a class="header--nav" href="/login">
-								<span></span>
-							</a> -->
-			<!-- </div> -->
 			
 			<!-- 로그인 X -->
 			<th:block sec:authorize="isAnonymous()">
 				<a class="header-user" href="/login"> 
 					<!-- <i class="fa-regular fa-user fa-2x" id="icon-user"></i> -->
-					<i class="fa-regular fa-circle-user" id="icon-user"></i>
+					<!-- <i class="fa-regular fa-circle-user" id="icon-user"></i> -->
+					<img src="/member/images/login.png">
 				</a>
 			</th:block>
 
 			<!-- 로그인 O -->
 			<th:block sec:authorize="isAuthenticated()">
-				<div style="height: 27px;">
+				<div>
 					<a class="header-user" href="/logout">
-						<i class="fa-solid fa-right-to-bracket" id="icon-logout"></i>					
+						<!-- <i class="fa-solid fa-right-to-bracket" id="icon-logout"></i>	 -->				
+						<img src="/member/images/logout.png">
 					</a>				
 
-					<a class="header-user" href="/mypage">
+					<a class="header-user" href="/mypage" style="margin-left: 2rem">
 						<!-- <i class="fa-regular fa-user fa-2x" id="icon-user"></i> -->
-						<i class="fa-regular fa-circle-user" id="icon-user"></i>
+						<!-- <i class="fa-regular fa-circle-user" id="icon-user"></i> -->
+						<img src="/member/images/mypage.png">
 					</a>					
 				</div>
 				

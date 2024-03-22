@@ -18,4 +18,10 @@ public interface MemberService {
 	
 	// MBTI 검사 후 업데이트
 	public Map<String, Object> updateMemberMbti(String memberId, String memberRole, String memberMbti);
+	
+	// mypage member READ
+	public MemberDTO selectMemberInfo(String memberId);
+	
+	// mypage membert Withdrawal
+	public boolean deleteMember(String memberId);
 }

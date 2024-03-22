@@ -3,6 +3,7 @@ package com.malzzang.tgtg.member.service;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -118,6 +119,32 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println("MBTI 업데이트 디비 변경 후 === " + afterUpdate);
 		System.out.println("MBTI 업데이트 디비 변경 후 === " + result);
 		
+		return result;
+	}
+	
+	// mypage member READ
+	@Override
+	public MemberDTO selectMemberInfo(String memberId) {
+		MemberDTO memberInfo = null;
+		
+		Member member = memberRepository.findByMemberId(memberId);
+		memberInfo = 
+				new MemberDTO(member.getMemberEmail(), member.getMemberMbti(), member.getMemberWin(), 
+							  member.getMemberDraw(), member.getMemberLose(), member.getMemberSocial());
+		return memberInfo;
+	}
+
+	// mypage member Withdrawal
+	@Override
+	public boolean deleteMember(String memberId) {
+		memberRepository.deleteById(memberId);
+		boolean result = false;
+		
+		Optional<Member> temp = memberRepository.findById(memberId);
+		if (temp.isEmpty()) {
+			result = true;
+		}
+		System.out.println("삭제 후"+result);
 		return result;
 	}
 	

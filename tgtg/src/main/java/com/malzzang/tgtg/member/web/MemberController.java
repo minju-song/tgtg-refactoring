@@ -24,6 +24,8 @@ import com.malzzang.tgtg.member.dto.MemberDTO;
 import com.malzzang.tgtg.member.oauth.PrincipalDetails;
 import com.malzzang.tgtg.member.service.MemberService;
 
+import groovyjarjarantlr4.v4.parse.ANTLRParser.v3tokenSpec_return;
+
 @Controller
 public class MemberController {
 
@@ -76,8 +78,21 @@ public class MemberController {
 	}
 	
 	@GetMapping("/mypage")
-	public String mypage() {
+	public String mypage(@AuthenticationPrincipal PrincipalDetails principalDetails, Model model) {
+		model.addAttribute("myInfo", memberService.selectMemberInfo(principalDetails.getMember().getMemberId()));
+				
 		return "member/mypage.html";
+	}
+	
+	@PostMapping("/withdrawal")
+	@ResponseBody
+	public String memberWithdrawal(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+		boolean result = memberService.deleteMember(principalDetails.getMember().getMemberId());
+		
+		if(result) {
+			return "success";
+		}
+		return "fail";
 	}
 	
 	  
