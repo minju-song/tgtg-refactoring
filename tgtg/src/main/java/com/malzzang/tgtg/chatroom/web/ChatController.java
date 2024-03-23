@@ -1,5 +1,6 @@
 package com.malzzang.tgtg.chatroom.web;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,18 +136,12 @@ public class ChatController {
     }
     
     //게임방 메시지 전송 메소드
-  	@MessageMapping("/{roomId}/game")
-	@SendTo("/room/{roomId}/game")
-	public ChatMessage gameChat(@DestinationVariable int roomId, ChatMessage message) {
-	    ChatMessage messages = ChatMessage.builder()
-	            .roomId(roomId)
-	            .sender(message.getSender())
-	            .senderEmail(message.getSenderEmail())
-	            .message(message.getMessage())
-	            .build();
-	    
-	    
-  		return messages;
+  	@MessageMapping("/{roomId}/startTime")
+	@SendTo("/room/{roomId}/timer")
+	public String gameChat(@DestinationVariable int roomId) {
+  		System.out.println("입장완");
+  		String word = "타이머 시작함";
+  		return word;
   	}
   	
   	@MessageMapping("/peer/offer/{camKey}/{roomId}")
