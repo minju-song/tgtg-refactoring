@@ -1,6 +1,5 @@
 package com.malzzang.tgtg.chatroom.web;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,19 +12,16 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
+import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
+import com.malzzang.tgtg.anonymous.service.AnonymousService;
+import com.malzzang.tgtg.chatroom.dto.ChatMessage;
 import com.malzzang.tgtg.chatroom.service.ChatroomService;
 import com.malzzang.tgtg.chatroom.service.ConnectedUserService;
 import com.malzzang.tgtg.chatroom.service.ReadyUserService;
 import com.malzzang.tgtg.common.GameRoleDTO;
-import com.malzzang.tgtg.report.dto.ReportDTO;
-import com.malzzang.tgtg.anonymous.Anonymous;
-import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
-import com.malzzang.tgtg.anonymous.service.AnonymousService;
-import com.malzzang.tgtg.chatroom.dto.Chat;
-import com.malzzang.tgtg.chatroom.dto.ChatMessage;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller

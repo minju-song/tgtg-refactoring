@@ -1,7 +1,20 @@
 /**
  * textChatGame.js
  */
-console.log(">>>" + anonymous.anonymousNickname)
+
+//역할 저장
+let role;
+
+if (anonymous.role == 'answerA') {
+    role = room.answerA;
+}
+else if (anonymous.role == 'answerB'){
+    role = room.answerB;
+}
+else {
+    role = '심판';
+}
+
 // 소켓 연결
 function connect() {
 
@@ -158,8 +171,17 @@ function showChat(chatMessage) {
     tempdiv.setAttribute("class", 'temp');
 
     if (chatMessage.senderEmail != anonymous.anonymousId) {
-
         messageBox.classList.add('box', 'other');
+
+        //채팅 글자색 변경>>sender.gameRole에 값 넣어줘야 함
+        /*if(sender.gameRole == 'answerA'){
+            messageBox.setAttribute("style", "background-color: red;");
+        }else if(sender.gameRole == 'answerB'){
+            messageBox.setAttribute("style", "background-color: blue;");
+        }else{
+            messageBox.setAttribute("style", "background-color: gray;");
+        }*/
+
         messageBox.addEventListener('click', function () {
             reportChat(chatMessage.senderEmail, chatMessage.sender, chatMessage.message);
         })
@@ -403,16 +425,55 @@ function gameTimer() {
             div.setAttribute("class", "connectAlert");
             chatView.appendChild(div);
             chatView.scrollTop = chatView.scrollHeight;
+            gameVote();
         }
     } else {
         // 타이머가 끝났을 때의 로직
         console.log("타이머 종료");
         clearInterval(timerInterval); // 타이머 중지
-        // 필요한 경우 여기에 타이머가 완료되었을 때의 추가적인 로직을 구현할 수 있습니다.
     }
 }
 
 let timerInterval = setInterval(gameTimer, 1000); // 1초마다 timer 함수를 호출
+
+//관전자 게임 투표
+function gameVote(){
+    console.log("투표 시작");
+    if(role == '심판'){
+        $("textarea").attr("disabled", true);
+        Swal.fire({
+            title : "투표를 진행해 주세요.",
+            timer : 10000,
+            timerProgressBar: true,
+            showCancelButton: true,
+            confirmButtonColor: "rgb(233 157 157)",
+            cancelButtonColor: "rgb(157 161 233)",
+            confirmButtonText: "A팀",
+            cancelButtonText: "B팀",
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+              swal.fire({   //A팀 선택 시
+                title: "A팀 선택 완료!",
+                text: "선택하신 팀은 변경하실 수 없습니다.",
+                icon: "success"
+              });
+              //팀 선택 count 저장 필요
+
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swal.fire({   //B팀 선택 시
+                title: "B팀 선택 완료!",
+                text: "선택하신 팀은 변경하실 수 없습니다.",
+                icon: "success"
+              });
+              //팀 선택 count 저장 필요
+            }
+        });
+    }
+}
 
 //새로고침 방지
 /*function NotReload(){
