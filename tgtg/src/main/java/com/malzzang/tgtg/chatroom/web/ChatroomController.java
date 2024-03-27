@@ -52,10 +52,8 @@ public class ChatroomController {
 	}
 	
 	@GetMapping("/user/textGame")
-	   public String textGame(int roomId,int anonymousId,Model model) {
+	   public String textGame(int roomId, int anonymousId, Model model) {
 
-
-	       //Chatroom room = chatroomService.findTextRoom();
 	       Chatroom room = chatroomService.getRoomById(roomId);
 	       
 	     model.addAttribute("room", room);

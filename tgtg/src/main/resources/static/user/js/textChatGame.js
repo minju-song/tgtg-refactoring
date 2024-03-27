@@ -2,6 +2,19 @@
  * textChatGame.js
  */
 
+//역할 저장
+let role;
+
+if (anonymous.role == 'answerA') {
+    role = room.answerA;
+}
+else if (anonymous.role == 'answerB'){
+    role = room.answerB;
+}
+else {
+    role = '심판';
+}
+
 // 소켓 연결
 function connect() {
 
@@ -9,44 +22,48 @@ function connect() {
     let socket = new SockJS('/ws-stomp');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function () {
-        console.log('Connected: ' );
+        console.log('Connected: ');
 
         //해당 채팅방 구독
-        stompClient.subscribe('/room/'+room.roomId, function (chatMessage) {
-            
+        stompClient.subscribe('/room/' + room.roomId, function (chatMessage) {
+
             // 채팅 수신되면 화면에 그려줌
             showChat(JSON.parse(chatMessage.body));
         });
 
         //연결된 사용자의 수
-        stompClient.subscribe('/room/'+room.roomId+'/connect', function (connectedCount) {
+        stompClient.subscribe('/room/' + room.roomId + '/connect', function (connectedCount) {
             showConnectedCount(JSON.parse(connectedCount.body));
         });
-    });  
+
+        stompClient.subscribe('/room/' + room.roomId + '/timer', function (startTime) {
+            gameTimer(startTime);
+        });
+
+        // 채팅방에 접속했음을 서버에 알림
+        stompClient.send("/send/" + room.roomId + "/enter", {}, JSON.stringify(anonymous));
+
+        stompClient.send("/send/" + room.roomId + "/startTime", {});
+    });
 };
 
 // 연결끊음
 function disconnect() {
 
     // 채팅방에 나갔음을 서버에 알림
-    stompClient.send("/send/"+room.roomId+"/leave", {}, 
-        JSON.stringify({
-            'anonymousNickname' : anonymous.anonymousNickname,
-            'anonymousImage' : anonymous.anonymousImage
-        })
-    );
+    stompClient.send("/send/" + room.roomId + "/leave", {}, JSON.stringify(anonymous));
 }
 
 // 채팅 전송
 function sendChat() {
     if ($("#message").val() != "") {
         // JSON형태로 바꾸어서 보냄
-        stompClient.send("/send/"+room.roomId, {},
+        stompClient.send("/send/" + room.roomId, {},
             JSON.stringify({
                 'sender': anonymous.anonymousNickname,
                 'senderEmail': anonymous.anonymousId,
                 'senderImage': anonymous.anonymousImage,
-                'message' : $("#message").val()
+                'message': $("#message").val()
             }));
         $("#message").val('');
     }
@@ -54,16 +71,12 @@ function sendChat() {
 
 //현재 접속자 수
 function showConnectedCount(connect) {
-
     let connectText = document.querySelectorAll('.countConnect');
     connectText.forEach(ct => ct.innerText = connect.connectUser);
 
     let div = document.createElement('div');
-    if(connect.enter) {
-        div.innerText = connect.anonymous.anonymousNickname+"님이 입장하였습니다.";
-    }
-    else {
-        div.innerText = connect.anonymous.anonymousNickname+"님이 퇴장하였습니다.";
+    if (!connect.enter) {
+        div.innerText = connect.anonymous.anonymousNickname + "님이 퇴장하였습니다.";
     }
 
     drawMemberList(connect.memberList);
@@ -87,7 +100,7 @@ function drawMemberList(list) {
         let div = document.createElement('div');
         div.setAttribute("class", 'member');
 
-        if(list[i].anonymousId == anonymous.anonymousId) {
+        if (list[i].anonymousId == anonymous.anonymousId) {
             div.classList.add('memberList-me');
         }
 
@@ -105,15 +118,15 @@ function drawMemberList(list) {
         let reportDiv = document.createElement('div');
         reportDiv.classList.add('reportDiv');
 
-        if(list[i].anonymousId != anonymous.anonymousId) {
+        if (list[i].anonymousId != anonymous.anonymousId) {
             let reportBtn = document.createElement('button');
             reportBtn.classList.add('reportBtn');
             let btnImg = document.createElement('img');
             btnImg.setAttribute('src', '/user/img/chat/siren.png');
             reportBtn.appendChild(btnImg);
             reportDiv.appendChild(reportBtn);
-    
-            reportBtn.addEventListener('click', function() {
+
+            reportBtn.addEventListener('click', function () {
                 reportMember(list[i].anonymousId, list[i].anonymousNickname);
             });
         }
@@ -133,17 +146,17 @@ function drawMemberList(list) {
 function showChat(chatMessage) {
     let div = document.createElement('div');
     let div2 = document.createElement('div');
-    div2.setAttribute("class","divBox");
+    div2.setAttribute("class", "divBox");
     div2.style.flex = 1;
 
 
     //프로필이미지
     let img = document.createElement('img');
-    img.setAttribute("class","profileImg");
+    img.setAttribute("class", "profileImg");
 
     //프로필닉네임
     let name = document.createElement('span');
-    name.setAttribute("class","bold-font");
+    name.setAttribute("class", "bold-font");
 
     //채팅내용
     let messageBox = document.createElement('div');
@@ -155,12 +168,25 @@ function showChat(chatMessage) {
 
     let tempdiv = document.createElement('div');
     tempdiv.style.flex = 1;
-    tempdiv.setAttribute("class",'temp');
+    tempdiv.setAttribute("class", 'temp');
 
-    if(chatMessage.senderEmail != anonymous.anonymousId) {
-
+    if (chatMessage.senderEmail != anonymous.anonymousId) {
         messageBox.classList.add('box', 'other');
-        div.setAttribute('class','other_div');
+
+        //채팅 글자색 변경>>sender.gameRole에 값 넣어줘야 함
+        /*if(sender.gameRole == 'answerA'){
+            messageBox.setAttribute("style", "background-color: red;");
+        }else if(sender.gameRole == 'answerB'){
+            messageBox.setAttribute("style", "background-color: blue;");
+        }else{
+            messageBox.setAttribute("style", "background-color: gray;");
+        }*/
+
+        messageBox.addEventListener('click', function () {
+            reportChat(chatMessage.senderEmail, chatMessage.sender, chatMessage.message);
+        })
+
+        div.setAttribute('class', 'other_div');
 
         name.innerHTML = chatMessage.sender;
         img.setAttribute("src", chatMessage.senderImage);
@@ -177,11 +203,11 @@ function showChat(chatMessage) {
     }
 
     else {
-        
-        messageBox.classList.add('box', 'me');
-        div.setAttribute('class','me_div');
 
-        
+        messageBox.classList.add('box', 'me');
+        div.setAttribute('class', 'me_div');
+
+
         div2.appendChild(messageBox);
 
         div.appendChild(tempdiv);
@@ -195,7 +221,7 @@ function showChat(chatMessage) {
 
 function reportMember(anonymousId, nickname) {
     Swal.fire({
-        title: nickname+"님 신고",
+        title: nickname + "님 신고",
         input: "select",
         inputOptions: {
             욕설: "욕설",
@@ -213,7 +239,7 @@ function reportMember(anonymousId, nickname) {
         if (result.isConfirmed && result.value) {
             // 사용자가 카테고리를 선택하고 'OK'를 누른 경우
             Swal.fire({
-                title: nickname+"님을 신고하는 사유",
+                title: nickname + "님을 신고하는 사유",
                 input: "textarea",
                 inputLabel: "상세 이유",
                 inputPlaceholder: "신고 상세 사유를 입력해주세요.",
@@ -227,33 +253,33 @@ function reportMember(anonymousId, nickname) {
                     fetch("/insertReport", {
                         method: "POST",
                         body: JSON.stringify({
-                            reportCategory : result.value,
-                            reportReason : textResult.value,
-                            reportStatus : '접수',
-                            reporterId : anonymous.anonymousId,
-                            reportedId : anonymousId 
+                            reportCategory: result.value,
+                            reportReason: textResult.value,
+                            reportStatus: '접수',
+                            reporterId: anonymous.anonymousId,
+                            reportedId: anonymousId
                         }),
                         headers: {
                             "Content-Type": "application/json"
                         }
                     })
-                    .then(resolve => resolve.text())
-                    .then(result => {
-                        if (result) {
-                            Swal.fire({
-                                icon: "success",
-                                title: "신고 완료",
-                                text: nickname+"님을 신고하였습니다."
-                              });
-                        }
-                        else {
-                            Swal.fire({
-                                icon: "error",
-                                title: "신고 실패",
-                                text: "오류가 발생하였습니다."
-                              });
-                        }
-                    })
+                        .then(resolve => resolve.text())
+                        .then(result => {
+                            if (result) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "신고 완료",
+                                    text: nickname + "님을 신고하였습니다."
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "신고 실패",
+                                    text: "오류가 발생하였습니다."
+                                });
+                            }
+                        })
                 }
             });
         }
@@ -263,9 +289,9 @@ function reportMember(anonymousId, nickname) {
 //채팅 신고
 function reportChat(anonymousId, nickname, message) {
     Swal.fire({
-        title: nickname+"님의 채팅 신고",
+        title: nickname + "님의 채팅 신고",
         input: "select",
-        text:"\""+message+"\"",
+        text: "\"" + message + "\"",
         inputOptions: {
             욕설: "욕설",
             성희롱: "성희롱",
@@ -282,7 +308,7 @@ function reportChat(anonymousId, nickname, message) {
         if (result.isConfirmed && result.value) {
             // 사용자가 카테고리를 선택하고 'OK'를 누른 경우
             Swal.fire({
-                title: nickname+"님을 신고하는 사유",
+                title: nickname + "님을 신고하는 사유",
                 input: "textarea",
                 inputLabel: "상세 이유",
                 inputPlaceholder: "신고 상세 사유를 입력해주세요.",
@@ -296,34 +322,34 @@ function reportChat(anonymousId, nickname, message) {
                     fetch("/insertReport", {
                         method: "POST",
                         body: JSON.stringify({
-                            reportCategory : result.value,
-                            reportReason : textResult.value,
-                            reportStatus : '접수',
-                            reporterId : anonymous.anonymousId,
-                            reportedId : anonymousId, 
-                            reportChat : message
+                            reportCategory: result.value,
+                            reportReason: textResult.value,
+                            reportStatus: '접수',
+                            reporterId: anonymous.anonymousId,
+                            reportedId: anonymousId,
+                            reportChat: message
                         }),
                         headers: {
                             "Content-Type": "application/json"
                         }
                     })
-                    .then(resolve => resolve.text())
-                    .then(result => {
-                        if (result) {
-                            Swal.fire({
-                                icon: "success",
-                                title: "신고 완료",
-                                text: nickname+"님을 신고하였습니다."
-                              });
-                        }
-                        else {
-                            Swal.fire({
-                                icon: "error",
-                                title: "신고 실패",
-                                text: "오류가 발생하였습니다."
-                              });
-                        }
-                    })
+                        .then(resolve => resolve.text())
+                        .then(result => {
+                            if (result) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "신고 완료",
+                                    text: nickname + "님을 신고하였습니다."
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "신고 실패",
+                                    text: "오류가 발생하였습니다."
+                                });
+                            }
+                        })
                 }
             });
         }
@@ -332,43 +358,122 @@ function reportChat(anonymousId, nickname, message) {
 }
 
 //창 키면 바로 연결
-window.onload = function (){
+window.onload = function () {
     connect();
 }
 
 // 페이지를 벗어나면 연결끊음
 window.addEventListener('beforeunload', function (event) {
     disconnect();
-}); 
- 
+});
+
 //5분 게임 타이머
-const remainingMin = document.getElementById("remaining__min");
+/*const remainingMin = document.getElementById("remaining__min");
 const remainingSec = document.getElementById("remaining__sec");
 
 let time = 300;
 setInterval(function () {
-	if (time > 0) { // >= 0 으로하면 -1까지 출력된다.
-		time = time - 1;
-		let min = "0" + Math.floor(time / 60);
-		let sec = String(time % 60).padStart(2, "0");
-		remainingMin.innerText = min;
-		remainingSec.innerText = sec;
-		
-		if(time == 60){
-			let div = document.createElement('div');
-			div.innerText = "채팅 시간이 1분 남았습니다.";
-			div.setAttribute("class", "connectAlert");
-		    chatView.appendChild(div);
-		    chatView.scrollTop = chatView.scrollHeight;
-		} else if(time == 10){
-			let div = document.createElement('div');
-			div.innerText = "채팅 시간이 10초 남았습니다. 관전자들은 투표를 시작해 주십시오.";
-			div.setAttribute("class", "connectAlert");
-		    chatView.appendChild(div);
-		    chatView.scrollTop = chatView.scrollHeight;
-		}
-	}
-}, 1000);
+    if (time > 0) { // >= 0 으로하면 -1까지 출력된다.
+        time = time - 1;
+        let min = "0" + Math.floor(time / 60);
+        let sec = String(time % 60).padStart(2, "0");
+        remainingMin.innerText = min;
+        remainingSec.innerText = sec;
+    	
+        if(time == 60){
+            let div = document.createElement('div');
+            div.innerText = "채팅 시간이 1분 남았습니다.";
+            div.setAttribute("class", "connectAlert");
+            chatView.appendChild(div);
+            chatView.scrollTop = chatView.scrollHeight;
+        } else if(time == 10){
+            let div = document.createElement('div');
+            div.innerText = "채팅 시간이 10초 남았습니다. 관전자들은 투표를 시작해 주십시오.";
+            div.setAttribute("class", "connectAlert");
+            chatView.appendChild(div);
+            chatView.scrollTop = chatView.scrollHeight;
+        }
+    }
+}, 1000);*/
+
+let startTime = Date.now(); // 타이머 시작 시간
+const totalSeconds = 5 * 60; // 총 시간을 초로 계산 (5분)
+
+const remainingMin = document.getElementById("remaining__min"); // 분을 표시할 요소
+const remainingSec = document.getElementById("remaining__sec"); // 초를 표시할 요소
+
+function gameTimer() {
+    let elapsedTime = Math.trunc((Date.now() - startTime) / 1000); // 경과 시간을 초 단위로 계산
+    let remainingTime = totalSeconds - elapsedTime; // 남은 시간을 초 단위로 계산
+
+    if (remainingTime >= 0) {
+        let minutes = Math.floor(remainingTime / 60); // 남은 분
+        let seconds = remainingTime % 60; // 남은 초
+
+        // 남은 시간을 화면에 표시
+        remainingMin.textContent = minutes.toString().padStart(2, '0');
+        remainingSec.textContent = seconds.toString().padStart(2, '0');
+        if(remainingTime == 60){
+            let div = document.createElement('div');
+            div.innerText = "채팅 시간이 1분 남았습니다.";
+            div.setAttribute("class", "connectAlert");
+            chatView.appendChild(div);
+            chatView.scrollTop = chatView.scrollHeight;
+        } else if(remainingTime == 10){
+            let div = document.createElement('div');
+            div.innerText = "채팅 시간이 10초 남았습니다. 관전자들은 투표를 시작해 주십시오.";
+            div.setAttribute("class", "connectAlert");
+            chatView.appendChild(div);
+            chatView.scrollTop = chatView.scrollHeight;
+            gameVote();
+        }
+    } else {
+        // 타이머가 끝났을 때의 로직
+        console.log("타이머 종료");
+        clearInterval(timerInterval); // 타이머 중지
+    }
+}
+
+let timerInterval = setInterval(gameTimer, 1000); // 1초마다 timer 함수를 호출
+
+//관전자 게임 투표
+function gameVote(){
+    console.log("투표 시작");
+    if(role == '심판'){
+        $("textarea").attr("disabled", true);
+        Swal.fire({
+            title : "투표를 진행해 주세요.",
+            timer : 10000,
+            timerProgressBar: true,
+            showCancelButton: true,
+            confirmButtonColor: "rgb(233 157 157)",
+            cancelButtonColor: "rgb(157 161 233)",
+            confirmButtonText: "A팀",
+            cancelButtonText: "B팀",
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+              swal.fire({   //A팀 선택 시
+                title: "A팀 선택 완료!",
+                text: "선택하신 팀은 변경하실 수 없습니다.",
+                icon: "success"
+              });
+              //팀 선택 count 저장 필요
+
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swal.fire({   //B팀 선택 시
+                title: "B팀 선택 완료!",
+                text: "선택하신 팀은 변경하실 수 없습니다.",
+                icon: "success"
+              });
+              //팀 선택 count 저장 필요
+            }
+        });
+    }
+}
 
 //새로고침 방지
 /*function NotReload(){

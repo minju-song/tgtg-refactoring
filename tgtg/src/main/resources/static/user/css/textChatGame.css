@@ -36,6 +36,11 @@ span {
 	font-weight: bolder;
 }
 
+.swal2-confirm, .swal2-cancel{
+	width: 150px;
+    height: 100px;
+}
+
 @media only screen and (max-width: 768px) {
 	
 }

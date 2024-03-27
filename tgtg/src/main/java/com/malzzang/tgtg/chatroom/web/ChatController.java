@@ -12,19 +12,16 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
+import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
+import com.malzzang.tgtg.anonymous.service.AnonymousService;
+import com.malzzang.tgtg.chatroom.dto.ChatMessage;
 import com.malzzang.tgtg.chatroom.service.ChatroomService;
 import com.malzzang.tgtg.chatroom.service.ConnectedUserService;
 import com.malzzang.tgtg.chatroom.service.ReadyUserService;
 import com.malzzang.tgtg.common.GameRoleDTO;
-import com.malzzang.tgtg.report.dto.ReportDTO;
-import com.malzzang.tgtg.anonymous.Anonymous;
-import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
-import com.malzzang.tgtg.anonymous.service.AnonymousService;
-import com.malzzang.tgtg.chatroom.dto.Chat;
-import com.malzzang.tgtg.chatroom.dto.ChatMessage;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
@@ -135,18 +132,12 @@ public class ChatController {
     }
     
     //게임방 메시지 전송 메소드
-  	@MessageMapping("/{roomId}/game")
-	@SendTo("/room/{roomId}/game")
-	public ChatMessage gameChat(@DestinationVariable int roomId, ChatMessage message) {
-	    ChatMessage messages = ChatMessage.builder()
-	            .roomId(roomId)
-	            .sender(message.getSender())
-	            .senderEmail(message.getSenderEmail())
-	            .message(message.getMessage())
-	            .build();
-	    
-	    
-  		return messages;
+  	@MessageMapping("/{roomId}/startTime")
+	@SendTo("/room/{roomId}/timer")
+	public String gameChat(@DestinationVariable int roomId) {
+  		System.out.println("입장완");
+  		String word = "타이머 시작함";
+  		return word;
   	}
   	
   	@MessageMapping("/peer/offer/{camKey}/{roomId}")
