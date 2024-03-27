@@ -23,7 +23,7 @@
 
     /* 말풍선 글자색 */
     span {
-        color: black;
+        color: white;
     }
 
    
@@ -97,7 +97,7 @@
       }
 
       #countDiv {
-        color: black;
+        color: white;
         text-align: center;
         margin-top: 10px;
       }

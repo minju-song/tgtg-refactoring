@@ -463,3 +463,8 @@ window.onload = function (){
 window.addEventListener('beforeunload', function (event) {
     disconnect();
 });
+
+window.addEventListener('pagehide', function (event) {
+    disconnect();
+});
+

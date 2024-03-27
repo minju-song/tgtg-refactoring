@@ -8,6 +8,7 @@
 <title>음성싸움방</title>
 <link rel="stylesheet" href="/user/css/chat.css">
 <link rel="stylesheet" href="/user/css/waitChatroom.css">
+<link rel="stylesheet" href="/user/css/voiceChatroom.css">
 <link
 	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
 	rel="stylesheet">
@@ -25,30 +26,12 @@
 				style="display: none; position: fixed; top: 0; left: 0; font-weight: bold; width: 100%; height: 100%; background: rgba(0, 0, 0, 0); color: black; font-size: 50px; justify-content: center; align-items: center; z-index: 9999;"></div>
 			<div class="content" id="content">
 				<div id="chatBox" style="margin-top: 100px;">
-					<div style="display: flex;">
-						<h3 style="color: black; flex: 1;">
-							<span>주제 |
-								음성 싸움 대기방</span>
-						</h3>
-						<div id="btnDiv" style="flex: 1;">
-							<button id="readyBtn" class="unreadyStatus">READY</button>
-							<div id="countDiv">
-								<span class="countConnect">-</span>명 중 <span id="countReady">-</span>명이
-								준비했어요!
-							</div>
-						</div>
-						<div style="flex: 1;"></div>
+					<div>
+							<h2 style="text-align: center;">주제 |
+								[[${room.title}]]</h2>
+							<span id="myRole"></span>
 					</div>
 					<div id="chatView">
-						<!-- <audio id="remoteAudio">
-
-						</audio> -->
-						<!-- <video id="localStream" autoplay controls src=""></video> -->
-						<video id="localStream" autoplay playsinline controls></video>
-		
-		<!-- WebRTC에 연결된 웹캠들이 추가되는 Div  -->
-						<div id="remoteStreamDiv">
-						</div>
 					</div>
 					<div id="emojiToast">
 						<strong>원하는 이모티콘 선택<span id="emojiClose"
@@ -84,7 +67,16 @@
 					<div class="bold-font sideMenuTitle">
 						참여 목록 (<span class="countConnect"></span>)
 					</div>
-					<div id="memberList"></div>
+					<div id="memberList">
+						<h3> 심판 </h3>
+						<div id="judgeList"></div>
+						<h3> [[${room.answerA}]] </h3>
+						<div id="answerAList"></div>
+						<h3> [[${room.answerB}]] </h3>
+						<div id="answerBList"></div>
+					</div>
+				</div>
+				<div id="remoteStreamDiv" hidden>
 				</div>
 			</div>
 		</div>
@@ -108,6 +100,17 @@
 
 			//익명처리
 			let anonymous = JSON.parse(localStorage.getItem(anonymousId));
+
+			let myRole;
+			if(anonymous.role == 'answerA') {
+				myRole = room.answerA;
+			}
+			else if (anonymous.role == 'answerB') {
+				myRole = room.answerB;
+			}
+			else myRole = '심판';
+
+			document.getElementById('myRole').innerText = '나의 팀은 '+ myRole;
 
 			let chatView = document.getElementById('chatView');
 

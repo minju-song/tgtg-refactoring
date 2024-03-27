@@ -26,11 +26,11 @@
 			<div class="content" id="content">
 				<div id="chatBox" style="margin-top: 100px;">
 					<div style="display: flex;">
-						<h3 style="color: black; flex: 1;">
-							<span th:if="${room.type} == 'text'">| 텍스트 싸움 대기방
-								[[${room.roomId}]]</span> <span th:if="${room.type} == 'voice'">|
-								음성 싸움 대기방 [[${room.roomId}]]</span>
-						</h3>
+						<div style="flex: 1;">
+							<h3 style="color: white;" th:if="${room.type} == 'text'">| 텍스트 싸움 대기방
+								[[${room.roomId}]]</h3> <h3 style="color: white;" th:if="${room.type} == 'voice'">|
+								음성 싸움 대기방 [[${room.roomId}]]</h3>
+						</div>
 						<div id="btnDiv" style="flex: 1;">
 							<button id="readyBtn" class="unreadyStatus">READY</button>
 							<div id="countDiv">

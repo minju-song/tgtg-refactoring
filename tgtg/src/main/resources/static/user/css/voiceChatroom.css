@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.speaker {
+    border: 3px solid orange;
+}
+
+#answerA {
+    background-color: pink;
+}
+
+#answerB {
+    background-color: skyblue;;
+}
+
+/* .answerA {
+    background-color: pink;
+}
+
+.answerB {
+    background-color: skyblue;
+}
+
+.judge {
+    background-color: yellow;
+} */
