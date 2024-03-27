@@ -7,6 +7,10 @@
 		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 	<link rel="stylesheet" href="member/css/loginStyle.css">
 	<link rel="stylesheet" href="member/mypage/css/app.css">
+	<!-- sweetalert2 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<style type="text/css">
 		.card-body h5, .card-body h6{
 			display: inline-block;
@@ -17,6 +21,24 @@
 		.btn {
 			border-radius: 30px;
 			font-weight: 700;
+		}
+		.medal img {
+		    width: 100%;
+		}
+		
+		/* sweetAlert2 */
+		#swal2-title {
+			margin: 0;
+			font-weight: 700;
+		}
+		.swal2-cancel {
+			color: #3c3c3c !important;
+		}
+		.no-border {
+		  	border: 0;
+		}
+		.swal2-checkbox {
+			background-color: #f4f4f4;
 		}
 	</style>
 </head>
@@ -36,11 +58,10 @@
 		                        <div class="d-flex justify-content-center align-items-center flex-column"
 		                        	style="margin-bottom: 1.5rem;">
 		                            <div class="avatar avatar-2xl">
-		                                <img src="member/mypage/images/2.jpg" alt="Avatar">
+		                                <img th:src="@{/member/mypage/images/mbti/} + ${myInfo.memberMbti} + .png" alt="Avatar">
 		                            </div>
-		
-		                            <h3 class="mt-3" style="color: #e3e2e6">여기는 회원 이메일</h3>
-		                            <p class="text-small">카카오 로그인</p>
+		                            <h3 class="mt-3" style="color: #e3e2e6">[[ ${myInfo.memberEmail} ]]</h3>
+		                            <p class="text-small" id="socialLogin"></p>
 		                        </div>
 		                        
 		                        <div class="d-flex align-items-center flex-column"
@@ -56,10 +77,10 @@
 						                        </div>
 						                        <div class="text" style="color: #e3e2e6;">
 							                            <h5 class="font-bold mb-0" 
-							                            	style="font-size: x-large;">ISTP</h5>
+							                            	style="font-size: x-large;">[[ ${myInfo.memberMbti} ]]</h5>
 						                        </div>
 						                        <div style="margin-left: auto;">
-						                        	<a href="#" class="btn btn-light"
+						                        	<a href="/checkMbti" class="btn btn-light"
 						                        		style="border-radius: 30px; font-weight: 700; color: #e3e2e6; padding: .6em 1.5em .6em 1.5em">검사하기</a>
 						                        </div>
 						                    </div>
@@ -70,16 +91,16 @@
 						    	<div class="row" style="justify-content: center;">
 					                <div class="col-6 col-lg-2 col-md-6">
 					                    <div class="card" style="background-color: #1c1d22;">
-					                        <div class="card-body px-4 py-4">
+					                        <div class="card-body px-3 py-3">
 					                            <div class="row">
 					                                <div class="col-md-4 col-lg-12 d-flex" style="justify-content: center;">
-					                                    <div class="stats-icon mb-3" style="background-color: #f5c85e">
-					                                     
+					                                    <div class="stats-icon mb-3 medal">
+					                                     	<img src="member/mypage/images/medal/Gold.png" alt="Gold">
 					                                    </div>
 					                                </div>
 					                                <div class="col-md-4 col-lg-12" style="text-align: center;">
 					                                    <h6 class="font-extrabold mb-0">WIN</h6>
-					                                    <h6 class="text-muted font-semibold mb-0">50</h6>
+					                                    <h6 class="text-muted font-semibold mb-0">[[ ${myInfo.memberWin} ]]</h6>
 					                                </div>
 					                            </div> 
 					                        </div>
@@ -87,16 +108,16 @@
 					                </div>
 					                <div class="col-6 col-lg-2 col-md-6">
 					                    <div class="card" style="background-color: #1c1d22;"> 
-					                        <div class="card-body px-4 py-4">
+					                        <div class="card-body px-3 py-3">
 					                            <div class="row">
 					                                <div class="col-md-4 col-lg-12 d-flex" style="justify-content: center;">
-					                                    <div class="stats-icon mb-3" style="background-color: #9da6bb;">
-					                                        <i class="iconly-boldProfile"></i>
+					                                    <div class="stats-icon mb-3 medal">
+					                                        <img src="member/mypage/images/medal/Silver.png" alt="Silver">
 					                                    </div>
 					                                </div>
 					                                <div class="col-md-4 col-lg-12" style="text-align: center;">
 					                                    <h6 class="font-extrabold mb-0">DRAW</h6>
-					                                    <h6 class="text-muted font-semibold mb-0">20</h6>
+					                                    <h6 class="text-muted font-semibold mb-0">[[ ${myInfo.memberDraw} ]]</h6>
 					                                </div>
 					                            </div>
 					                        </div>
@@ -104,16 +125,16 @@
 					                </div>
 					                <div class="col-6 col-lg-2 col-md-6">
 					                    <div class="card" style="background-color: #1c1d22;">
-					                        <div class="card-body px-4 py-4">
+					                        <div class="card-body px-3 py-3">
 					                            <div class="row">
 					                                <div class="col-md-4 col-lg-12 d-flex" style="justify-content: center;">
-					                                    <div class="stats-icon mb-3" style="background-color: #bda695;">
-					                                        <i class="iconly-boldAdd-User"></i>
+					                                    <div class="stats-icon mb-3 medal">
+					                                        <img src="member/mypage/images/medal/Bronze.png" alt="Bronze">
 					                                    </div>
 					                                </div>
 					                                <div class="col-md-4 col-lg-12" style="text-align: center;">
-					                                    <h6 class="font-extrabold mb-0">LOSS</h6>
-					                                    <h6 class="text-muted font-semibold mb-0">15</h6>
+					                                    <h6 class="font-extrabold mb-0">LOSE</h6>
+					                                    <h6 class="text-muted font-semibold mb-0">[[ ${myInfo.memberLose} ]]</h6>
 					                                </div>
 					                            </div>
 					                        </div>
@@ -122,9 +143,9 @@
 					            </div>
 					            
 					            <div class="d-flex align-items-center flex-column">	
-					            	<div class="col-lg-7 py-2">					            	
-										<button class="btn btn-dark px-6 py-3"> 탈퇴하기 </button>
-										<button class="btn btn-primary px-6 py-3" style="float: right;"> 로그아웃 </button>
+					            	<div class="col-lg-7 py-2" style="display: flex; justify-content: space-between;">					            	
+										<button class="btn btn-dark px-6 py-3" onclick="withdrawal()"> 탈퇴하기 </button>
+										<button class="btn btn-primary px-6 py-3" onclick="location.href='/logout'"> 로그아웃 </button>
 					            	</div>			            	
 								</div>
 		                    </div>
@@ -134,6 +155,103 @@
 
 			</div>
 		</div>
+		
+		<script th:inline=javascript>
+			//console.log([[ ${myInfo} ]]);
+			
+			// 소셜 로그인 표시
+			const social = [[ ${myInfo.memberSocial} ]];
+			let socialPrint;
+			
+			if (social.toLowerCase() == 'google') {
+				socialPrint = '구글 로그인';	
+			} else if (social.toLowerCase() == 'kakao') {
+				socialPrint = '카카오 로그인';	
+			} else if (social.toLowerCase() == 'naver') {
+				socialPrint = '네이버 로그인';	
+			}
+			
+			document.querySelector('#socialLogin').innerText = socialPrint;
+			
+			// 회원 탈퇴 이벤트 
+			function withdrawal() {
+				Swal.fire({
+					title: "정말 탈퇴하시겠어요?ㅠㅠ",
+					html: "<h6>탈퇴 버튼 선택 시, 계정은 삭제되며 복구되지 않습니다.</h6>",
+					input: "checkbox",
+				    inputPlaceholder: `
+				      해당 내용을 모두 확인했으며, 회원탈퇴에 동의합니다.
+				    `,
+					icon: "warning",
+					background: "#f4f4f4",
+					showCancelButton: true,
+					confirmButtonColor: "#eb5758",
+					cancelButtonColor: "#fbfbfb",
+					confirmButtonText: "탈퇴하기",
+					cancelButtonText: "돌아가기",
+					inputValidator: (result) => {
+					    return !result && "동의하시면 체크해주세요";
+					},
+					iconHtml: '<img src="member/mypage/images/tong.png" style="width: 100%; height: 100%;">',
+				    customClass: {
+				    	icon: 'no-border'
+				    }
+				}).then((result) => {
+					console.log(result);
+					if(result.isConfirmed) {						
+						// 회원 삭제 ajax
+						$.ajax({
+							url: '/withdrawal',
+							type: 'POST',
+						})
+						.done(function(result) {
+							console.log(result);
+							if (result == 'fail') {
+								console.log("fail");
+								Swal.fire({
+									title: "회원탈퇴 오류",
+									text: "회원탈퇴 중 오류 발생, 새로고침 진행합니다.",
+									icon: "error",
+									confirmButtonColor: "#1c1d22",
+									confirmButtonText: "확인",
+								}).then(function(){
+									location.reload();
+								});
+							} else {
+								console.log("회원탈퇴");
+								Swal.fire({
+									title: "회원탈퇴 완료",
+									text: "티격태격을 이용해 주셔서 감사합니다.",
+									icon: "success",
+									confirmButtonColor: "#1c1d22",
+									confirmButtonText: "확인",
+									iconHtml: '<img src="member/mypage/images/bye.png" style="width: 100%; height: 100%;">',
+								    customClass: {
+								    	icon: 'no-border'
+								    }
+								}).then(function(){
+									location.href = "/logout";
+								});
+							}
+						})
+						.fail(function(err) {
+							console.log(err);
+							Swal.fire({
+								title: "회원탈퇴 오류",
+								text: "회원탈퇴 중 오류 발생, 새로고침 진행합니다.",
+								icon: "error",
+								confirmButtonColor: "#1c1d22",
+								confirmButtonText: "확인",
+							}).then(function(){
+								location.reload();
+							})
+						});
+					}
+					/* end of if */
+				});
+				/* end of then */
+			}
+		</script>
 	</th:block>
 
 </body>

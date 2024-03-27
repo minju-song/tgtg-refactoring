@@ -12,6 +12,9 @@ public class MemberDTO {
 	private String memberEmail;
 	private Date memberJoin;
 	private String memberMbti;
+	private Integer memberWin;
+	private Integer memberDraw;
+	private Integer memberLose;
 	private String memberRole;
 	private String memberSocial;
 	private Date memberStop;
@@ -27,6 +30,16 @@ public class MemberDTO {
 		this.memberSocial = memberSocial;
 		this.memberStop = memberStop;
 	}
-	
+
+	public MemberDTO(String memberEmail, String memberMbti, Integer memberWin,
+						Integer memberDraw, Integer memberLose, String memberSocial) {
+		super();
+		this.memberEmail = memberEmail;
+		this.memberMbti = memberMbti;
+		this.memberWin = memberWin;
+		this.memberDraw = memberDraw;
+		this.memberLose = memberLose;
+		this.memberSocial = memberSocial;
+	}
 	
 }

@@ -25,11 +25,11 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 	// SELECT * FROM member WHERE member_id = ?
 	Member findByMemberId(String memberId);
 	
-	//Optional<Member> findByMemberId(String memberId);
-	
 	// MBTI 업데이트 
 	@Transactional
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE Member m SET m.memberMbti = :memberMbti, m.memberRole = :memberRole WHERE m.memberId = :memberId")
 	int updateMemberMbti(String memberId, String memberRole, String memberMbti);
+	
+	// DELETE member WHERE member_id = ?
 }

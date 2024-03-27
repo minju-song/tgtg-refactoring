@@ -2,7 +2,13 @@
 <html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/layout}">
 
-<head></head>
+<head>
+	<style type="text/css">
+		body {
+			font-family: "Pretendard" !important;
+		}
+	</style>
+</head>
 
 <body>
   <th:block layout:fragment="mainContent">
@@ -78,17 +84,19 @@
                   </div>
                 </div>
               </li>
+              
+              <!-- 02. About -->
               <li class="l-section section">
                 <div class="work">
-                  <h2>Selected work</h2>
+                  <h2>재미있는 이야기로 티격태격해요</h2>
                   <div class="work--lockup">
                     <ul class="slider">
                       <li class="slider--item slider--item-left">
                         <a href="#0">
                           <div class="slider--item-image">
-                            <img src="/img/work-victory.jpg" alt="Victory">
+                            <img src="/home/images/chat.jpeg" alt="chat">
                           </div>
-                          <p class="slider--item-title">Victory</p>
+                          <p class="slider--item-title">채팅 티격태격</p>
                           <p class="slider--item-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit
                             sed do.</p>
                         </a>
@@ -96,9 +104,9 @@
                       <li class="slider--item slider--item-center">
                         <a href="#0">
                           <div class="slider--item-image">
-                            <img src="/img/work-metiew-smith.jpg" alt="Metiew and Smith">
+                            <img src="/home/images/fight.jpeg" alt="fight">
                           </div>
-                          <p class="slider--item-title">Metiew &amp; Smith</p>
+                          <p class="slider--item-title">티격태격이 뭔가요?</p>
                           <p class="slider--item-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit
                             sed do.</p>
                         </a>
@@ -106,9 +114,9 @@
                       <li class="slider--item slider--item-right">
                         <a href="#0">
                           <div class="slider--item-image">
-                            <img src="/img/work-alex-nowak.jpg" alt="Alex Nowak">
+                            <img src="/home/images/voice.jpeg" alt="voice">
                           </div>
-                          <p class="slider--item-title">Alex Nowak</p>
+                          <p class="slider--item-title">음성 티격태격</p>
                           <p class="slider--item-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit
                             sed do.</p>
                         </a>
@@ -138,6 +146,7 @@
                   </div>
                 </div>
               </li>
+              
               <li class="l-section section">
                 <div class="about">
                   <div class="about--banner">
