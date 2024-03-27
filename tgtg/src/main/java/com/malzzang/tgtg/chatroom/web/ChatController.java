@@ -52,6 +52,23 @@ public class ChatController {
                 .build();
 	} 
 	
+	//메시지 전송 메소드
+	@MessageMapping("/{roomId}/game") //여기로 전송되면 메서드 호출 -> WebSocketConfig prefixes 에서 적용한건 앞에 생략
+    @SendTo("/room/{roomId}/game")   //구독하고 있는 장소로 메시지 전송 (목적지)  -> WebSocketConfig Broker 에서 적용한건 앞에 붙어줘야됨
+    public ChatMessage gameChat(@DestinationVariable int roomId, ChatMessage message) {
+		
+		ChatMessage msg = ChatMessage.builder()
+                .roomId(roomId)
+                .sender(message.getSender())
+                .senderEmail(message.getSenderEmail())
+                .senderImage(message.getSenderImage())
+                .message(message.getMessage())
+                .build();
+		
+		msg.setGameRole(message.getGameRole());
+        return msg;
+	} 
+	
 	//게임 준비 메소드
 	@MessageMapping("/{roomId}/ready")
     @SendTo("/room/{roomId}/getReady")
