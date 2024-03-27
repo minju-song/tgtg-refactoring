@@ -25,7 +25,7 @@ function connect() {
         console.log('Connected: ');
 
         //해당 채팅방 구독
-        stompClient.subscribe('/room/' + room.roomId, function (chatMessage) {
+        stompClient.subscribe('/room/' + room.roomId + '/game', function (chatMessage) {
 
             // 채팅 수신되면 화면에 그려줌
             showChat(JSON.parse(chatMessage.body));
@@ -45,6 +45,30 @@ function connect() {
 
         stompClient.send("/send/" + room.roomId + "/startTime", {});
     });
+    
+    Swal.fire({
+            title: "주제 : "+room.answerA+" VS "+room.answerB,
+            html: "회원님의 역할은 <b>"+role+"</b> 입니다",
+            timer: 5000,
+            timerProgressBar: true,
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+                // const timer = Swal.getPopup().querySelector("b");
+                let timeLeft = 4; // 남은 시간 설정 (10초)
+                timerInterval = setInterval(() => {
+                    timer.textContent = `${timeLeft}`;
+                    timeLeft--; // 시간 감소
+                }, 1000); // 1초마다 실행
+            },
+            willClose: () => {
+                clearInterval(timerInterval);
+            }
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log('닫힘');
+                }
+            });
 };
 
 // 연결끊음
@@ -58,12 +82,13 @@ function disconnect() {
 function sendChat() {
     if ($("#message").val() != "") {
         // JSON형태로 바꾸어서 보냄
-        stompClient.send("/send/" + room.roomId, {},
+        stompClient.send("/send/" + room.roomId + '/game', {},
             JSON.stringify({
                 'sender': anonymous.anonymousNickname,
                 'senderEmail': anonymous.anonymousId,
                 'senderImage': anonymous.anonymousImage,
-                'message': $("#message").val()
+                'message': $("#message").val(),
+                'gameRole' : anonymous.role
             }));
         $("#message").val('');
     }
@@ -158,6 +183,10 @@ function showChat(chatMessage) {
     let name = document.createElement('span');
     name.setAttribute("class", "bold-font");
 
+    //팀 구분
+    let team = document.createElement('img');
+    team.setAttribute("src", "/user/img/chat/answerA.png");
+
     //채팅내용
     let messageBox = document.createElement('div');
     messageBox.innerHTML = chatMessage.message.replace(/\n/g, "<br>");
@@ -172,14 +201,14 @@ function showChat(chatMessage) {
 
     if (chatMessage.senderEmail != anonymous.anonymousId) {
         messageBox.classList.add('box', 'other');
-
+        console.log(chatMessage.gameRole)
         //채팅 글자색 변경>>sender.gameRole에 값 넣어줘야 함
-        /*if(sender.gameRole == 'answerA'){
-            messageBox.setAttribute("style", "background-color: red;");
-        }else if(sender.gameRole == 'answerB'){
-            messageBox.setAttribute("style", "background-color: blue;");
+        /*if(chatMessage.gameRole == 'answerA'){
+            messageBox.setAttribute("style", "background-color: #F66868;");
+        }else if(chatMessage.gameRole == 'answerB'){
+            messageBox.setAttribute("style", "background-color: #687FF6;");
         }else{
-            messageBox.setAttribute("style", "background-color: gray;");
+            messageBox.setAttribute("style", "background-color: #F7F9FF;");
         }*/
 
         messageBox.addEventListener('click', function () {
@@ -196,6 +225,7 @@ function showChat(chatMessage) {
 
         div2.appendChild(name);
         div2.appendChild(imgMsg);
+        div2.appendChild(team);
 
         div.appendChild(div2);
         div.appendChild(tempdiv);

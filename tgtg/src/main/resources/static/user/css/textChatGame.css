@@ -20,7 +20,7 @@
 
 /* 말풍선 글자색 */
 span {
-	color: black;
+	color: white;
 }
 
 /* 타이머 */
@@ -39,6 +39,12 @@ span {
 .swal2-confirm, .swal2-cancel{
 	width: 150px;
     height: 100px;
+}
+
+.countConnect {
+    font-weight: bolder;
+    font-size: larger;
+    color: rgb(18, 99, 248);
 }
 
 @media only screen and (max-width: 768px) {
