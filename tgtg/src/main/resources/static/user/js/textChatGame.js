@@ -113,10 +113,20 @@ function showConnectedCount(connect) {
 
 //멤버목록
 function drawMemberList(list) {
-    const memberListDiv = document.getElementById('memberList');
+    const judgeListDiv = document.getElementById('judgeList');
+    const answerAListDiv = document.getElementById('answerAList');
+    const answerBListDiv = document.getElementById('answerBList');
+    
+    while (judgeListDiv.firstChild) {
+        judgeListDiv.removeChild(judgeListDiv.firstChild);
+    }
 
-    while (memberListDiv.firstChild) {
-        memberListDiv.removeChild(memberListDiv.firstChild);
+    while (answerAListDiv.firstChild) {
+        answerAListDiv.removeChild(answerAListDiv.firstChild);
+    }
+
+    while (answerBListDiv.firstChild) {
+        answerBListDiv.removeChild(answerBListDiv.firstChild);
     }
 
     for (let i = 0; i < list.length; i++) {
@@ -141,9 +151,9 @@ function drawMemberList(list) {
 
         // 신고영역
         let reportDiv = document.createElement('div');
-        reportDiv.classList.add('reportDiv');
-
+        
         if (list[i].anonymousId != anonymous.anonymousId) {
+            reportDiv.classList.add('reportDiv');
             let reportBtn = document.createElement('button');
             reportBtn.classList.add('reportBtn');
             let btnImg = document.createElement('img');
@@ -161,7 +171,19 @@ function drawMemberList(list) {
         div.appendChild(name);
         div.appendChild(reportDiv);
 
-        memberListDiv.appendChild(div);
+        if(list[i].role == 'answerA') {
+            div.classList.add('answerA');
+            answerAListDiv.appendChild(div);
+
+        }
+        else if(list[i].role == 'answerB') {
+            div.classList.add('answerB');
+            answerBListDiv.appendChild(div);
+        }
+        else if(list[i].role == 'judge'){
+            div.classList.add('judge');
+            judgeListDiv.appendChild(div);
+        }
 
     }
 
@@ -178,6 +200,7 @@ function showChat(chatMessage) {
     //프로필이미지
     let img = document.createElement('img');
     img.setAttribute("class", "profileImg");
+    img.classList.add('profileImg',chatMessage.gameRole);
 
     //프로필닉네임
     let name = document.createElement('span');
