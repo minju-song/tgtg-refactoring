@@ -199,16 +199,11 @@ function showChat(chatMessage) {
 
     //프로필이미지
     let img = document.createElement('img');
-    img.setAttribute("class", "profileImg");
-    img.classList.add('profileImg',chatMessage.gameRole);
+    img.classList.add('profileImg','chat_'+chatMessage.gameRole);
 
     //프로필닉네임
     let name = document.createElement('span');
     name.setAttribute("class", "bold-font");
-
-    //팀 구분
-    let team = document.createElement('img');
-    team.setAttribute("src", "/user/img/chat/answerA.png");
 
     //채팅내용
     let messageBox = document.createElement('div');
@@ -248,7 +243,6 @@ function showChat(chatMessage) {
 
         div2.appendChild(name);
         div2.appendChild(imgMsg);
-        div2.appendChild(team);
 
         div.appendChild(div2);
         div.appendChild(tempdiv);
