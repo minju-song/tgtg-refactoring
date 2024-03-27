@@ -27,7 +27,7 @@ else {
     role = '심판';
 }
 
-document.getElementById('voiceMuteBtn').addEventListener('click', voiceMute);
+// document.getElementById('voiceMuteBtn').addEventListener('click', voiceMute);
 
 function voiceMute() {
     updateVoiceMuteButton();
@@ -273,24 +273,34 @@ function connect() {
 //멤버목록
 function drawMemberList(list) {
 
-    const memberListDiv = document.getElementById('memberList');
+    const judgeListDiv = document.getElementById('judgeList');
+    const answerAListDiv = document.getElementById('answerAList');
+    const answerBListDiv = document.getElementById('answerBList');
 
-    let teamA = document.getElementById('answerA');
-    let teamB = document.getElementById('answerB');
+    // let teamA = document.getElementById('answerA');
+    // let teamB = document.getElementById('answerB');
 
-    while (memberListDiv.firstChild) {
-        memberListDiv.removeChild(memberListDiv.firstChild);
+    while (judgeListDiv.firstChild) {
+        judgeListDiv.removeChild(judgeListDiv.firstChild);
+    }
+
+    while (answerAListDiv.firstChild) {
+        answerAListDiv.removeChild(answerAListDiv.firstChild);
+    }
+
+    while (answerBListDiv.firstChild) {
+        answerBListDiv.removeChild(answerBListDiv.firstChild);
     }
 
 
-    while (teamA.firstChild) {
-        teamA.removeChild(teamA.firstChild);
+    // while (teamA.firstChild) {
+    //     teamA.removeChild(teamA.firstChild);
 
-    }
+    // }
 
-    while (teamB.firstChild) {
-        teamB.removeChild(teamB.firstChild);
-    }
+    // while (teamB.firstChild) {
+    //     teamB.removeChild(teamB.firstChild);
+    // }
 
     for (let i = 0; i < list.length; i++) {
 
@@ -305,19 +315,12 @@ function drawMemberList(list) {
         // 프로필이미지
         let img = document.createElement('img');
         img.setAttribute('src', list[i].anonymousImage);
-        img.classList.add('memberListImg', 'profileImg');
+        img.classList.add('memberListImg', 'profileImg', list[i].key);
 
-        // 프로필이미지2
-        let img2 = document.createElement('img');
-        img2.setAttribute('src', list[i].anonymousImage);
-        img2.classList.add('memberListImg', 'profileImg', list[i].key);
-
-        if(list[i].role == 'answerA') {
-            teamA.appendChild(img2);
-        }
-        else if(list[i].role == 'answerB') {
-            teamB.appendChild(img2);
-        }
+        // // 프로필이미지2
+        // let img2 = document.createElement('img');
+        // img2.setAttribute('src', list[i].anonymousImage);
+        // img2.classList.add('memberListImg', 'profileImg', list[i].key);
 
         // 닉네임
         let name = document.createElement('span');
@@ -326,9 +329,11 @@ function drawMemberList(list) {
 
         // 신고영역
         let reportDiv = document.createElement('div');
-        reportDiv.classList.add('reportDiv');
-
+        
+        // let MuteDiv = document.createElement('div');
+        
         if(list[i].anonymousId != anonymous.anonymousId) {
+            reportDiv.classList.add('reportDiv');
             let reportBtn = document.createElement('button');
             reportBtn.classList.add('reportBtn');
             let btnImg = document.createElement('img');
@@ -340,13 +345,38 @@ function drawMemberList(list) {
                 reportMember(list[i].anonymousId, list[i].anonymousNickname);
             });
         }
+        else {
+            let muteBtn = document.createElement('button');
+            muteBtn.setAttribute('id','voiceMuteBtn');
+            muteBtn.innerText = '음소거';
+            reportDiv.appendChild(muteBtn);
+
+            muteBtn.addEventListener('click', function(){
+                voiceMute();
+            })
+
+        }
 
 
         div.appendChild(img);
         div.appendChild(name);
         div.appendChild(reportDiv);
 
-        memberListDiv.appendChild(div);
+        if(list[i].role == 'answerA') {
+            div.classList.add('answerA');
+            answerAListDiv.appendChild(div);
+
+        }
+        else if(list[i].role == 'answerB') {
+            div.classList.add('answerB');
+            answerBListDiv.appendChild(div);
+        }
+        else if(list[i].role == 'judge'){
+            div.classList.add('judge');
+            judgeListDiv.appendChild(div);
+        }
+
+        // memberListDiv.appendChild(div);
 
     }
 

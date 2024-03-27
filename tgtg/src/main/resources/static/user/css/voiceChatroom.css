@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .speaker {
-    border: 2px solid blue;
+    border: 3px solid orange;
 }
 
 #answerA {
@@ -11,3 +11,15 @@
 #answerB {
     background-color: skyblue;;
 }
+
+/* .answerA {
+    background-color: pink;
+}
+
+.answerB {
+    background-color: skyblue;
+}
+
+.judge {
+    background-color: yellow;
+} */

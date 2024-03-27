@@ -244,7 +244,8 @@
     }
 
     .memberList-me {
-      background-color: rgb(169, 216, 235);
+      /* background-color: rgb(169, 216, 235); */
+      border: 1px solid orange;
     }
 
     .reportDiv {

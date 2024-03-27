@@ -64,6 +64,13 @@ public class ConnectedUserService {
     		list.get(1).setRole("answerB");
     		list.get(2).setRole("judge");
     	}
+    	else if(list.size() == 4) {
+    		list.get(0).setRole("answerA");
+    		list.get(1).setRole("answerB");
+    		list.get(2).setRole("judge");
+    		list.get(3).setRole("judge");
+    	}
+    	
     	
     	chatRoomMemberList.put(roomId, list);
     	
