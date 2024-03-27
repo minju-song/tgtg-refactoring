@@ -244,7 +244,7 @@ function connect() {
         });
 
         Swal.fire({
-            title: "주제 : "+room.title,
+            title: "주제 : "+room.answerA+" VS "+room.answerB,
             html: "회원님의 역할은 <b>"+role+"</b> 입니다",
             timer: 5000,
             timerProgressBar: true,
