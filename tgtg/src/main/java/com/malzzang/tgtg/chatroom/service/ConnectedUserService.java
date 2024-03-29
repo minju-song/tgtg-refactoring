@@ -1,6 +1,7 @@
 package com.malzzang.tgtg.chatroom.service;
 
 import java.util.ArrayList;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +16,10 @@ public class ConnectedUserService {
 
 	private final Map<Integer, List<AnonymousDTO>> chatRoomMemberList = new HashMap<>();
 	
+	private final Map<Integer, Integer> gameStartTime = new HashMap<>();
+	
+	private final Map<Integer, LocalTime> roomEndTime = new HashMap<>();
+	
 	//회원이 접속했을 때
 	public void userEntered(int roomId, AnonymousDTO anonymous) {
 		
@@ -22,6 +27,20 @@ public class ConnectedUserService {
 	    memberList.add(anonymous);
 	    chatRoomMemberList.put(roomId, memberList);
     }
+	
+	//현재 시간 보냄
+	public LocalTime gameStartUser(int roomId) {
+		int count = gameStartTime.getOrDefault(roomId, 0) + 1;
+		gameStartTime.put(roomId, count);
+		if (count >= chatRoomMemberList.get(roomId).size()) {
+			LocalTime now = LocalTime.now();
+			LocalTime end = roomEndTime.getOrDefault(roomId, now.plusMinutes(1));
+			roomEndTime.put(roomId, end);
+			return end;
+		}
+		
+		return null;
+	}
 
 	//회원이 퇴장했을 때
     public void userLeft(int roomId, AnonymousDTO anonymous) {

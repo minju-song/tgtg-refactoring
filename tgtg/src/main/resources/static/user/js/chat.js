@@ -103,3 +103,4 @@ msgInput.onkeyup = function(e) {
         return;
     }
 }
+

@@ -3,6 +3,7 @@ package com.malzzang.tgtg.chatroom.web;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.time.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -156,12 +157,14 @@ public class ChatController {
     }
     
     //게임방 메시지 전송 메소드
-  	@MessageMapping("/{roomId}/startTime")
-	@SendTo("/room/{roomId}/timer")
-	public String gameChat(@DestinationVariable int roomId) {
+  	@MessageMapping("/{roomId}/sendTime")
+	public void gameChat(@DestinationVariable int roomId) {
   		System.out.println("입장완");
-  		String word = "타이머 시작함";
-  		return word;
+  		LocalTime endTime = connectedUserService.gameStartUser(roomId);
+  		if(endTime != null) {
+  			simpMessagingTemplate.convertAndSend("/room/" + roomId + "/sendTime", endTime);
+  			System.out.println("다 들어옴" + endTime);
+  		}
   	}
   	
   	@MessageMapping("/peer/offer/{camKey}/{roomId}")
