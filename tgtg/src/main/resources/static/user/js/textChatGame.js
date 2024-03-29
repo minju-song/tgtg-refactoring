@@ -401,7 +401,7 @@ window.addEventListener('beforeunload', function (event) {
 
 //5분 게임 타이머
 let startTime = Date.now(); // 타이머 시작 시간
-let totalSeconds = 20; // 총 시간을 초로 계산 (5분)
+let totalSeconds = 305; // 총 시간을 초로 계산 (5분)
 
 let remainingMin = document.getElementById("remaining__min"); // 분을 표시할 요소
 let remainingSec = document.getElementById("remaining__sec"); // 초를 표시할 요소
