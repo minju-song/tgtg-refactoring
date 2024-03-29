@@ -235,7 +235,11 @@ function connect() {
             anonymous.key = myKey;
             // 채팅방에 접속했음을 서버에 알림
             stompClient.send("/send/"+room.roomId+"/enter", {}, JSON.stringify(anonymous));
-    
+            
+            //타이머 현재시간
+            stompClient.subscribe('/room/' + room.roomId + '/sendTime', function (endTime) {
+                gameTimer(JSON.parse(endTime.body));
+            });
     
             resolve(); // stompClient.connect 성공 시 resolve 호출
         }, function(error) {
@@ -264,6 +268,7 @@ function connect() {
             }).then((result) => {
                 if (result.dismiss === Swal.DismissReason.timer) {
                     console.log('닫힘');
+                    stompClient.send("/send/" + room.roomId + "/sendTime", {});
                 }
             });
     });

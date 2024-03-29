@@ -35,6 +35,11 @@ function connect() {
         stompClient.subscribe('/room/' + room.roomId + '/connect', function (connectedCount) {
             showConnectedCount(JSON.parse(connectedCount.body));
         });
+        
+        //타이머 현재시간
+        stompClient.subscribe('/room/' + room.roomId + '/sendTime', function (endTime) {
+            gameTimer(JSON.parse(endTime.body));
+        });
 
         // 채팅방에 접속했음을 서버에 알림
         stompClient.send("/send/" + room.roomId + "/enter", {}, JSON.stringify(anonymous));
@@ -61,6 +66,8 @@ function connect() {
             }).then((result) => {
                 if (result.dismiss === Swal.DismissReason.timer) {
                     console.log('닫힘');
+                    //타이머 시작 시간 등록
+                    stompClient.send("/send/" + room.roomId + "/sendTime", {});
                 }
             });
 };
@@ -400,7 +407,7 @@ window.addEventListener('beforeunload', function (event) {
 });
 
 //5분 게임 타이머
-let startTime = Date.now(); // 타이머 시작 시간
+/*let startTime = Date.now(); // 타이머 시작 시간
 let totalSeconds = 305; // 총 시간을 초로 계산 (5분)
 
 let remainingMin = document.getElementById("remaining__min"); // 분을 표시할 요소
@@ -442,7 +449,7 @@ function gameTimer() {
     }
 }
 
-let timerInterval = setInterval(gameTimer, 1000); // 1초마다 timer 함수를 호출
+let timerInterval = setInterval(gameTimer, 1000); // 1초마다 timer 함수를 호출*/
 
 //관전자 게임 투표
 function gameVote(){
