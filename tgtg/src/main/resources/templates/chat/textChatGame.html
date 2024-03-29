@@ -20,16 +20,12 @@
 			<div class="content" id="content">
 				<div id="chatBox" style="margin-top: 100px;">
 					<div>
-						<h2 style="text-align: center; margin-bottom: 0;">
+						<h2 id="subject">
 							<span style="color: #F66868; font-size: larger;">[[${room.answerA}]]</span>
-							<img src="/user/img/chat/boxing.png"> <span
-								style="font-size: larger; color: #687FF6;">[[${room.answerB}]]</span>
+							<img src="/user/img/chat/boxing.png"> 
+							<span style="font-size: larger; color: #687FF6;">[[${room.answerB}]]</span>
 						</h2>
-						<div class="timerSircle" style="flex: 1;">
-							<span id="remaining__min">05</span>
-							<span> : </span>
-							<span id="remaining__sec">00</span>
-						</div>
+						<div id="timer">04:10</div>
 					</div>
 					<div id="chatView" style="position: relative;"></div>
 					<div id="emojiToast">
