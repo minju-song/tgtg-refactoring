@@ -4,13 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.time.*;
-
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
@@ -27,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@EnableAsync
 public class ChatController {
 	
 	private final ReadyUserService readyUserService;
@@ -94,10 +99,21 @@ public class ChatController {
         	else {
         		role.setUrl("/user/voiceGame?roomId=");        		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "/user/voiceGame?roomId=");
         	}
-        	simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", role);
+        	
+        	startGame(roomId, role);
+        	//simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", role);
         }
         return readyUserService.getReady(roomId);
     }
+	
+	@Async
+	public void startGame(int roomId, GameRoleDTO role) {
+		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+	    scheduler.schedule(() -> {
+	        simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", role);
+	    }, 3, TimeUnit.SECONDS);
+	    scheduler.shutdown();
+	}
 	
 	//게임 준비취소 메소드
 	@MessageMapping("/{roomId}/unready")
