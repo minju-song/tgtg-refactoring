@@ -1,6 +1,7 @@
 package com.malzzang.tgtg.member.service;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -24,4 +25,7 @@ public interface MemberService {
 	
 	// mypage membert Withdrawal
 	public boolean deleteMember(String memberId);
+	
+	// main page RANK
+	public Page<MemberDTO> selectMemberWin();
 }

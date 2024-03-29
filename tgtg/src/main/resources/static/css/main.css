@@ -1150,7 +1150,7 @@ body {
     height: 475px
 }
 
-.about--banner::before {
+/* .about--banner::before {
     content: "";
     position: absolute;
     top: 20px;
@@ -1283,7 +1283,7 @@ body {
     text-transform: uppercase;
     -webkit-transition: bottom .2s ease-in-out, left .2s ease-in-out;
     transition: bottom .2s ease-in-out, left .2s ease-in-out
-}
+} */
 
 @media (max-width: 767px) {
     .about--banner {
@@ -1615,7 +1615,7 @@ body {
     -webkit-justify-content: space-between;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    margin-bottom: 60px
+    margin-bottom: 40px
 }
 
 .work-request--information .information-name,
@@ -1629,6 +1629,8 @@ body {
 
 .work-request--information input[type="text"],
 .work-request--information input[type="email"] {
+    font-size: large;
+    font-weight: 500;
     width: 100%;
     padding: 0 0 5px 0;
     background-color: transparent;

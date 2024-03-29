@@ -2,6 +2,7 @@ package com.malzzang.tgtg.member.service;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -146,6 +147,18 @@ public class MemberServiceImpl implements MemberService {
 		}
 		System.out.println("삭제 후"+result);
 		return result;
+	}
+	
+	// main page RNAK
+	@Override
+	public Page<MemberDTO> selectMemberWin() {
+		
+		Page<Member> memberList = 
+				memberRepository.findAll(PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "memberWin")));
+		Page<MemberDTO> memberDtoList = 
+				memberList.map(m -> new MemberDTO(m.getMemberEmail(), m.getMemberWin()));
+		
+		return memberDtoList;
 	}
 	
 }
