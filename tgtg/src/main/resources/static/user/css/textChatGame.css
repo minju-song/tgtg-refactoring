@@ -47,17 +47,7 @@ span {
     color: rgb(18, 99, 248);
 }
 
-.chat_answerA {
-	background-color: #F66868;
-}
 
-.chat_answerB {
-	background-color: #687FF6;;
-}
-
-.chat_judge {
-	background-color: #F7F9FF;
-}
 
 @media only screen and (max-width: 768px) {
 	

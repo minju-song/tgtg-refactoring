@@ -4,10 +4,30 @@
         font-family: 'Pretendard' !important
       }
 
-      #content {
-        flex-direction: row;
-        justify-content: space-around;
-      }
+    @font-face {
+      font-family: 'LABDigital';
+      font-weight: normal;
+      font-style: normal;
+      src: url('https://cdn.jsdelivr.net/gh/webfontworld/fontlab/LABDigital.eot');
+      src: url('https://cdn.jsdelivr.net/gh/webfontworld/fontlab/LABDigital.eot?#iefix') format('embedded-opentype'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/fontlab/LABDigital.woff2') format('woff2'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/fontlab/LABDigital.woff') format('woff'),
+            url('https://cdn.jsdelivr.net/gh/webfontworld/fontlab/LABDigital.ttf') format("truetype");
+      font-display: swap;
+    }
+
+    #subject {
+      text-align: center; 
+      margin-bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #content {
+      flex-direction: row;
+      justify-content: space-around;
+    }
 
     /* 채팅 영역 전체 */
     #chatBox {
@@ -265,4 +285,28 @@
 
     .reportBtn img {
       width: 50%;
+    }
+
+
+    .chat_answerA {
+      background-color: #F66868;
+    }
+    
+    .chat_answerB {
+      background-color: #687FF6;;
+    }
+    
+    .chat_judge {
+      background-color: #F7F9FF;
+    }
+
+    #timer {
+      font-family: 'LABDigital' !important; 
+      position: absolute; 
+      top: 15%; 
+      font-size: 40px; 
+      position: sticky;
+      text-align: center;
+      z-index: 1;
+      color: #8c8e92;
     }
