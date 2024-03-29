@@ -73,16 +73,23 @@ public class ChatController {
 	@MessageMapping("/{roomId}/ready")
     @SendTo("/room/{roomId}/getReady")
     public int ready(@DestinationVariable int roomId) {
+		//준비인원 추가
         readyUserService.readyUser(roomId);
+        //준비한 인원 수가 방에 접속한 인원 수와 같고, 접속한 인원 수가 3명 이상이면 게임 시작
         if(readyUserService.getReady(roomId) == connectedUserService.getConnectedUserCount(roomId) && 
         		readyUserService.getReady(roomId)>= 3	) {
+        	//해당 방의 상태를 'run'으로 업데이트해주고, 주제 및 팀을 랜덤으로 select
+        	//해당 방에 접속한 익명 프로필 리스트를 return 받음
         	List<AnonymousDTO> list = chatroomService.startGame(roomId);
         	
+        	//해당 방에 접속한 리스트에게 각각 역할을 부여해줌 (심판/A팀/B팀)
         	GameRoleDTO role = new GameRoleDTO();
         	role.setRoleList(list);
+        	//텍스트 게임방 url
         	if(roomId < 100) {  
         		role.setUrl("/user/textGame?roomId=");        		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "/user/textGame?roomId=");
         	}
+        	//음성 게임방 url
         	else {
         		role.setUrl("/user/voiceGame?roomId=");        		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "/user/voiceGame?roomId=");
         	}

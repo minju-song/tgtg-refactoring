@@ -51,13 +51,13 @@ function updateVoiceMuteButton() {
 function sendChat() {
     if ($("#message").val() != "") {
         // JSON형태로 바꾸어서 보냄
-        stompClient.send("/send/"+room.roomId, {},
+        stompClient.send("/send/"+room.roomId + '/game', {},
             JSON.stringify({
                 'sender': anonymous.anonymousNickname,
                 'senderEmail': anonymous.anonymousId,
                 'senderImage': anonymous.anonymousImage,
                 'message' : $("#message").val(),
-                'role' : anonymous.role
+                'gameRole' : anonymous.role
             }));
         $("#message").val('');
     }
@@ -94,7 +94,7 @@ function showChat(chatMessage) {
 
     //프로필이미지
     let img = document.createElement('img');
-    img.setAttribute("class","profileImg");
+    img.classList.add('profileImg','chat_'+chatMessage.gameRole);
 
     //프로필닉네임
     let name = document.createElement('span');
@@ -171,7 +171,7 @@ function connect() {
             });
 
             //해당 채팅방 구독
-            stompClient.subscribe('/room/'+room.roomId, function (chatMessage) {
+            stompClient.subscribe('/room/'+room.roomId + '/game', function (chatMessage) {
                 
                 // 채팅 수신되면 화면에 그려줌
                 showChat(JSON.parse(chatMessage.body));
@@ -244,7 +244,7 @@ function connect() {
         });
 
         Swal.fire({
-            title: "주제 : "+room.answerA+" VS "+room.answerB,
+            title: "주제 : "+room.answerA+"<br> VS <br> "+room.answerB,
             html: "회원님의 역할은 <b>"+role+"</b> 입니다",
             timer: 5000,
             timerProgressBar: true,
@@ -293,15 +293,6 @@ function drawMemberList(list) {
     }
 
 
-    // while (teamA.firstChild) {
-    //     teamA.removeChild(teamA.firstChild);
-
-    // }
-
-    // while (teamB.firstChild) {
-    //     teamB.removeChild(teamB.firstChild);
-    // }
-
     for (let i = 0; i < list.length; i++) {
 
         // 회원 감싸는 div
@@ -317,10 +308,6 @@ function drawMemberList(list) {
         img.setAttribute('src', list[i].anonymousImage);
         img.classList.add('memberListImg', 'profileImg', list[i].key);
 
-        // // 프로필이미지2
-        // let img2 = document.createElement('img');
-        // img2.setAttribute('src', list[i].anonymousImage);
-        // img2.classList.add('memberListImg', 'profileImg', list[i].key);
 
         // 닉네임
         let name = document.createElement('span');
@@ -330,7 +317,6 @@ function drawMemberList(list) {
         // 신고영역
         let reportDiv = document.createElement('div');
         
-        // let MuteDiv = document.createElement('div');
         
         if(list[i].anonymousId != anonymous.anonymousId) {
             reportDiv.classList.add('reportDiv');
@@ -344,23 +330,31 @@ function drawMemberList(list) {
             reportBtn.addEventListener('click', function() {
                 reportMember(list[i].anonymousId, list[i].anonymousNickname);
             });
+
+            div.appendChild(img);
+            div.appendChild(name);
+            div.appendChild(reportDiv);
         }
         else {
+            let muteDiv = document.createElement('div');
+            muteDiv.classList.add('muteDiv');
             let muteBtn = document.createElement('button');
             muteBtn.setAttribute('id','voiceMuteBtn');
-            muteBtn.innerText = '음소거';
-            reportDiv.appendChild(muteBtn);
+            let muteImg = document.createElement('img');
+            muteImg.setAttribute('src','/user/img/chat/mute.png');
+            muteBtn.appendChild(muteImg);
+            muteDiv.appendChild(muteBtn);
 
             muteBtn.addEventListener('click', function(){
                 voiceMute();
             })
 
+            div.appendChild(img);
+            div.appendChild(name);
+            div.appendChild(muteDiv);
+        
+
         }
-
-
-        div.appendChild(img);
-        div.appendChild(name);
-        div.appendChild(reportDiv);
 
         if(list[i].role == 'answerA') {
             div.classList.add('answerA');
@@ -375,6 +369,8 @@ function drawMemberList(list) {
             div.classList.add('judge');
             judgeListDiv.appendChild(div);
         }
+
+
 
         // memberListDiv.appendChild(div);
 
@@ -539,7 +535,7 @@ function monitorVolume(stream, interval, otherKey) {
     const source = audioContext.createMediaStreamSource(stream);
     // 분석기에 스트림소스 연결
     source.connect(analyser);
-    // FFT(고속 푸리에 변환) 사이즈 설정 -> 분석의 정밀도 성능에 영향
+    // FFT(고속 푸리에 변환) 사이즈 설정 -> 사이즈가 분석의 정밀도 성능에 영향
     analyser.fftSize = 256;
     // 분석기에서 사용할 주파수 빈도의 수 계산
     const bufferLength = analyser.frequencyBinCount;
