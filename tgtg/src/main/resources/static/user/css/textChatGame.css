@@ -18,27 +18,16 @@
 	padding: 5px;
 }
 
-/* 말풍선 글자색 */
-span {
-	color: white;
-}
-
 /* 타이머 */
 .timerSircle {
-	min-width: 60px;
-	max-width: 60px;
-	max-height: 30px;
-	border: 5px solid rgb(211 211 211);;
-	border-radius: 50%;
-	padding: 15px 0px;
-	font-size: 1.25em;
-	color: black;
-	font-weight: bolder;
-}
-
-.swal2-confirm, .swal2-cancel{
-	width: 150px;
-    height: 100px;
+	position: absolute;
+	top: 15%;
+	font-size: 20px;
+	position: sticky;
+	text-align: center;
+	z-index: 1;
+	color: #8c8e92;
+	display : none;
 }
 
 .countConnect {
@@ -48,6 +37,15 @@ span {
 }
 
 
+
+@keyframes vibration {
+  from {
+    transform: rotate(1deg);
+  }
+  to {
+    transform: rotate(-1deg);
+  }
+}
 
 @media only screen and (max-width: 768px) {
 	

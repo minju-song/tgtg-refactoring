@@ -36,14 +36,8 @@ function connect() {
             showConnectedCount(JSON.parse(connectedCount.body));
         });
 
-        stompClient.subscribe('/room/' + room.roomId + '/timer', function (startTime) {
-            gameTimer(startTime);
-        });
-
         // 채팅방에 접속했음을 서버에 알림
         stompClient.send("/send/" + room.roomId + "/enter", {}, JSON.stringify(anonymous));
-
-        stompClient.send("/send/" + room.roomId + "/startTime", {});
     });
     
     Swal.fire({
@@ -219,15 +213,6 @@ function showChat(chatMessage) {
 
     if (chatMessage.senderEmail != anonymous.anonymousId) {
         messageBox.classList.add('box', 'other');
-        console.log(chatMessage.gameRole)
-        //채팅 글자색 변경>>sender.gameRole에 값 넣어줘야 함
-        /*if(chatMessage.gameRole == 'answerA'){
-            messageBox.setAttribute("style", "background-color: #F66868;");
-        }else if(chatMessage.gameRole == 'answerB'){
-            messageBox.setAttribute("style", "background-color: #687FF6;");
-        }else{
-            messageBox.setAttribute("style", "background-color: #F7F9FF;");
-        }*/
 
         messageBox.addEventListener('click', function () {
             reportChat(chatMessage.senderEmail, chatMessage.sender, chatMessage.message);
@@ -415,39 +400,11 @@ window.addEventListener('beforeunload', function (event) {
 });
 
 //5분 게임 타이머
-/*const remainingMin = document.getElementById("remaining__min");
-const remainingSec = document.getElementById("remaining__sec");
-
-let time = 300;
-setInterval(function () {
-    if (time > 0) { // >= 0 으로하면 -1까지 출력된다.
-        time = time - 1;
-        let min = "0" + Math.floor(time / 60);
-        let sec = String(time % 60).padStart(2, "0");
-        remainingMin.innerText = min;
-        remainingSec.innerText = sec;
-    	
-        if(time == 60){
-            let div = document.createElement('div');
-            div.innerText = "채팅 시간이 1분 남았습니다.";
-            div.setAttribute("class", "connectAlert");
-            chatView.appendChild(div);
-            chatView.scrollTop = chatView.scrollHeight;
-        } else if(time == 10){
-            let div = document.createElement('div');
-            div.innerText = "채팅 시간이 10초 남았습니다. 관전자들은 투표를 시작해 주십시오.";
-            div.setAttribute("class", "connectAlert");
-            chatView.appendChild(div);
-            chatView.scrollTop = chatView.scrollHeight;
-        }
-    }
-}, 1000);*/
-
 let startTime = Date.now(); // 타이머 시작 시간
-const totalSeconds = 5 * 60; // 총 시간을 초로 계산 (5분)
+let totalSeconds = 305; // 총 시간을 초로 계산 (5분)
 
-const remainingMin = document.getElementById("remaining__min"); // 분을 표시할 요소
-const remainingSec = document.getElementById("remaining__sec"); // 초를 표시할 요소
+let remainingMin = document.getElementById("remaining__min"); // 분을 표시할 요소
+let remainingSec = document.getElementById("remaining__sec"); // 초를 표시할 요소
 
 function gameTimer() {
     let elapsedTime = Math.trunc((Date.now() - startTime) / 1000); // 경과 시간을 초 단위로 계산
@@ -460,7 +417,10 @@ function gameTimer() {
         // 남은 시간을 화면에 표시
         remainingMin.textContent = minutes.toString().padStart(2, '0');
         remainingSec.textContent = seconds.toString().padStart(2, '0');
-        if(remainingTime == 60){
+        if(remainingTime == 300){
+            document.querySelector('.timerSircle').style.display = 'block';
+        }
+        else if(remainingTime == 60){
             let div = document.createElement('div');
             div.innerText = "채팅 시간이 1분 남았습니다.";
             div.setAttribute("class", "connectAlert");
@@ -472,6 +432,7 @@ function gameTimer() {
             div.setAttribute("class", "connectAlert");
             chatView.appendChild(div);
             chatView.scrollTop = chatView.scrollHeight;
+            document.querySelector('.timerSircle').style.animation = 'vibration .1s cubic-bezier(0.99, -1.93, 0, 2.84) infinite';
             gameVote();
         }
     } else {
@@ -485,18 +446,17 @@ let timerInterval = setInterval(gameTimer, 1000); // 1초마다 timer 함수를 
 
 //관전자 게임 투표
 function gameVote(){
-    console.log("투표 시작");
     if(role == '심판'){
-        $("textarea").attr("disabled", true);
         Swal.fire({
             title : "투표를 진행해 주세요.",
+            text: "선택하지 않을 경우 투표는 무효처리 됩니다!",
             timer : 10000,
             timerProgressBar: true,
             showCancelButton: true,
-            confirmButtonColor: "rgb(233 157 157)",
-            cancelButtonColor: "rgb(157 161 233)",
-            confirmButtonText: "A팀",
-            cancelButtonText: "B팀",
+            confirmButtonColor: "#F66868",
+            cancelButtonColor: "#687FF6",
+            confirmButtonText: room.answerA,
+            cancelButtonText: room.answerB,
             allowOutsideClick: false
         }).then((result) => {
             if (result.isConfirmed) {
@@ -505,8 +465,6 @@ function gameVote(){
                 text: "선택하신 팀은 변경하실 수 없습니다.",
                 icon: "success"
               });
-              //팀 선택 count 저장 필요
-
             } else if (
               /* Read more about handling dismissals below */
               result.dismiss === Swal.DismissReason.cancel
@@ -516,7 +474,6 @@ function gameVote(){
                 text: "선택하신 팀은 변경하실 수 없습니다.",
                 icon: "success"
               });
-              //팀 선택 count 저장 필요
             }
         });
     }

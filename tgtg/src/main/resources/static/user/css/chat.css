@@ -115,10 +115,6 @@
 
     .me_div, .other_div {
       	margin-bottom: 20px;
-        /* 추가 */
-        position: relative;
-	    z-index: 2;
-	    opacity: .8;
     }
 
     .divBox {
