@@ -26,7 +26,9 @@ function timeWrite(endTime){
     let second = Math.floor((diff % 60000) / 1000);
 
     console.log(minute+'분 '+ second+'초');
-    alarm.innerHTML = (minute <= 9 ? "0"+minute : minute)+':'+(second <= 9 ? "0"+second : second);
+    if(minute>=0 && second>=0){
+        alarm.innerHTML = (minute <= 9 ? "0"+minute : minute)+':'+(second <= 9 ? "0"+second : second);
+    }
     if(minute <= 0 && second <= 10) {
         alarm.style.animation = 'vibration .1s cubic-bezier(0.99, -1.93, 0, 2.84) infinite';
     }

@@ -34,7 +34,7 @@ public class ConnectedUserService {
 		gameStartTime.put(roomId, count);
 		if (count >= chatRoomMemberList.get(roomId).size()) {
 			LocalTime now = LocalTime.now();
-			LocalTime end = roomEndTime.getOrDefault(roomId, now.plusMinutes(5));
+			LocalTime end = roomEndTime.getOrDefault(roomId, now.plusMinutes(1));
 			roomEndTime.put(roomId, end);
 			return end;
 		}

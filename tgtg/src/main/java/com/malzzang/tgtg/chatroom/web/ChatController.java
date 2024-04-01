@@ -93,11 +93,11 @@ public class ChatController {
         	role.setRoleList(list);
         	//텍스트 게임방 url
         	if(roomId < 100) {  
-        		role.setUrl("/user/textGame?roomId=");        		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "/user/textGame?roomId=");
+        		role.setUrl("/user/textGame?roomId=");
         	}
         	//음성 게임방 url
         	else {
-        		role.setUrl("/user/voiceGame?roomId=");        		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", "/user/voiceGame?roomId=");
+        		role.setUrl("/user/voiceGame?roomId=");
         	}
         	
         	startGame(roomId, role);
@@ -111,7 +111,7 @@ public class ChatController {
 		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 	    scheduler.schedule(() -> {
 	        simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", role);
-	    }, 3, TimeUnit.SECONDS);
+	    }, 5, TimeUnit.SECONDS);
 	    scheduler.shutdown();
 	}
 	
