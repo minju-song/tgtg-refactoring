@@ -22,6 +22,7 @@ public class ConnectedUserService {
 	
 	private final Map<Integer, Integer> voteResultA = new HashMap<>();
 	private final Map<Integer, Integer> voteResultB = new HashMap<>();
+	private final Map<Integer, Integer> zeroCount = new HashMap<>();
 	
 	//회원이 접속했을 때
 	public void userEntered(int roomId, AnonymousDTO anonymous) {
@@ -56,6 +57,25 @@ public class ConnectedUserService {
 			voteResultB.put(roomId, count);
 		}
 		
+	}
+	
+	//시간끝난 인원수 체크
+	public boolean getZeroCount(int roomId) {
+		int count = zeroCount.getOrDefault(roomId, 0) + 1;
+		zeroCount.put(roomId, count);
+		if(count==chatRoomMemberList.size()) {
+			return true;
+		}
+		else return false;
+	}
+	
+	//투표 결과 리턴
+	public String getVoteResult(int roomId) {
+		int answerA = voteResultA.getOrDefault(roomId, 0);
+		int answerB = voteResultB.getOrDefault(roomId, 0);
+		if(answerA > answerB) return "answerA";
+		else if (answerA < answerB) return "answerB";
+		else return "draw";
 	}
 
 	//회원이 퇴장했을 때

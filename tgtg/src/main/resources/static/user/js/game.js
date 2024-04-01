@@ -118,6 +118,7 @@ function showResult(vote){
           
         }
     });
+}
 
 // 채팅 전송
 function sendChat() {
@@ -311,8 +312,9 @@ function drawMemberList(list) {
 
 // 퇴장 알림
 function showConnectedCount(connect) {
-    let connectText = document.querySelectorAll('.countConnect');
-    connectText.forEach(ct => ct.innerText = connect.connectUser);
+    let connectText = document.querySelector('.countConnect');
+    connectText.innerText = connect.connectUser;
+    //connectText.forEach(ct => ct.innerText = connect.connectUser);
 
     let div = document.createElement('div');
     if (!connect.enter) {
