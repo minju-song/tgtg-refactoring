@@ -172,15 +172,22 @@ public class ChatController {
         return map;
     }
     
-    //게임방 메시지 전송 메소드
+    //게임방 타이머 현재시간
   	@MessageMapping("/{roomId}/sendTime")
-	public void gameChat(@DestinationVariable int roomId) {
+	public void gameTimer(@DestinationVariable int roomId) {
   		System.out.println("입장완");
   		LocalTime endTime = connectedUserService.gameStartUser(roomId);
   		if(endTime != null) {
   			simpMessagingTemplate.convertAndSend("/room/" + roomId + "/sendTime", endTime);
   			System.out.println("다 들어옴" + endTime);
   		}
+  	}
+  	
+  	//게임방 투표
+  	@MessageMapping("/{roomId}/gameVote")
+	public void gameVote(@DestinationVariable int roomId, int gameSelect) {
+  		System.out.println("결과~~" + gameSelect);
+  		connectedUserService.gameVoteCount(roomId, gameSelect);
   	}
   	
   	@MessageMapping("/peer/offer/{camKey}/{roomId}")

@@ -20,6 +20,9 @@ public class ConnectedUserService {
 	
 	private final Map<Integer, LocalTime> roomEndTime = new HashMap<>();
 	
+	private final Map<Integer, Integer> voteResultA = new HashMap<>();
+	private final Map<Integer, Integer> voteResultB = new HashMap<>();
+	
 	//회원이 접속했을 때
 	public void userEntered(int roomId, AnonymousDTO anonymous) {
 		
@@ -40,6 +43,19 @@ public class ConnectedUserService {
 		}
 		
 		return null;
+	}
+	
+	//게임투표 count
+	public void gameVoteCount(int roomId, int gameSelect) {
+		if(gameSelect == 0) {
+			int count = voteResultA.getOrDefault(roomId, 0) + 1;
+			voteResultA.put(roomId, count);
+		}
+		else {
+			int count = voteResultB.getOrDefault(roomId, 0) + 1;
+			voteResultB.put(roomId, count);
+		}
+		
 	}
 
 	//회원이 퇴장했을 때
