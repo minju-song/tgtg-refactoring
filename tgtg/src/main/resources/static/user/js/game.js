@@ -19,14 +19,13 @@
 
 let oneMinute = false;
 let tenSecond = false;
-let second;
 function timeWrite(endTime){
     let alarm = document.querySelector('#digitalTimer');
     let now = new Date();
     let diff = endTime.getTime() - now.getTime();
     
     let minute = Math.floor(diff / 60000);
-    second = Math.floor((diff % 60000) / 1000);
+    let second = Math.floor((diff % 60000) / 1000);
 
     console.log(minute+'분 '+ second+'초');
 
@@ -75,26 +74,12 @@ function gameVote(){
             allowOutsideClick: false
         }).then((result) => {
             if (result.isConfirmed) {
-              swal.fire({   //A팀 선택 시
-                title: "“" + room.answerA + "” 선택 완료!",
-                text: "선택하신 팀은 변경하실 수 없습니다.",
-                timer : second * 1000,
-                timerProgressBar: true,
-                icon: "success"
-              });
               let teamSelect = 0;
               stompClient.send("/send/"+room.roomId+"/gameVote", {},JSON.stringify(teamSelect));
             } else if (
               /* Read more about handling dismissals below */
               result.dismiss === Swal.DismissReason.cancel
             ) {
-              swal.fire({   //B팀 선택 시
-                title: "“" + room.answerB + "” 선택 완료!",
-                text: "선택하신 팀은 변경하실 수 없습니다.",
-                timer : second * 1000,
-                timerProgressBar: true,
-                icon: "success"
-              });
               let teamSelect = 1;
               stompClient.send("/send/"+room.roomId+"/gameVote", {},JSON.stringify(teamSelect));
             }
@@ -115,9 +100,6 @@ function showResult(vote){
     }
     Swal.fire({
         title : title,
-        text: "선택하지 않을 경우 메인화면으로 이동합니다.",
-        timer : 5000,
-        timerProgressBar: true,
         showCancelButton: true,
         confirmButtonText: "메인화면",
         cancelButtonText: "새게임",
@@ -131,7 +113,6 @@ function showResult(vote){
         ) {
             window.location.href = '/user/waitChatroom?type=text';
         }
-        window.location.href = '/';
     });
 }
 

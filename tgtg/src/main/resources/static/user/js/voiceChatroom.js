@@ -152,6 +152,11 @@ function connect() {
             stompClient.subscribe('/room/' + room.roomId + '/sendTime', function (endTime) {
                 gameTimer(JSON.parse(endTime.body));
             });
+
+            //심판 투표 결과
+            stompClient.subscribe('/room/'+room.roomId+'/getResult', function (vote) {
+                showResult(vote.body);
+            });
     
             resolve(); // stompClient.connect 성공 시 resolve 호출
         }, function(error) {
