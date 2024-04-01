@@ -3,9 +3,11 @@ package com.malzzang.tgtg.chatroom.service;
 import java.util.ArrayList;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,7 @@ import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 @Service
 public class ConnectedUserService {
 
-	private final Map<Integer, List<AnonymousDTO>> chatRoomMemberList = new HashMap<>();
+	private final Map<Integer, Set<AnonymousDTO>> chatRoomMemberList = new HashMap<>();
 	
 	private final Map<Integer, Integer> gameStartTime = new HashMap<>();
 	
@@ -27,7 +29,7 @@ public class ConnectedUserService {
 	//회원이 접속했을 때
 	public void userEntered(int roomId, AnonymousDTO anonymous) {
 		
-		List<AnonymousDTO> memberList = chatRoomMemberList.getOrDefault(roomId, new ArrayList<>());
+		Set<AnonymousDTO> memberList = chatRoomMemberList.getOrDefault(roomId, new HashSet<>());
 	    memberList.add(anonymous);
 	    chatRoomMemberList.put(roomId, memberList);
     }
@@ -73,6 +75,8 @@ public class ConnectedUserService {
 	public String getVoteResult(int roomId) {
 		int answerA = voteResultA.getOrDefault(roomId, 0);
 		int answerB = voteResultB.getOrDefault(roomId, 0);
+		System.out.println("answerA : "+answerA);
+		System.out.println("answerB : "+answerB);
 		if(answerA > answerB) return "answerA";
 		else if (answerA < answerB) return "answerB";
 		else return "draw";
@@ -81,7 +85,7 @@ public class ConnectedUserService {
 	//회원이 퇴장했을 때
     public void userLeft(int roomId, AnonymousDTO anonymous) {
         
-        List<AnonymousDTO> memberList = chatRoomMemberList.getOrDefault(roomId, new ArrayList<>());
+        Set<AnonymousDTO> memberList = chatRoomMemberList.getOrDefault(roomId, new HashSet<>());
         
         Iterator<AnonymousDTO> iterator = memberList.iterator();
         while (iterator.hasNext()) {
@@ -97,19 +101,20 @@ public class ConnectedUserService {
 
     //현재 접속한 회원 수
     public int getConnectedUserCount(int roomId) {
-    	List<AnonymousDTO> memberList = chatRoomMemberList.getOrDefault(roomId, new ArrayList<>());
+    	Set<AnonymousDTO> memberList = chatRoomMemberList.getOrDefault(roomId, new HashSet<>());
         return memberList.size();
     }
     
     //특정 방의 모든 회원 가져오기
-    public List<AnonymousDTO> getAllMembersInRoom(int roomId) {
-        return chatRoomMemberList.getOrDefault(roomId, new ArrayList<>());
+    public Set<AnonymousDTO> getAllMembersInRoom(int roomId) {
+        return chatRoomMemberList.getOrDefault(roomId, new HashSet<>());
     }
     
     //회원 역할
-    public List<AnonymousDTO> setRole(int roomId) {
-    	System.out.println("멤버리스트>>>>>"+chatRoomMemberList.get(roomId));
-    	List<AnonymousDTO> list = chatRoomMemberList.get(roomId);
+    public Set<AnonymousDTO> setRole(int roomId) {
+    	Set<AnonymousDTO> set = chatRoomMemberList.get(roomId);
+    	List<AnonymousDTO> list = new ArrayList<>(set); 
+
     	for(int i = 0; i < list.size(); i++) {
     		System.out.println(">>>>>>"+list.get(i).getAnonymousNickname()+"   "+list.get(i).getRole());
     	}
@@ -137,12 +142,14 @@ public class ConnectedUserService {
     			list.get((i*3)+2).setRole("answerB");
     		}
     		list.get(list.size()-2).setRole("answerA");
-    		list.get(list.size()-2).setRole("answerB");
+    		list.get(list.size()-1).setRole("answerB");
     	}
     	
-    	chatRoomMemberList.put(roomId, list);
+    	// List를 다시 Set으로 변환
+        Set<AnonymousDTO> resultSet = new HashSet<>(list);
+        chatRoomMemberList.put(roomId, resultSet);
     	
-    	return chatRoomMemberList.get(roomId);
+    	return resultSet;
     	
     }
 }

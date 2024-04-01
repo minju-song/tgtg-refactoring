@@ -2,6 +2,7 @@ package com.malzzang.tgtg.chatroom.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 import com.malzzang.tgtg.chatroom.dto.Chatroom;
@@ -30,5 +31,5 @@ public interface ChatroomService {
 	public void setTitle(int roomId);
 	
 	//게임 시작
-	public List<AnonymousDTO> startGame(int roomId);
+	public Set<AnonymousDTO> startGame(int roomId);
 }

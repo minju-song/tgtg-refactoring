@@ -1,7 +1,7 @@
 package com.malzzang.tgtg.common;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 
@@ -12,6 +12,6 @@ import lombok.Setter;
 @Setter
 public class GameRoleDTO {
 	private String url;
-	private List<AnonymousDTO> roleList = new ArrayList<>();
+	private Set<AnonymousDTO> roleList = new HashSet<>();
 
 }

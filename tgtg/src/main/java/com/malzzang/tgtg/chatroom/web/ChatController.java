@@ -3,6 +3,7 @@ package com.malzzang.tgtg.chatroom.web;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.time.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -86,11 +87,11 @@ public class ChatController {
         		readyUserService.getReady(roomId)>= 3	) {
         	//해당 방의 상태를 'run'으로 업데이트해주고, 주제 및 팀을 랜덤으로 select
         	//해당 방에 접속한 익명 프로필 리스트를 return 받음
-        	List<AnonymousDTO> list = chatroomService.startGame(roomId);
+        	Set<AnonymousDTO> memberList = chatroomService.startGame(roomId);
         	
         	//해당 방에 접속한 리스트에게 각각 역할을 부여해줌 (심판/A팀/B팀)
         	GameRoleDTO role = new GameRoleDTO();
-        	role.setRoleList(list);
+        	role.setRoleList(memberList);
         	//텍스트 게임방 url
         	if(roomId < 100) {  
         		role.setUrl("/user/textGame?roomId=");
@@ -139,14 +140,14 @@ public class ChatController {
         connectedUserService.userEntered(roomId, anonymous);
         
         //해당방 회원
-        List<AnonymousDTO> list = connectedUserService.getAllMembersInRoom(roomId);
+        Set<AnonymousDTO> memberList = connectedUserService.getAllMembersInRoom(roomId);
         
         //리턴값 담을 맵
         Map<String, Object> map = new HashMap<>();
         map.put("connectUser", connectedUserService.getConnectedUserCount(roomId));
         map.put("anonymous", anonymous);
         map.put("enter", true);
-        map.put("memberList", list);
+        map.put("memberList", memberList);
         
         return map;
     }
@@ -160,14 +161,14 @@ public class ChatController {
         anonymousService.deleteAnonymous(anonymous.getAnonymousId());
         
         //해당방 회원
-        List<AnonymousDTO> list = connectedUserService.getAllMembersInRoom(roomId);
+        Set<AnonymousDTO> memberList = connectedUserService.getAllMembersInRoom(roomId);
         
         //리턴값 담을 맵
         Map<String, Object> map = new HashMap<>();
         map.put("connectUser", connectedUserService.getConnectedUserCount(roomId));
         map.put("anonymous", anonymous);
         map.put("enter", false);
-        map.put("memberList", list);
+        map.put("memberList", memberList);
         
         return map;
     }
