@@ -111,7 +111,7 @@ public class ChatController {
 		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 	    scheduler.schedule(() -> {
 	        simpMessagingTemplate.convertAndSend("/room/" + roomId + "/startGame", role);
-	    }, 5, TimeUnit.SECONDS);
+	    }, 1, TimeUnit.SECONDS);
 	    scheduler.shutdown();
 	}
 	

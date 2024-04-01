@@ -52,6 +52,7 @@
 
     #memberList {
       overflow-y: auto;
+      height: 95%;
     }
 
     /* 채팅 보이는 영역 */
@@ -72,13 +73,13 @@
       }
 
     #chatView::-webkit-scrollbar-thumb, #memberList::-webkit-scrollbar-thumb {
-    height: 30%;
-    background: rgba(18, 99, 248, 0.7);
-    border-radius: 10px;
+      height: 30%;
+      background: rgba(18, 99, 248, 0.7);
+      border-radius: 10px;
     }
 
     #chatView::-webkit-scrollbar-track, #memberList::-webkit-scrollbar-track {
-    background: rgba(64, 100, 167, 0.5);
+    /* background: rgba(64, 100, 167, 0.5); */
     }  
 
     /* 채팅 보내는 영역 */
@@ -302,7 +303,7 @@
       background-color: #F7F9FF;
     }
 
-    #timer {
+    #digitalTimer {
       font-family: 'LABDigital' !important; 
       position: absolute; 
       top: 15%; 
@@ -311,4 +312,13 @@
       text-align: center;
       z-index: 1;
       color: #8c8e92;
+    }
+
+    @keyframes vibration {
+      from {
+        transform: rotate(1deg);
+      }
+      to {
+        transform: rotate(-1deg);
+      }
     }

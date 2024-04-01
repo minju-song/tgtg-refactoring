@@ -37,16 +37,6 @@
 }
 
 
-
-@keyframes vibration {
-  from {
-    transform: rotate(1deg);
-  }
-  to {
-    transform: rotate(-1deg);
-  }
-}
-
 @media only screen and (max-width: 768px) {
 	
 }
