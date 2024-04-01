@@ -78,18 +78,31 @@ public class ConnectedUserService {
     		System.out.println(">>>>>>"+list.get(i).getAnonymousNickname()+"   "+list.get(i).getRole());
     	}
     	//3명일때
-    	if(list.size() == 3) {
-    		list.get(0).setRole("answerA");
-    		list.get(1).setRole("answerB");
-    		list.get(2).setRole("judge");
-    	}
-    	else if(list.size() == 4) {
-    		list.get(0).setRole("answerA");
-    		list.get(1).setRole("answerB");
-    		list.get(2).setRole("judge");
-    		list.get(3).setRole("judge");
-    	}
     	
+    	if(list.size() % 3 == 0) {
+    		for(int i = 0; i < list.size()/3; i++) {
+    			list.get(i*3).setRole("judge");
+    			list.get((i*3)+1).setRole("answerA");
+    			list.get((i*3)+2).setRole("answerB");
+    		}
+    	}
+    	else if(list.size() % 3 == 1) {
+    		for(int i = 0; i < list.size()/3; i++) {
+    			list.get(i*3).setRole("judge");
+    			list.get((i*3)+1).setRole("answerA");
+    			list.get((i*3)+2).setRole("answerB");
+    		}
+    		list.get(list.size()-1).setRole("judge");
+    	}
+    	else {
+    		for(int i = 0; i < list.size()/3; i++) {
+    			list.get(i*3).setRole("judge");
+    			list.get((i*3)+1).setRole("answerA");
+    			list.get((i*3)+2).setRole("answerB");
+    		}
+    		list.get(list.size()-2).setRole("answerA");
+    		list.get(list.size()-2).setRole("answerB");
+    	}
     	
     	chatRoomMemberList.put(roomId, list);
     	
