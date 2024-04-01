@@ -33,7 +33,7 @@ function connect() {
         });
 
         stompClient.subscribe('/room/'+room.roomId+'/startGame', function (start) {
-            console.log(JSON.parse(start.body).roleList);
+            // console.log(JSON.parse(start));
             disconnect();
 
             startGame(JSON.parse(start.body));
@@ -118,7 +118,7 @@ function cancelReady() {
 
 //게임 시작 함수
 function startGame(start) {
-    console.log("시작 : "+start.roleList);
+    console.log("시작 : "+start);
 
     let timerInterval;
     Swal.fire({
@@ -144,6 +144,7 @@ function startGame(start) {
             console.log(anonymous)
             //역할받아오기
             for(a of start.roleList) {
+                console.log(a+">>>>>>");
                 if(a.anonymousId == anonymous.anonymousId) {
                     anonymous.role = a.role;
                     console.log(a.role);
