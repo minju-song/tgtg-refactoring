@@ -42,8 +42,8 @@ function connect() {
         });
 
         //심판 투표 결과
-        stompClient.subscribe('/room/'+room.roomId+'/gameVote', function (vote) {
-            showResult(JSON.parse(vote.body));
+        stompClient.subscribe('/room/'+room.roomId+'/getResult', function (vote) {
+            showResult(vote.body);
         });
 
         // 채팅방에 접속했음을 서버에 알림

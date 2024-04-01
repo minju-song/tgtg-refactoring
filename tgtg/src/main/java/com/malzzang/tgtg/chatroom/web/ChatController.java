@@ -190,6 +190,15 @@ public class ChatController {
   		connectedUserService.gameVoteCount(roomId, gameSelect);
   	}
   	
+  //회원이 게임 대기방 퇴장했을 때
+    @MessageMapping("/{roomId}/getResult")
+    public void gameResult(@DestinationVariable int roomId) {
+    	if(connectedUserService.getZeroCount(roomId)) {
+    		String result = connectedUserService.getVoteResult(roomId);
+    		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/getResult", result);
+    	}
+    }
+  	
   	@MessageMapping("/peer/offer/{camKey}/{roomId}")
     @SendTo("/room/peer/offer/{camKey}/{roomId}")
     public String PeerHandleOffer(@Payload String offer, @DestinationVariable(value = "roomId") int roomId,
