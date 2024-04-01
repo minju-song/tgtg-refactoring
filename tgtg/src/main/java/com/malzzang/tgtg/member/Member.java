@@ -33,13 +33,13 @@ public class Member {
 	private String memberMbti;
 	
 	@Column(name="member_win")
-	private Integer memberWin;
+	private int memberWin;
 	
 	@Column(name="member_draw")
-	private Integer memberDraw;
+	private int memberDraw;
 	
 	@Column(name="member_lose")
-	private Integer memberLose;
+	private int memberLose;
 	
 	@CreationTimestamp
 	@Column(name="member_join")
