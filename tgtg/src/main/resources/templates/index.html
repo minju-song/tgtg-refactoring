@@ -6,6 +6,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 	<style type="text/css">
 		body {
 			font-family: "Pretendard" !important;
@@ -126,6 +127,51 @@
 	      height: auto;
 	    }
 	    
+	    /* img motion */
+	    .imgMotion {
+	      animation-name: flo;
+		  animation-duration: 5s;
+		  animation-iteration-count: infinite;
+		  position: relative;
+		  bottom: 80px;
+		  left:20px;
+	    }
+	    
+		@keyframes flo{
+		  50%{
+		    transform: translateY(30px);
+		  }
+		}
+	    
+	    .img2Motion {
+	      animation-name: flo2;
+		  animation-duration: 7s;
+		  animation-iteration-count: infinite;
+		  position: relative;
+		  bottom: 40px;
+		  right:20px;
+	    }
+	    
+	    @keyframes flo2 {
+		  25%{
+		    transform: translate(-30px,-30px);
+		  }
+		  50%{
+		  	transform: translate(0px, 0px);
+		  }
+		  75%{
+		    transform: translate(30px, -30px);
+		  }
+		}
+	    
+	    #subTitle {
+	    	--animate-delay: 0.6s;
+	    }
+	    
+	    #gameButton {
+	    	--animate-delay: 1.5s;
+	    }
+	    
 	    /* sweetAlert2 */
 	    .swal2-modal {
 	    	background-color: #252526;
@@ -212,35 +258,40 @@
                     </button>
                     <img src="/img/introduction-visual.png" alt="Welcome"> -->
                     
-		          
+		          	
 		            <div class="mainHome">
-		              <h1 style="margin-bottom: 0;">티격태격 시작하기<br /><span style="font-size: smaller;">Product Photography Services</span></h1>
-		              <p>아래 버튼을 클릭하면 채팅 말싸움 & 음성 말싸움을 시작할 수 있어요</p>
-		              <div style="margin-top: 3rem;">
-			              <button class="cta" id="chatBtn" th:onclick="|location.href='@{/user/waitChatroom}?type=text'|">
-		                      CHAT
-		                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-		                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 150 118"
-		                        style="enable-background: new 0 0 150 118;" xml:space="preserve">
-		                        <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
-		                          <path
-		                            d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
-		                        </g>
-		                      </svg>
-		                      <span class="btn-background"></span>
-		                    </button>
-		                    <button class="cta" id="chatBtn" th:onclick="|location.href='@{/user/waitChatroom}?type=voice'|">
-		                      VOICE
-		                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-		                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 150 118"
-		                        style="enable-background: new 0 0 150 118;" xml:space="preserve">
-		                        <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
-		                          <path
-		                            d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
-		                        </g>
-		                      </svg>
-		                      <span class="btn-background"></span>
-		                    </button>
+		              <h1 class="animate__animated animate__flipInX" style="margin-bottom: 0;">티격태격 시작하기</h1>
+              		  <h2 id="subTitle" class="animate__animated animate__delay-1s animate__fadeIn" style="font-size: xxx-large; color: #d2d3d4; margin: 0;">다양한 주제로 이야기하고, 싸우고, 즐기는</h2>
+		              <p class="animate__animated animate__delay-1s animate__fadeIn">아래 버튼을 클릭하면 채팅 말싸움 & 음성 말싸움을 시작할 수 있어요</p>
+		              <div style="margin-top: 6rem;">
+		              	<img src="/home/images/message.png" class="imgMotion" alt="message">
+		              	  <div id="gameButton" class="animate__animated animate__delay-1s animate__fadeIn">
+				              <button class="cta" id="chatBtn" th:onclick="|location.href='@{/user/waitChatroom}?type=text'|">
+			                      CHAT
+			                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+			                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 150 118"
+			                        style="enable-background: new 0 0 150 118;" xml:space="preserve">
+			                        <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
+			                          <path
+			                            d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
+			                        </g>
+			                      </svg>
+			                      <span class="btn-background"></span>
+			                    </button>
+			                    <button class="cta" id="chatBtn" th:onclick="|location.href='@{/user/waitChatroom}?type=voice'|" style="margin-left: 2rem;">
+			                      VOICE
+			                      <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+			                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewbox="0 0 150 118"
+			                        style="enable-background: new 0 0 150 118;" xml:space="preserve">
+			                        <g transform="translate(0.000000,118.000000) scale(0.100000,-0.100000)">
+			                          <path
+			                            d="M870,1167c-34-17-55-57-46-90c3-15,81-100,194-211l187-185l-565-1c-431,0-571-3-590-13c-55-28-64-94-18-137c21-20,33-20,597-20h575l-192-193C800,103,794,94,849,39c20-20,39-29,61-29c28,0,63,30,298,262c147,144,272,271,279,282c30,51,23,60-219,304C947,1180,926,1196,870,1167z" />
+			                        </g>
+			                      </svg>
+			                      <span class="btn-background"></span>
+			                    </button>
+		                    </div>
+		                  <img src="/home/images/voice.png" style="right: 3%;" class="img2Motion" alt="voice">
 	                    </div>
 		            </div>
 			      
