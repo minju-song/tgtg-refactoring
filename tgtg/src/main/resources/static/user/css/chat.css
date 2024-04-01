@@ -173,6 +173,7 @@
 
     .member .profileImg {
       width: 3vh;
+      height: auto;
     }
 
     .profileImg {
@@ -236,6 +237,7 @@
 
     .sideMenuTitle {
       color: white;
+      text-align: center;
       padding-left: 3vh;
       padding-right: 3vh;
       padding-bottom: 1vh;
@@ -267,7 +269,11 @@
       /* background-color: rgb(169, 216, 235); */
       border: 1px solid orange;
     }
-
+	
+	#memberList h3{
+	  padding-left: 2vh;
+	}
+	
     .reportDiv {
       flex: 1;
       display : flex;
@@ -280,7 +286,7 @@
     }
 
     .reportBtn img {
-      width: 50%;
+      width: 70%;
     }
 
 
