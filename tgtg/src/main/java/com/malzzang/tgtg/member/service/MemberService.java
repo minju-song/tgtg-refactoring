@@ -28,4 +28,13 @@ public interface MemberService {
 	
 	// main page RANK
 	public Page<MemberDTO> selectMemberWin();
+	
+	// 승리업데이트
+	public int increaseWin(String memberId);
+	
+	// 패배업데이트
+	public int increaseLose(String memberId);
+	
+	// 무승부업데이트
+	public int increaseDraw(String memberId);
 }

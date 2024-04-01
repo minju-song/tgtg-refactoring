@@ -161,4 +161,33 @@ public class MemberServiceImpl implements MemberService {
 		return memberDtoList;
 	}
 	
+	public int increaseWin(String memberId) {
+	    Member member = memberRepository.findById(memberId)
+	            .orElseThrow(() -> new IllegalArgumentException("해당 ID의 멤버가 존재하지 않습니다. ID: " + memberId));
+	    
+	    int win = member.getMemberWin() + 1;
+	    
+	    return memberRepository.updateMemberWin(memberId, win);
+	}
+
+	@Override
+	public int increaseLose(String memberId) {
+		Member member = memberRepository.findById(memberId)
+	            .orElseThrow(() -> new IllegalArgumentException("해당 ID의 멤버가 존재하지 않습니다. ID: " + memberId));
+	    
+	    int lose = member.getMemberLose() + 1;
+	    
+	    return memberRepository.updateMemberLose(memberId, lose);
+	}
+
+	@Override
+	public int increaseDraw(String memberId) {
+		Member member = memberRepository.findById(memberId)
+	            .orElseThrow(() -> new IllegalArgumentException("해당 ID의 멤버가 존재하지 않습니다. ID: " + memberId));
+	    
+	    int draw = member.getMemberDraw() + 1;
+	    
+	    return memberRepository.updateMemberDraw(memberId, draw);
+	}
+	
 }

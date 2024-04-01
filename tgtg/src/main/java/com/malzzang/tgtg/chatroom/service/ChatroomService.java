@@ -32,4 +32,5 @@ public interface ChatroomService {
 	
 	//게임 시작
 	public Set<AnonymousDTO> startGame(int roomId);
+	
 }
