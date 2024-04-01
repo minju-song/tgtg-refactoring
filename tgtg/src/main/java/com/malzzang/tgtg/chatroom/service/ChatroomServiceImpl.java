@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,13 +135,13 @@ public class ChatroomServiceImpl implements ChatroomService{
 	}
 
 	@Override
-	public List<AnonymousDTO> startGame(int roomId) {
+	public Set<AnonymousDTO> startGame(int roomId) {
 		// TODO Auto-generated method stub
 		setRoomStatusToRun(roomId);
     	setTitle(roomId);
-    	List<AnonymousDTO> list = connectedUserService.setRole(roomId);
+    	Set<AnonymousDTO> memberSet = connectedUserService.setRole(roomId);
     	
-    	return list;
+    	return memberSet;
 	}
 
 }
