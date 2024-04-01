@@ -727,13 +727,13 @@ body {
 }
 
 .intro--banner::after {
-    content: "";
+    /* content: "";
     position: absolute;
     bottom: 18px;
     left: 0;
     width: 30px;
     height: 4px;
-    background-color: #0f33ff
+    background-color: #0f33ff */
 }
 
 .intro--banner h1 {
@@ -759,7 +759,7 @@ body {
     left: 23px;
     right: 0;
     height: 100%;
-    background-color: #0f33ff;
+    background-color: #5050d8;
     z-index: -1;
     -webkit-transition: left .2s ease-in-out;
     transition: left .2s ease-in-out
@@ -782,8 +782,8 @@ body {
 
 .intro--banner img {
     position: absolute;
-    bottom: 21px;
-    right: -12px
+    /* bottom: 21px;
+    right: -12px */
 }
 
 .intro--options {
