@@ -29,6 +29,7 @@ function timeWrite(endTime){
     alarm.innerHTML = (minute <= 9 ? "0"+minute : minute)+':'+(second <= 9 ? "0"+second : second);
     if(minute <= 0 && second <= 10) {
         alarm.style.animation = 'vibration .1s cubic-bezier(0.99, -1.93, 0, 2.84) infinite';
+        alarm.style.color = '#c30000';
     }
     if(minute <= 0 && second <= 0){
         clearInterval(gameTimeInterval);
