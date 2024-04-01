@@ -117,9 +117,9 @@ public class ChatroomServiceImpl implements ChatroomService{
 
 	@Override
 	public void setTitle(int roomId) {
-		int len = 1;
+		int len = subjectRepository.findAll().size();
 		
-		int num = (int)(Math.random()*len) + 1;
+		int num = (int) (Math.floor(Math.random() * len) + 1);
 		
 		Optional<Subject> subject = subjectRepository.findById(num);
 		for (Chatroom room : rooms) {
