@@ -100,18 +100,25 @@ function showResult(vote){
     }
     Swal.fire({
         title : title,
+        showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: "메인화면",
-        cancelButtonText: "새게임",
+        confirmButtonColor: "#0d0d0d",
+        denyButtonText: "채팅게임",
+        denyButtonColor: "#1467f4", 
+        cancelButtonText: "음성게임",
+        cancelButtonColor: "#5050d8",
         allowOutsideClick: false
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.href = '/';
+        } else if (result.isDenied) {
+            window.location.href = '/user/waitChatroom?type=text';
         } else if (
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
         ) {
-            window.location.href = '/user/waitChatroom?type=text';
+            window.location.href = '/user/waitChatroom?type=voice';
         }
     });
 }

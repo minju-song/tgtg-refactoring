@@ -17,5 +17,7 @@
   }
 
   #voiceMuteBtn img {
+	pointer-events: none;
     width: 50%;
+    height: auto;
   }
