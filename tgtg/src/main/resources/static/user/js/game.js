@@ -53,7 +53,9 @@ function timeWrite(endTime){
     }
     if(minute <= 0 && second <= 0){
         clearInterval(gameTimeInterval);
-        stompClient.send("/send/"+room.roomId+"/getResult", {});
+        localStorage.clear();
+        stompClient.send("/send/"+room.roomId+"/leave", {},JSON.stringify(anonymous));
+        stompClient.send("/send/"+room.roomId+"/getResult", {},JSON.stringify(room.roomId));
     } 
 }
 
@@ -89,7 +91,6 @@ function gameVote(){
 
 //게임결과창 출력
 function showResult(vote){
-    console.log(vote);
     let title;
     if(vote === 'answerA'){
         title = "“" + room.answerA + "” Win🎉";
@@ -120,7 +121,11 @@ function showResult(vote){
         ) {
             window.location.href = '/user/waitChatroom?type=voice';
         }
+    }).then((r) => {
+        disconnect();
+        localStorage.clear();
     });
+    // disconnect();
 }
 
 // 채팅 전송
