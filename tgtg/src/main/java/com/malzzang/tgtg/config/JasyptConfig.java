@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 
 
 public class JasyptConfig {
-	@Value("${jasypt.encryptor.password}")
+	@Value("${jasypt_encryptor_password}")
 	   private String password;
 
 	@Bean("jasyptStringEncryptor")
