@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/layout}">
+
+<head>
+	<!-- Formify CSS Stylesheet -->
+	<link rel="stylesheet" href="member/css/bootstrap.min.css">
+	<link rel="stylesheet" href="member/css/font-awesome-all.min.css">
+	<link rel="stylesheet" href="member/css/jquery.classycountdown.min.css">
+	<link rel="stylesheet" href="member/css/nice-select.min.css">
+	<!-- <link rel="stylesheet" href="member/css/reset.css"> -->
+	<link rel="stylesheet" href="member/css/style.css">
+	
+	<!-- sweetalert2 -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+</head>
+
+<!-- <body> -->
+<th:block layout:fragment="mainContent">
+	<div class="body-bg formify-quiz-layout-3">
+
+		<section class="formify-form formify-bg-cover">
+
+			<div class="container p-0">
+				<div class="row">
+					<div class="col-12 formify-form__100vh formify-form__acenter">
+						<!-- Welcome Banner -->
+						<div
+							class="formify-form__layout formify-form__layout--quiz formify-form__layout--quiz-v3 formify-form__jcenter formify-bg-none">
+
+							<!-- Form Area -->
+							<div class="formify-form__inner--quiz formify-form__inner--quiz-v3">
+								<div class="formify-form__form-box">
+									<div class="formify-forms__head formify-forms__head--v3 formify-bg-cover"
+										style="background-image: url('member/images/formify-bg-30.jpg');">
+										<h4 class="formify-forms__head-title formify-forms__head-title--v3">MBTI</h4>
+									</div>
+									<!-- Form Area -->
+									<form id="multiStepForm" class="formify-forms formify-forms__quiz formify-forms__quiz--v3" action="#">
+										<div class="tab-content">
+											<!-- MBTI 질문 들어가는 곳 -->
+											
+										</div>
+									</form>
+									<!-- End Form Area -->
+								</div>
+							</div>
+							<!-- End Form Area -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	</div>
+
+	<!-- Formify Scripts -->
+	<script src="member/js/jquery.min.js"></script>
+	<script src="member/js/jquery-migrate.js"></script>
+	<script src="member/js/bootstrap.min.js"></script>
+	<script src="member/js/final-countdown.min.js"></script>
+	<script src="member/js/nice-select.min.js"></script>
+	<script src="member/js/main.js"></script>
+	<!-- <script src="https://www.google.com/recaptcha/api.js" async="async"
+        defer="defer"></script> -->
+	<script>
+		$(document).ready(function () {
+			
+			const target = $('.tab-content');
+			/* console.log(target); */
+			const questionArr = [
+									"친구랑 놀고 있는데, 친구가 '다른 친구를' 부르자고 할 때",
+									"새 학기, 짝꿍과 친해지고 싶다! 그럼 나는?",
+									"사람이 북적거리는 파티에 참여한 당신, 어디에 있을거냐?",
+									"횡단보도 건널 때, 나는?",
+									"시험이 다가오는데 공부가 손에 안 잡힌다면, 무슨 생각?",
+									"지하철에 탔다! 아무도 내 옆에 앉지 않는다면",
+									"친구가 내 카톡을 읽씹한다면?",
+									"친구가 애인과 싸웠다고 말하면?",
+									"친구가 궁금하지 않은 이야기 신나게 떠들 때",
+									"딩동! 본인인증 관련 문자 도착",
+									"오늘은 월급날! 나는",
+									"일 끝난 후 도착한 맛집! 맛집 입장 전 줄을 기다리는 나는"
+			];
+			
+			const answerA = [
+								"오히려 좋아",
+								"새콤달콤을 나눠주며 저기.. 안녕?!",
+								"이 구역의 센터는 나! 정중앙!",
+								"상상의 나라로~ 뼁소니 나면 어떡하지..",
+								"시험 없는 세상은 어떨까..",
+								"왜 안 앉지? 내가 이상한가..?",
+								"내가 뭔가 실수를 했나? 대화 내용 다시 보는중",
+								"속상하겠다..ㅠㅠㅠ",
+								"와 진짜? 대박 ~",
+								"본인인증 문자 바로 확인 후, 확인 끝나면 지운다.",
+								"일단 생활비 먼저 빼두고 사고싶은거 산다.",
+								"입장 전 QR코드 미리 켜두기"
+			];
+			const answerB = [
+								"예?? 나는 집에 간다!",
+								"상대가 말 걸 때까지 조용히 ㅎㅎ",
+								"나는 구석에 있어야지 ㅎ",
+								"별 생각 없이 푸다닥 건너기",
+								"출제 확률이 높은 범위는 뭐지?",
+								"다들 서서 가네ㅎㅎ 개꿀~",
+								"바쁜가~ 하고 신경 안 씀",
+								"또 싸움? 왜 싸움?",
+								"대충 음 글쿠나~ 하다가 다른 이야기로",
+								"본인인증 문자 미리보기로 보고 쌓아둔다. 벌써 NN개..",
+								"일단 사자! 사고 싶은거 다 결제 후, 생활비 계획",
+								"입장하면 그제서야 QR코드 호다닥"
+			];
+			
+			// input 태그 id와 label 태그 for 중복 방지 
+			let counTemp = 0;
+			
+			questionArr.forEach((question, idx) => {
+				let temp = `
+							<div class="tab-pane fade" id="step${idx}">
+								<div class="formify-forms__quiz-single formify-forms__quiz-single--v3">
+									<h3 class="formify-forms__quiz-title formify-forms__quiz-title--v3 m-0">
+										${question}
+									</h3>
+									<div class="formify-forms__quiz-form formify-mg-top-40">
+										<div class="formify-forms__quiz-form">
+											<!-- Single Group -->
+											<div class="form-group formify-mg-top-15">
+												<div class="formify-forms__input formify-forms__input--quiz">
+													<input class="formify-forms__input d-none" type="radio" value="A" id="q-${counTemp}"
+														name="q-question-${idx}">
+													<label class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+														for="q-${counTemp}">
+														<div class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+															<span>A</span>${answerA[idx]}
+														</div>
+														<div class="formify-forms__quiz-check--v3">
+															<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewbox="0 0 28 28"
+																fill="none">
+																<path
+																	d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																	stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+															</svg>
+														</div>
+													</label>
+												</div>
+											</div>
+											<!-- Single Group -->
+											<div class="form-group formify-mg-top-15">
+												<div
+													class="formify-forms__input formify-forms__input--quiz formify-forms__input--quiz-color2">
+													<input class="formify-forms__input d-none" type="radio" value="B" id="q-${counTemp + 1}"
+														name="q-question-${idx}">
+													<label class="formify-forms__input--quiz-label formify-forms__input--quiz-label--v3"
+														for="q-${counTemp + 1}">
+														<div class="formify-forms__quiz-value formify-forms__quiz-value--v3">
+															<span>B</span>${answerB[idx]}
+														</div>
+														<div class="formify-forms__quiz-check--v3">
+															<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewbox="0 0 28 28"
+																fill="none">
+																<path
+																	d="M25.6666 12.9333V14.0067C25.6652 16.5225 24.8505 18.9705 23.3441 20.9855C21.8378 23.0005 19.7204 24.4746 17.3078 25.1879C14.8953 25.9012 12.3167 25.8156 9.9568 24.9437C7.59688 24.0718 5.58202 22.4605 4.21271 20.3499C2.8434 18.2394 2.19301 15.7428 2.35854 13.2324C2.52407 10.722 3.49666 8.33239 5.13125 6.41993C6.76583 4.50747 8.97483 3.17462 11.4288 2.62018C13.8828 2.06574 16.4502 2.3194 18.7483 3.34334M25.6666 4.66667L13.9999 16.345L10.4999 12.845"
+																	stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+															</svg>
+														</div>
+													</label>
+												</div>
+											</div>
+											
+											<!-- Form Group -->
+											<div class="form-group formify-mg-top-40" id="b-question-${idx}">
+												<div class="formify-forms__button">
+													<button class="formify-btn prev-step">
+														<img src="member/images/formify-arrow-left.svg">
+														이전으로..!
+													</button>
+													<button class="formify-btn next-step">
+														다음으로 ㄱㄱ
+														<img class="nextArrow" src="member/images/formify-arrow-right.svg">
+													</button>
+												</div>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								<!-- Form Group -->
+							</div>
+							`;
+				counTemp = counTemp + 2;
+				target.append(temp);
+				
+				if((questionArr.length - 1) == idx) {
+					temp = `
+						<div class="tab-pane fade" id="step12">
+							<div class="formify-forms__quiz-single formify-forms__quiz-single--v3">
+								<h3 class="formify-forms__quiz-title formify-forms__quiz-title--v3 m-0" style="text-align: center; margin-bottom: 1rem !important;">
+									MBTI 검사 끝!</h3>
+								<h4 class="m-0" style="text-align: center; font-weight: 600; color: #101010;" id="showMbti"></h4>
+								<div class="formify-forms__quiz-form formify-mg-top-40" style="margin-top: 2rem;">
+									<div class="formify-forms__quiz-form">
+										<div class="form-group formify-mg-top-40">
+											<div class="formify-forms__button" style="justify-content: center;">
+												<button class="formify-btn next-step" id="endOfMbti"
+														style="font-size: large; min-width: 170px; min-height: 40px;">검사 종료</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					`;
+					target.append(temp);
+				}
+			});
+			
+			// 첫 질문인 경우 이전 버튼 비활성화
+			$('#b-question-0 .prev-step').css("visibility","hidden");;
+			
+			const form = $('#multiStepForm');
+			const steps = form.find('.tab-pane');
+			console.log(steps);
+			const links = $('.nav-link');
+			const progress = $('.progress-bar');
+			let currentStep = 0;
+			let userMbti;
+
+			function showStep(stepIndex) {
+				steps.removeClass('show active');
+				$(steps[stepIndex]).addClass('show active');
+				links.removeClass('active');
+				$(links[stepIndex]).addClass('active');
+				updateProgress();
+
+				// Apply zoom-out animation
+				$('.formify-form__quiz-current').addClass('zoom-out');
+
+				// Change the step number and apply zoom-in animation
+				setTimeout(function () {
+					$('.formify-form__quiz-current')
+						.text(stepIndex + 1)
+						.removeClass('zoom-out')
+						.addClass('zoom-in');
+				}, 300); // Adjust the delay to match your CSS transition duration
+
+			}
+
+			function updateProgress() {
+				const percent = (currentStep / (steps.length - 1)) * 100;
+				progress.css('width', percent + '%');
+			}
+			
+			// 답변 선택시 next 버튼 생성 이벤트 
+			function clickAnswer() {				
+				$("input[name='q-question-0']").change(function(){
+					$('#b-question-0').css('opacity', 0)
+									  .slideDown(250, 'swing')
+									  .animate(
+										  {opacity: 1},
+										  {queue: false, duration: 500}
+									  );
+					//$('#b-question-0').slideDown(500, 'swing').fadeIn();
+				});
+			}
+			
+			
+
+			// 다음 버튼 클릭
+			$('.next-step').click(function (event) {
+				event.preventDefault();
+				
+				// 부모 노드의 id 값 가져오기 
+				console.log(event.target.parentElement.parentElement.id);
+				// split - 특정문자로 자르기 -> 배열로 반환 
+				let step = (event.target.parentElement.parentElement.id).split('-')[2];
+				console.log(step);
+				
+				// input의 radio가 체크 되어있는지 확인 
+				// input 태크 name 값에 변수 넣기 
+				console.log($('input[name=q-question-'+step+']').is(":checked"));				
+				if( !($('input[name=q-question-'+step+']').is(":checked")) && currentStep < (steps.length - 1)) {
+					Swal.fire({
+						title: "선택 오류",
+						text: "선택 부탁드려용!",
+						icon: "error",
+					})
+				} else {
+					currentStep++;
+					if (currentStep < steps.length) {
+						showStep(currentStep);
+					} else {
+						// Handle form submission or completion here For example, you can use AJAX to
+						// submit the form data You can add your form submission logic here
+						console.log('검사가 종료되었습니다.');
+						$.ajax({
+							url: '/updateMbti',
+							type: 'POST',
+							data: JSON.stringify({ mbti: userMbti }),
+							contentType: 'application/json'
+						})
+						.done(function(result) {
+							console.log(result);
+							if (result.result) {
+								console.log("MBTI success");
+								if (result.checkFirst == 'first')
+									location.replace('/');
+								else
+									location.replace('/mypage');
+							} else {
+								Swal.fire({
+									title: "검사 오류",
+									text: "MBTI 검사 중 오류 발생, 새로고침 진행합니다.",
+									icon: "error",
+								}).then(function(){
+									location.reload();
+								})
+							}
+						})
+						.fail(function(err) {
+							console.log(err);
+							Swal.fire({
+								title: "검사 오류",
+								text: "MBTI 검사 중 오류 발생, 새로고침 진행합니다.",
+								icon: "error",
+							}).then(function(){
+								location.reload();
+							})
+						})
+					}
+				}
+				
+				// 마지막 검사에서 next 버튼 누르면 MBTI 뭔지 결과 보여주기  
+				if (step == questionArr.length - 1) {
+					// form에서 선택한 값 배열로 가져오기 serializeArray 사용 
+					const mbtiTest = $('#multiStepForm').serializeArray();
+					console.log(mbtiTest);
+					
+					const mbtiSlice = [];
+					for (let i = 0; i < mbtiTest.length; i += 3) {
+						mbtiSlice.push(mbtiTest.slice(i, i + 3));
+					}
+					console.log(mbtiSlice);
+					console.log(mbtiSlice[0][0].value);
+					
+					// MBTI 체크 
+					for (let i = 0; i < mbtiSlice.length; i++) {
+						let tempMbti = 0;
+						
+						for (let j = 0; j < 3; j++) {
+							if (mbtiSlice[i][j].value == 'A')
+								tempMbti++;
+						}
+						
+						if (i == 0) {
+							if (tempMbti > 1)
+								userMbti = 'E';
+							else
+								userMbti = 'I';
+						} else if (i == 1) {
+							if (tempMbti > 1)
+								userMbti += 'N';
+							else
+								userMbti += 'S';
+						} else if (i == 2) {
+							if (tempMbti > 1)
+								userMbti += 'F';
+							else
+								userMbti += 'T';
+						} else {
+							if (tempMbti > 1)
+								userMbti += 'J';
+							else
+								userMbti += 'P';
+						}
+					}
+					
+					// MBTI 검사 결과 
+					console.log(userMbti);
+					
+					const targetMbti = $('#showMbti');
+					let temp = `
+							당신의 MBTI는 <span style="color: #5a93ff">${userMbti}</span> 입니다.
+					`;
+					
+					targetMbti.append(temp);
+				}
+				// End of if
+				
+			});
+	
+			// 다음 버튼 호버
+			$('.next-step').hover(function () {
+				$('.nextArrow').attr("src", "member/images/formify-arrow-right2.svg");
+			}, function () {
+				$('.nextArrow').attr("src", "member/images/formify-arrow-right.svg");
+			});
+
+			// 이전 버튼 클릭
+			$('.prev-step').click(function (event) {
+				event.preventDefault(); // Prevent the default form submission behavior
+				currentStep--;
+				if (currentStep >= 0) {
+					showStep(currentStep);
+				}
+			});
+
+			showStep(currentStep);
+		});
+	</script>
+</th:block>
+<!-- </body> -->
+
+</html>

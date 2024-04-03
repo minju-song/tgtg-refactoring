@@ -1,0 +1,279 @@
+/* 2024-02-04 전유진 추가 */
+@font-face {
+	font-family: "NotoSansKR";
+	src: url("./fonts/NotoSansKR-Regular.ttf") format("truetype");
+}
+
+*{
+	font-family: "NotoSansKR";
+}
+
+/* 스크롤바 */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0); 
+  border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #a6b2c6;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #5d87ff; 
+}
+
+/* 회원목록 */
+td {
+	word-break: break-word;
+}
+.custom-fs-5 {
+	font-size: 0.9em;
+}
+.custom-fs-6 {
+	font-size: 0.8em;
+}
+.date-info {
+	min-width: 180px;
+}
+.search-wrapper {
+    border: var(--bs-border-width) solid #DFE5EF;
+    border-radius: 7px;
+}
+.search-wrapper .form-select {
+    border: none;
+    border-right: var(--bs-border-width) solid #DFE5EF;
+    border-radius: 7px 0 0 7px;
+}
+.search-wrapper .form-control {
+    border: none;
+    width: 30vw;
+    border-radius: 0;
+}
+.search-wrapper .search-input-wrapper {
+    width: 20vw;
+    min-width: 385px;
+}
+.search-wrapper .search-input-wrapper button {
+    border: none;
+    border-radius: none;
+    background-color: transparent;
+}
+.search-wrapper .search-input-wrapper .ti {
+    font-size: 18px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+.input-radio {
+    width: 100%;
+    padding-left: 10px;
+}
+
+.card-title {
+	display: flex;
+    align-items: center;
+}
+.card-title::before {
+    content: "";
+    display: inline-block;
+    width: 0.2em;
+    height: 1em;
+    background-color: var(--bs-blue);
+    margin-right: 0.5rem;
+}
+th, td {
+	text-align: center;
+}
+td {
+	vertical-align: middle;
+}
+
+.pagination i {
+	border: 1px solid #5a6a85;
+	color: #5a6a85;
+}
+.pagination i:hover {
+	background: #5a6a85;
+	color: #fff;
+}
+.pagination strong {
+	color: #5d87ff;
+}
+.pagination a {
+	color: #5a6a85;
+}
+.pagination a:hover {
+	color: #5d87ff;
+}
+
+.member-stop {
+	display: none;
+}
+.member-stop input[type=radio]{
+    display: none;
+}
+.member-stop input[type=radio]+label{
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid #333;
+    text-align: center;
+}
+.member-stop input[type=radio]+label{
+    border: 1px solid #5a6a85;
+  	color: #5a6a85;
+  	cursor: pointer;
+}
+.member-stop input[type=radio]:hover+label{
+	background: #5a6a85;;
+	color: #fff;
+}
+.member-stop input[type=radio]:checked+label{
+    background: #5a6a85;;
+	color: #fff;
+}
+
+
+/* 익명관리 */
+.delete-nickname {
+	display: none;
+	cursor: pointer;
+}
+.delete-nickname:hover {
+	text-decoration: underline;
+}
+.show {
+	display: inline-block;
+}
+.nickname-add {
+	cursor: pointer;
+	user-select: none;
+	width: fit-content;
+}
+.nickname-add .ti {
+	font-size: 20px;
+}
+.anonymous-container {
+	margin-right: 0 !important;
+	margin-left: 0 !important;	
+}
+.anonymous-container .col {
+	position: relative;
+}
+.anonymous-container .nickname-list,
+.anonymous-container .nickname-detail {
+	height: 600px;
+	overflow-y: scroll;
+	padding-right: 5px;
+}
+.anonymous-container .bg-light {
+	background: #f7f8f9 !important;
+}
+
+.nickname-list li {
+	border: 2px solid #E5EAEF;
+	padding: 0.6rem 0.7rem;
+	border-radius: 7px;
+	background: #fff;
+	user-select: none;
+	cursor: pointer;
+	box-sizing: border-box;
+}
+.nickname-list .selected {
+	background: #F1F7FF;
+	border: 2px solid #539BFF;
+	font-weight: 600;
+}
+.profile-image img {
+	width: 10vw;
+	height: 10vw;
+	min-width: 120px;
+	min-height: 120px;
+	max-width: 150px;
+	max-height: 150px;
+	border-radius: 5px;
+	object-fit: cover;
+	user-select: none;
+}
+.add-file {
+	width: 100%;
+	height: 100%;
+	border: 1px solid #E5EAEF;
+	padding: 0.3rem;
+	border-radius: 7px;
+	background: #fff;
+}
+.disable-input {
+	background: #eaeff4;
+}
+.add-file-button {
+	min-width: 62px;
+	border: none;
+	border-radius: 5px;
+	background: #5D87FF;
+	padding: 5px 8px;
+	color: #fff;
+	user-select: none;
+	cursor: default;
+}
+.disable-button {
+	background: #949494;
+}
+.add-file button .ti {
+	color: #fff;
+	margin-right: 5px;
+}
+.nickname-detail-area .cancle-button,
+.nickname-detail-area .save-button {
+	display: none;
+}
+input.form-control,
+input.form-control:focus {
+	background: #ffffff;
+}
+.thumnail {
+	border: 1px solid #E5EAEF;
+}
+.required:after {
+	content: "*";
+	color: #ff0000;
+	font-weight: 900;
+	margin-left: 5px;
+}
+.nickname-add-area,
+.nickname-detail-area {
+	display: none;
+}
+.nickname-add-area .thumnail {
+	background: #ffffff;
+}
+.show-area {
+	display: block;
+}
+
+
+/* 미디어쿼리 */
+@media all and (max-width:767px) {
+	.anonymous-container {
+		flex-direction: column;
+	}
+	.anonymous-container .nickname-list {
+		height: 150px;
+	}
+	.anonymous-container .nickname-detail {
+		height: auto;
+	}
+	.anonymous-container .card {
+		margin-bottom: 0;
+	}
+}
+
+
+

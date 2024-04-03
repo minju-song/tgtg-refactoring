@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+.speaker {
+    border: 3px solid orange;
+}
+
+
+.muteDiv {
+    flex: 1;
+    display : flex;
+    align-items : center;
+  }
+
+  #voiceMuteBtn {
+    border: 0;
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  #voiceMuteBtn img {
+	pointer-events: none;
+    width: 50%;
+    height: auto;
+  }

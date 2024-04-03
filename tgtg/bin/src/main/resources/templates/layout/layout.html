@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="HTML5 website template">
+<meta name="keywords" content="global, template, html, sass, jquery">
+<meta name="author" content="Bucky Maler">
+<link rel="stylesheet" href="/css/main.css">
+<title>티격태격</title>
+</head>
+<body>
+
+	<div class="l-wrapper">
+	    <!--/* 헤더 start */-->
+	    <header th:replace="fragments/header.html :: headerFragment"></header>
+	    <!--/* 헤더 end */-->
+		
+		<!--/* 메인 컨텐츠 영역 start */-->
+		<div id="contents" layout:fragment="mainContent"></div>
+		<!--/* 메인 컨텐츠 영역 end */-->
+		
+		<!--/* 푸터 영역 start */-->
+		<!-- <footer class="footer">
+	        <div class="container">
+	            <div class="row">
+	                <div class="col text-center">
+	                    <div th:replace="fragments/footer.html :: footerFragment"></div>
+	                </div>
+	            </div>
+	        </div>
+	    </footer> -->
+	</div>
+	<!--/* 사이드 메뉴 start */-->
+	<div th:replace="fragments/side.html :: sideFragment"></div>
+	<!--/* 사이드 메뉴 end */-->
+</body>
+</html>

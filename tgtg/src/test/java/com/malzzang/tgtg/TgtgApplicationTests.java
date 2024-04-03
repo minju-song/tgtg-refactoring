@@ -14,10 +14,7 @@ class TgtgApplicationTests {
 	@Test
 	   void encryptor() {
 	      String[] datas = {
-	                        "org.mariadb.jdbc.Driver"
-	                        ,"jdbc:mariadb://127.0.0.1:3307/tgtgdb"
-	                        ,"root"
-	                        ,"maria"
+
 	      };
 	      
 	      for(String data : datas) {

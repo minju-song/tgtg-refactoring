@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>음성싸움방</title>
+<link rel="stylesheet" href="/user/css/chat.css">
+<link rel="stylesheet" href="/user/css/waitChatroom.css">
+<link rel="stylesheet" href="/user/css/voiceChatroom.css">
+<link
+	href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css"
+	rel="stylesheet">
+<link href="https://webfontworld.github.io/fontlab/LABDigital.css" rel="stylesheet">
+</head>
+<body>
+	<th:block layout:fragment="mainContent">
+		<div class="l-main-content">
+			<div class="content" id="content">
+				<div id="chatBox" style="margin-top: 100px;">
+					<div>
+						<h2 id="subject">
+							<span style="color: #F66868; font-size: larger;">[[${room.answerA}]]</span>
+							<img src="/user/img/chat/boxing.png">
+							<span style="font-size: larger; color: #687FF6;">[[${room.answerB}]]</span>
+						</h2>
+						<div id="digitalTimer"></div>
+						</div>
+					<div id="chatView">
+					</div>
+					<div id="emojiToast">
+						<strong>원하는 이모티콘 선택<span id="emojiClose"
+							style="padding: 5px; color: red;">X</span></strong>
+						<hr>
+						<div class="grid">
+							<!-- 여기에 원하는 요소 추가 -->
+							<div class="emoji">&#128512;</div>
+							<div class="emoji">&#129300;</div>
+							<div class="emoji">&#128557;</div>
+							<div class="emoji">&#128545;</div>
+							<div class="emoji">&#128075;</div>
+							<div class="emoji">&#128077;</div>
+							<div class="emoji">&#128078;</div>
+							<div class="emoji">&#128591;</div>
+							<div class="emoji">&#128157;</div>
+							<div class="emoji">&#128151;</div>
+							<div class="emoji">&#128152;</div>
+							<div class="emoji">&#128150;</div>
+						</div>
+					</div>
+					<div id="chatSend">
+						<button id="emojiBtn">
+							<img src="/user/img/chat/emoji.png" />
+						</button>
+						<textarea id="message" placeholder="채팅방에 메시지보내기"></textarea>
+						<button id="sendBtn">
+							<img src="/user/img/chat/send.png" />
+						</button>
+					</div>
+				</div>
+				<div id="sideMenu">
+					<div class="bold-font sideMenuTitle">
+						참여 목록 (<span class="countConnect"></span>)
+					</div>
+					<div id="memberList">
+						<h3> 심판 </h3>
+						<div id="judgeList"></div>
+						<h3> [[${room.answerA}]] </h3>
+						<div id="answerAList"></div>
+						<h3> [[${room.answerB}]] </h3>
+						<div id="answerBList"></div>
+					</div>
+				</div>
+				<div id="remoteStreamDiv" hidden>
+				</div>
+			</div>
+		</div>
+
+		<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+		<script th:inline="javascript">
+			// 소켓관련
+			let stompClient = null;
+
+			// 채팅방
+			let room = /*[[${room}]]*/null;
+
+            let anonymousId = /*[[${anonymousId}]]*/null;
+
+			//익명처리
+			let anonymous = JSON.parse(localStorage.getItem(anonymousId));
+
+			let myRole;
+			if(anonymous.role == 'answerA') {
+				myRole = room.answerA;
+			}
+			else if (anonymous.role == 'answerB') {
+				myRole = room.answerB;
+			}
+			else myRole = '심판';
+
+			let chatView = document.getElementById('chatView');
+
+			console.log(anonymous);
+			console.log(room);
+
+		</script>
+		<script th:src="@{/user/js/voiceChatroom.js}"></script>
+		<script th:src="@{/user/js/game.js}"></script>
+		<script th:src="@{/user/js/chat.js}"></script>
+
+	</th:block>
+</body>
+</html>
