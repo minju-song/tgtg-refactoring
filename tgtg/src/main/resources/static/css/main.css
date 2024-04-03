@@ -759,7 +759,7 @@ body {
     left: 23px;
     right: 0;
     height: 100%;
-    background-color: #5050d8;
+    background-color: #1467f4;
     z-index: -1;
     -webkit-transition: left .2s ease-in-out;
     transition: left .2s ease-in-out
@@ -973,7 +973,7 @@ body {
 
 .work--lockup .slider--item-description {
     display: none;
-    max-width: 250px;
+    max-width: 400px;
     margin: 0 auto
 }
 
