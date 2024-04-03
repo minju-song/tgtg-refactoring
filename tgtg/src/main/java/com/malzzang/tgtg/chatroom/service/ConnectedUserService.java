@@ -9,12 +9,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
+import com.malzzang.tgtg.anonymous.service.AnonymousService;
+import com.malzzang.tgtg.member.service.MemberService;
 
 @Service
 public class ConnectedUserService {
+	
+	@Autowired
+	AnonymousService anonymousService;
+	
+	@Autowired
+	MemberService memberService;
 
 	private final Map<Integer, Set<AnonymousDTO>> chatRoomMemberList = new HashMap<>();
 	
@@ -151,5 +160,59 @@ public class ConnectedUserService {
     	
     	return resultSet;
     	
+    }
+    
+    public void saveResult(int roomId, String result) {
+    	Set<AnonymousDTO> set = chatRoomMemberList.get(roomId);
+    	if(result.equals("answerA")) {
+    		for (AnonymousDTO user : set) {
+                if(user.getRole().equals("answerA")) {
+                	String memberId = anonymousService.findMemberId(Integer.toString( user.getAnonymousId()));
+                	System.out.println(memberId);
+                	memberService.increaseWin(memberId);                  
+                }
+                else if(user.getRole().equals("answerB")) {
+                	String memberId = anonymousService.findMemberId(Integer.toString( user.getAnonymousId()));
+                	System.out.println(memberId);
+                	memberService.increaseLose(memberId);  
+                }
+                anonymousService.deleteAnonymous(user.getAnonymousId());
+            }
+    	}
+    	else if (result.equals("answerB")) {
+    		for (AnonymousDTO user : set) {
+                if(user.getRole().equals("answerB")) {
+                	String memberId = anonymousService.findMemberId(Integer.toString( user.getAnonymousId()));
+                	System.out.println(memberId);
+                	memberService.increaseWin(memberId);                  
+                }
+                else if(user.getRole().equals("answerA")) {
+                	String memberId = anonymousService.findMemberId(Integer.toString(user.getAnonymousId()));
+                	System.out.println(memberId);
+                	memberService.increaseLose(memberId);  
+                }
+                anonymousService.deleteAnonymous(user.getAnonymousId());
+            }
+    	}
+    	else {
+    		for (AnonymousDTO user : set) {
+                if(user.getRole().equals("answerA") || user.getRole().equals("answerB")) {
+                	String memberId = anonymousService.findMemberId(Integer.toString( user.getAnonymousId()));
+                	System.out.println(memberId);
+                	memberService.increaseDraw(memberId);
+                }
+                anonymousService.deleteAnonymous(user.getAnonymousId());
+            }
+    	}
+    	deleteRoom(roomId);
+    }
+    
+    public void deleteRoom(int roomId) {
+    	chatRoomMemberList.remove(roomId);
+    	gameStartTime.remove(roomId);
+    	roomEndTime.remove(roomId);
+    	voteResultA.remove(roomId);
+    	voteResultB.remove(roomId);
+    	zeroCount.remove(roomId);
     }
 }

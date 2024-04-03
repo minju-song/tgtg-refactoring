@@ -19,9 +19,6 @@ public class AnonymousServiceImpl implements AnonymousService {
 	@Autowired
 	AnonymousRepository anonymousRepository;
 	
-	@Autowired
-	ConnectedUserService connectedUserService;
-	
 	//익명아이디 - 실제아이디 맵핑
 	private final Map<String, String> anonymousMemberMapping = new HashMap<>();
 	
@@ -72,6 +69,12 @@ public class AnonymousServiceImpl implements AnonymousService {
 	@Override
 	public String findMemberId(String anonymousId) {
 		return anonymousMemberMapping.get(anonymousId);
+	}
+
+	@Override
+	public void deleteCount(int roomId) {
+		anonymousCount.remove(roomId);
+		
 	}
 	
 

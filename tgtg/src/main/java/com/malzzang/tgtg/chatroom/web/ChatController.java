@@ -196,6 +196,12 @@ public class ChatController {
     public void gameResult(@DestinationVariable int roomId) {
     	if(connectedUserService.getZeroCount(roomId)) {
     		String result = connectedUserService.getVoteResult(roomId);
+//    		먼저 DB에 저장
+    		connectedUserService.saveResult(roomId, result);
+//    		관련정보 삭제
+    		chatroomService.removeRoomById(roomId);
+    		readyUserService.deleteReadyUser(roomId);
+//    		결과전송
     		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/getResult", result);
     	}
     }

@@ -3,6 +3,7 @@ package com.malzzang.tgtg.chatroom.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +25,10 @@ public class ReadyUserService {
     public int getReady(int roomId) {
     	System.out.println("준비한 회원 수 : "+readyUser.getOrDefault(roomId, 0));
         return readyUser.getOrDefault(roomId, 0);
+    }
+    
+    public void deleteReadyUser(int roomId) {
+    	readyUser.remove(roomId);
     }
 
 }

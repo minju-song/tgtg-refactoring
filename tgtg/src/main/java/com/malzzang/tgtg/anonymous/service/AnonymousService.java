@@ -18,6 +18,9 @@ public interface AnonymousService {
 	//회원의 익명객체 삭제
 	public void deleteAnonymous(int anonymousId);
 	
+	//해당 방 count삭제
+	public void deleteCount(int roomId);
+	
 	//회원의 진짜 아이디 얻기
 	public String findMemberId(String anonymousId);
 

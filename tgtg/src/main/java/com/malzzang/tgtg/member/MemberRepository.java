@@ -32,4 +32,21 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 	int updateMemberMbti(String memberId, String memberRole, String memberMbti);
 	
 	// DELETE member WHERE member_id = ?
+	
+	
+	// 승리 + 1
+	@Transactional
+	@Modifying(clearAutomatically = true)
+	@Query("UPDATE Member m SET m.memberWin = :memberWin WHERE m.memberId = :memberId")
+	int updateMemberWin(String memberId, int memberWin);
+	
+	@Transactional
+	@Modifying(clearAutomatically = true)
+	@Query("UPDATE Member m SET m.memberDraw = :memberDraw WHERE m.memberId = :memberId")
+	int updateMemberDraw(String memberId, int memberDraw);
+	
+	@Transactional
+	@Modifying(clearAutomatically = true)
+	@Query("UPDATE Member m SET m.memberLose = :memberLose WHERE m.memberId = :memberId")
+	int updateMemberLose(String memberId, int memberLose);
 }
