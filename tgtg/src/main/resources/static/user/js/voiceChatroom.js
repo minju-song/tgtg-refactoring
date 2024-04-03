@@ -39,12 +39,17 @@ function voiceMute() {
 // 음소거 버튼 바꾸기
 function updateVoiceMuteButton() {
     isVoiceMute = !isVoiceMute;
+    let img = document.createElement("img");
+    document.getElementById('voiceMuteBtn').innerHTML = '';
     if(isVoiceMute) {
-        document.getElementById('voiceMuteBtn').innerText = '음소거 해제';
+        img.setAttribute('src','/user/img/chat/micro.png');
+        //document.getElementById('voiceMuteBtn').innerText = '음소거 해제';
     }
     else {
-        document.getElementById('voiceMuteBtn').innerText = '음소거';      
+        img.setAttribute('src','/user/img/chat/mute.png');
+        //document.getElementById('voiceMuteBtn').innerText = '음소거';      
     }
+    document.getElementById('voiceMuteBtn').appendChild(img);
 }
 
 // 스트림 
