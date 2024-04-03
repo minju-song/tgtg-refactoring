@@ -165,6 +165,7 @@ public class ConnectedUserService {
     }
     
     public void saveResult(int roomId, String result) {
+    	System.out.println(roomId);
     	Set<AnonymousDTO> set = chatRoomMemberList.get(roomId);
     	if(result.equals("answerA")) {
     		for (AnonymousDTO user : set) {
@@ -206,11 +207,10 @@ public class ConnectedUserService {
                 anonymousService.deleteAnonymous(user.getAnonymousId());
             }
     	}
-    	deleteRoom(roomId);
     }
     
     public void deleteRoom(int roomId) {
-    	chatRoomMemberList.remove(roomId);
+    	//chatRoomMemberList.remove(roomId);
     	gameStartTime.remove(roomId);
     	roomEndTime.remove(roomId);
     	voteResultA.remove(roomId);

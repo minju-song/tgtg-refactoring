@@ -197,8 +197,10 @@ public class ChatController {
     	if(connectedUserService.getZeroCount(roomId)) {
     		String result = connectedUserService.getVoteResult(roomId);
 //    		먼저 DB에 저장
+    		System.out.println("결과 : "+result);
     		connectedUserService.saveResult(roomId, result);
 //    		관련정보 삭제
+    		connectedUserService.deleteRoom(roomId);
     		chatroomService.removeRoomById(roomId);
     		readyUserService.deleteReadyUser(roomId);
 //    		결과전송
