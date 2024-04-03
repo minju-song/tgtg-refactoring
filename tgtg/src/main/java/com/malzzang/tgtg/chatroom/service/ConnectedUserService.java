@@ -62,10 +62,12 @@ public class ConnectedUserService {
 		if(gameSelect == 0) {
 			int count = voteResultA.getOrDefault(roomId, 0) + 1;
 			voteResultA.put(roomId, count);
+			System.out.println("A" + count);
 		}
 		else {
 			int count = voteResultB.getOrDefault(roomId, 0) + 1;
 			voteResultB.put(roomId, count);
+			System.out.println("B" + count);
 		}
 		
 	}
