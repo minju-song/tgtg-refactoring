@@ -56,19 +56,19 @@ public class AnonymousServiceImpl implements AnonymousService {
 	    }
 	}
 
-	@Override
-	public List<AnonymousDTO> selectAnonymousList() {
-		List<Anonymous> anonymousList = anonymousRepository.findAll();
-		List<AnonymousDTO> anonymousDtoList = anonymousList.stream()
-												.map(Anonymous::toResponseDto)
-												.collect(Collectors.toList());
-		return anonymousDtoList;
-	}
-
-	@Override
-	public AnonymousDTO selectAnonymous(int anonymousId) {
-		return anonymousRepository.findByAnonymousId(anonymousId).toResponseDto();
-	}
+//	@Override
+//	public List<AnonymousDTO> selectAnonymousList() {
+//		List<Anonymous> anonymousList = anonymousRepository.findAll();
+//		List<AnonymousDTO> anonymousDtoList = anonymousList.stream()
+//												.map(Anonymous::toResponseDto)
+//												.collect(Collectors.toList());
+//		return anonymousDtoList;
+//	}
+//
+//	@Override
+//	public AnonymousDTO selectAnonymous(int anonymousId) {
+//		return anonymousRepository.findByAnonymousId(anonymousId).toResponseDto();
+//	}
 
 	@Override
 	public AnonymousDTO getAnonymous(int count) {

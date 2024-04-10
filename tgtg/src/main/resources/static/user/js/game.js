@@ -324,13 +324,13 @@ function showConnectedCount(connect) {
 
     let div = document.createElement('div');
     if (!connect.enter) {
-        div.innerText = connect.anonymous.anonymousNickname + "님이 퇴장하였습니다.";
+        // div.innerText = connect.anonymous.anonymousNickname + "님이 퇴장하였습니다.";
     }
 
     drawMemberList(connect.memberList);
 
     div.setAttribute("class", "connectAlert");
-    chatView.appendChild(div);
+    // chatView.appendChild(div);
     chatView.scrollTop = chatView.scrollHeight;
 
 }

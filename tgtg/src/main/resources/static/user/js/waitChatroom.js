@@ -34,7 +34,6 @@ function connect() {
 
         stompClient.subscribe('/room/'+room.roomId+'/startGame', function (start) {
             // console.log(JSON.parse(start));
-            disconnect();
 
             startGame(JSON.parse(start.body));
         });
@@ -118,6 +117,7 @@ function cancelReady() {
 
 //게임 시작 함수
 function startGame(start) {
+
     console.log("시작 : "+start);
 
     let timerInterval;
@@ -148,12 +148,14 @@ function startGame(start) {
                 if(a.anonymousId == anonymous.anonymousId) {
                     anonymous.role = a.role;
                     console.log(a.role);
+                    disconnect();
                 }
             }
             
             let localAnonymous = JSON.stringify({anonymousId: anonymous.anonymousId, anonymousImage: anonymous.anonymousImage, anonymousNickname: anonymous.anonymousNickname,anonymousImageName: anonymous.anonymousImageName,roomId: room.roomId, key: null, role : anonymous.role});
 
             localStorage.setItem(anonymous.anonymousId, localAnonymous);
+
             if(room.type == 'text') {
                 window.location.href = start.url+room.roomId+"&anonymousId="+anonymous.anonymousId;
             }

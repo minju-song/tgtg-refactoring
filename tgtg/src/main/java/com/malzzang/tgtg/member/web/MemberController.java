@@ -114,59 +114,59 @@ public class MemberController {
 		return "OAuth2 세션 확인";
 	}
 
-  /**
-	 * 관리자 회원목록
-	 * @param model
-	 * @param memberEmail
-	 * @param memberStop
-	 * @param pageable
-	 * @return
-	 *
-	 */
-	@GetMapping("/management/memberList")
-	public String adminMemberList(Model model, String memberEmail, String memberStop,
-			@PageableDefault(page = 1, size = 10, sort = "memberId", direction = Direction.DESC) Pageable pageable) {
-		
-		Page<MemberDTO> memberDtoList = null;
-		if(memberStop != null && !memberStop.isEmpty()) {
-			memberDtoList = memberService.searchMemberStopList(pageable, memberStop);
-		} else if(memberEmail != null && !memberEmail.isEmpty()) {
-			memberDtoList = memberService.searchMemberEmailList(pageable, memberEmail);
-		} else {
-			memberDtoList = memberService.selectMemberList(pageable);		
-		}
-		
-		Map<String, Object> pagingInfo = memberService.getPagingInfo(pageable, memberDtoList); // 페이징 정보
-		
-		model.addAttribute("memberList", memberDtoList);
-		model.addAttribute("nowPage", memberDtoList.getNumber() + 1);
-		model.addAttribute("startPage", pagingInfo.get("startPage"));
-		model.addAttribute("endPage", pagingInfo.get("endPage"));
-		model.addAttribute("memberEmail", memberEmail);
-		model.addAttribute("memberStop", memberStop);
-		
-		return "admin/memberList.html";
-	}
+//  /**
+//	 * 관리자 회원목록
+//	 * @param model
+//	 * @param memberEmail
+//	 * @param memberStop
+//	 * @param pageable
+//	 * @return
+//	 *
+//	 */
+//	@GetMapping("/management/memberList")
+//	public String adminMemberList(Model model, String memberEmail, String memberStop,
+//			@PageableDefault(page = 1, size = 10, sort = "memberId", direction = Direction.DESC) Pageable pageable) {
+//		
+//		Page<MemberDTO> memberDtoList = null;
+//		if(memberStop != null && !memberStop.isEmpty()) {
+//			memberDtoList = memberService.searchMemberStopList(pageable, memberStop);
+//		} else if(memberEmail != null && !memberEmail.isEmpty()) {
+//			memberDtoList = memberService.searchMemberEmailList(pageable, memberEmail);
+//		} else {
+//			memberDtoList = memberService.selectMemberList(pageable);		
+//		}
+//		
+//		Map<String, Object> pagingInfo = memberService.getPagingInfo(pageable, memberDtoList); // 페이징 정보
+//		
+//		model.addAttribute("memberList", memberDtoList);
+//		model.addAttribute("nowPage", memberDtoList.getNumber() + 1);
+//		model.addAttribute("startPage", pagingInfo.get("startPage"));
+//		model.addAttribute("endPage", pagingInfo.get("endPage"));
+//		model.addAttribute("memberEmail", memberEmail);
+//		model.addAttribute("memberStop", memberStop);
+//		
+//		return "admin/memberList.html";
+//	}
 	
-	/**
-	 * 관리자 회원 계정정지 정보 업데이트
-	 * @param requestData
-	 * @return
-	 */
-	@PostMapping("/management/member/update/memberStop")
-	@ResponseBody
-	public int adminUpdateMemberStop(@RequestBody Map<String, String> requestData) {
-		int result = 0;
-		Timestamp memberStop = null;
-		String stopYn = requestData.get("stopYn");
-		String memberId = requestData.get("memberId");
-		
-		if(stopYn.equals("stop")) {
-			memberStop = Timestamp.valueOf(LocalDateTime.now());
-		}
-		
-		result = memberService.updateMemberStop(memberStop, memberId);
-		
-		return result;
-  }
+//	/**
+//	 * 관리자 회원 계정정지 정보 업데이트
+//	 * @param requestData
+//	 * @return
+//	 */
+//	@PostMapping("/management/member/update/memberStop")
+//	@ResponseBody
+//	public int adminUpdateMemberStop(@RequestBody Map<String, String> requestData) {
+//		int result = 0;
+//		Timestamp memberStop = null;
+//		String stopYn = requestData.get("stopYn");
+//		String memberId = requestData.get("memberId");
+//		
+//		if(stopYn.equals("stop")) {
+//			memberStop = Timestamp.valueOf(LocalDateTime.now());
+//		}
+//		
+//		result = memberService.updateMemberStop(memberStop, memberId);
+//		
+//		return result;
+//  }
 }

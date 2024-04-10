@@ -5,9 +5,9 @@ import java.util.List;
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 
 public interface AnonymousService {
-	
-	public List<AnonymousDTO> selectAnonymousList();
-	public AnonymousDTO selectAnonymous(int anonymousId);
+//	
+//	public List<AnonymousDTO> selectAnonymousList();
+//	public AnonymousDTO selectAnonymous(int anonymousId);
 	
 	//채팅방 입장 순으로 익명닉네임, 프로필 가져오기
 	public AnonymousDTO getAnonymous(int count);

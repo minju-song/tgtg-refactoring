@@ -39,6 +39,7 @@ public class ConnectedUserService {
 			    
 	    String key = "chatRoom:" + roomId + ":members";
 	    String value = anonymousService.serializeAnonymousDTO(anonymous); // AnonymousDTO 객체를 직렬화하는 메소드 필요
+	    System.out.println("들어옴>>"+value);
 	    redisTemplate.opsForSet().add(key, value);
     }
 	
@@ -137,6 +138,7 @@ public class ConnectedUserService {
     	 String key = "chatRoom:" + roomId + ":members";
          String value = anonymousService.serializeAnonymousDTO(anonymous); // AnonymousDTO 객체를 직렬화하는 메소드 필요
          
+         System.out.println(value+">>>>value");
          // Redis Set에서 회원 정보 제거
          redisTemplate.opsForSet().remove(key, value);
         
