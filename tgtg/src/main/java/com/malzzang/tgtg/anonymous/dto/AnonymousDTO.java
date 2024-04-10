@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Builder
 public class AnonymousDTO {
+	private String id;
 	private int anonymousId;
 	private String anonymousImage;
 	private String anonymousNickname;

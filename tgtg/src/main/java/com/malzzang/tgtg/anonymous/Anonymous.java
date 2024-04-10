@@ -1,5 +1,8 @@
 package com.malzzang.tgtg.anonymous;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 
 import jakarta.persistence.Column;
@@ -11,21 +14,22 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Entity
+@Document(collection = "anonymous")
 public class Anonymous {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "anonymous_id")
+	private String id;
+	
+	@Field("anonymous_id")
 	private int anonymousId;
 	
-	@Column(name = "anonymous_nickname")
+	@Field("anonymous_nickname")
 	private String anonymousNickname;
 	
-	@Column(name = "anonymous_image")
+	@Field("anonymous_image")
 	private String anonymousImage;
 	
-	@Column(name = "anonymous_image_name")
+	@Field("anonymous_image_name")
 	private String anonymousImageName;
 	
 	public AnonymousDTO toResponseDto(){

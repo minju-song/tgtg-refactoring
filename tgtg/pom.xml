@@ -107,6 +107,11 @@
 	        <groupId>io.lettuce</groupId>
 	        <artifactId>lettuce-core</artifactId>
 	    </dependency>
+	    <!-- 몽고 db -->
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-data-mongodb</artifactId>
+	    </dependency>
 	</dependencies>
 
 	<build>

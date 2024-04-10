@@ -225,12 +225,12 @@ public class ConnectedUserService {
     	if(result.equals("answerA")) {
     		for (AnonymousDTO user : memberDTOs) {
                 if(user.getRole().equals("answerA")) {
-                	String memberId = anonymousService.findMemberId(roomId, Integer.toString( user.getAnonymousId()));
+                	String memberId = anonymousService.findMemberId(roomId, Integer.toString(user.getAnonymousId()));
                 	System.out.println(memberId);
                 	memberService.increaseWin(memberId);                  
                 }
                 else if(user.getRole().equals("answerB")) {
-                	String memberId = anonymousService.findMemberId(roomId, Integer.toString( user.getAnonymousId()));
+                	String memberId = anonymousService.findMemberId(roomId, Integer.toString(user.getAnonymousId()));
                 	System.out.println(memberId);
                 	memberService.increaseLose(memberId);  
                 }
@@ -240,7 +240,7 @@ public class ConnectedUserService {
     	else if (result.equals("answerB")) {
     		for (AnonymousDTO user : memberDTOs) {
                 if(user.getRole().equals("answerB")) {
-                	String memberId = anonymousService.findMemberId(roomId, Integer.toString( user.getAnonymousId()));
+                	String memberId = anonymousService.findMemberId(roomId, Integer.toString(user.getAnonymousId()));
                 	System.out.println(memberId);
                 	memberService.increaseWin(memberId);                  
                 }
@@ -255,8 +255,8 @@ public class ConnectedUserService {
     	else {
     		for (AnonymousDTO user : memberDTOs) {
                 if(user.getRole().equals("answerA") || user.getRole().equals("answerB")) {
-                	System.out.println(user.getAnonymousId());
-                	String memberId = anonymousService.findMemberId(roomId, Integer.toString( user.getAnonymousId()));
+
+                	String memberId = anonymousService.findMemberId(roomId, Integer.toString(user.getAnonymousId()));
                 	memberService.increaseDraw(memberId);
                 }
                 anonymousService.deleteAnonymous(roomId, user.getAnonymousId());
