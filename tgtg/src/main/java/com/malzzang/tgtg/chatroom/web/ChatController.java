@@ -158,7 +158,7 @@ public class ChatController {
     public Map leave(@DestinationVariable int roomId, AnonymousDTO anonymous) {
 
         connectedUserService.userLeft(roomId, anonymous);
-        anonymousService.deleteAnonymous(anonymous.getAnonymousId());
+        //anonymousService.deleteAnonymous(roomId, anonymous.getAnonymousId());
         
         //해당방 회원
         Set<AnonymousDTO> memberList = connectedUserService.getAllMembersInRoom(roomId);
@@ -178,6 +178,7 @@ public class ChatController {
 	public void gameTimer(@DestinationVariable int roomId) {
   		System.out.println("입장완");
   		LocalTime endTime = connectedUserService.gameStartUser(roomId);
+  		System.out.println(endTime+">>");
   		if(endTime != null) {
   			simpMessagingTemplate.convertAndSend("/room/" + roomId + "/sendTime", endTime);
   			System.out.println("다 들어옴" + endTime);
@@ -191,7 +192,7 @@ public class ChatController {
   		connectedUserService.gameVoteCount(roomId, gameSelect);
   	}
   	
-  //회원이 게임 대기방 퇴장했을 때
+
     @MessageMapping("/{roomId}/getResult")
     public void gameResult(@DestinationVariable int roomId) {
     	if(connectedUserService.getZeroCount(roomId)) {
@@ -203,6 +204,7 @@ public class ChatController {
     		connectedUserService.deleteRoom(roomId);
     		chatroomService.removeRoomById(roomId);
     		readyUserService.deleteReadyUser(roomId);
+    		anonymousService.deleteCount(roomId);
 //    		결과전송
     		simpMessagingTemplate.convertAndSend("/room/" + roomId + "/getResult", result);
     	}

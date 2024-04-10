@@ -11,8 +11,11 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 import com.malzzang.tgtg.chatroom.dto.Chatroom;
 import com.malzzang.tgtg.subject.SubjectRepository;
@@ -22,13 +25,17 @@ import com.malzzang.tgtg.subject.Subject;
 @Service
 public class ChatroomServiceImpl implements ChatroomService{
 	
-	private final List<Chatroom> rooms = new ArrayList<>();
-	
 	@Autowired
 	ConnectedUserService connectedUserService;
 	
 	@Autowired
 	SubjectRepository subjectRepository;
+	
+	@Autowired
+	private StringRedisTemplate redisTemplate;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@Override
 	public Chatroom findTextRoom() {
@@ -45,13 +52,23 @@ public class ChatroomServiceImpl implements ChatroomService{
 	public Chatroom findOrCreateRoom(String type) {
 		int baseRoomId = type.equals("text") ? 0 : 100;
 	    TreeSet<Integer> usedIds = new TreeSet<>(); // 사용 중인 방 번호를 저장
-
+	    
+	    String key = "chatRooms";
+	    List<String> roomsString = redisTemplate.opsForList().range(key, 0, -1);
+	    
+	    List<Chatroom> rooms = new ArrayList<>();
+	    for(String r : roomsString) {
+	    	Chatroom room = deserializeChatroom(r);
+	    	rooms.add(room);
+	    }
+	    
 	    // 기존 방 중에서 조건에 맞는 방이 있는지 확인하고, 사용 중인 roomId 기록
 	    for (Chatroom room : rooms) {
 	        if (room.getType().equals(type)) {
 	            usedIds.add(room.getRoomId());
+	            System.out.println("방상태:"+room.getRoomId()+" "+room.getStatus());
 	            if (room.getStatus().equals("ready") && connectedUserService.getConnectedUserCount(room.getRoomId()) < 12) {
-	                return room;
+	            	return room;
 	            }
 	        }
 	    }
@@ -72,13 +89,26 @@ public class ChatroomServiceImpl implements ChatroomService{
 	            .type(type)
 	            .status("ready")
 	            .build();
-	    rooms.add(newRoom);
+	    
+	    String value = serializeChatroom(newRoom);
+	    redisTemplate.opsForList().rightPush(key, value);
+
 	    return newRoom;
     }
 	
     // roomId를 토대로 Chatroom 객체를 반환하는 함수
 	@Override
     public Chatroom getRoomById(int roomId) {
+		
+	    String key = "chatRooms";
+	    List<String> roomsString = redisTemplate.opsForList().range(key, 0, -1);
+	    
+	    List<Chatroom> rooms = new ArrayList<>();
+	    for(String r : roomsString) {
+	    	Chatroom room = deserializeChatroom(r);
+	    	rooms.add(room);
+	    }
+	    
         for (Chatroom room : rooms) {
             if (room.getRoomId() == roomId) {
                 return room;
@@ -89,31 +119,63 @@ public class ChatroomServiceImpl implements ChatroomService{
 
 	@Override
 	public void setRoomStatusToRun(int roomId) {
-		for (Chatroom room : rooms) {
-	        if (room.getRoomId() == roomId) {
-	            room.setStatus("run"); // 상태를 "run"으로 변경
-	            return;
-	        }
+	    String key = "chatRooms";
+	    List<String> roomsString = redisTemplate.opsForList().range(key, 0, -1);
+	    
+	    List<Chatroom> rooms = new ArrayList<>();
+	    boolean isUpdated = false;
+	    
+	    for(String r : roomsString) {
+	    	Chatroom room = deserializeChatroom(r);
+	    	if(room.getRoomId() == roomId) {
+	    		room.setStatus("run");
+	    		isUpdated = true;
+	    	}
+	    	rooms.add(room);
 	    }
-		
-		System.out.println("해당 ID에 해당하는 방이 없습니다.");
+	    
+		if(isUpdated) {
+			redisTemplate.delete(key);
+			for(Chatroom room : rooms) {
+				redisTemplate.opsForList().rightPush(key, serializeChatroom(room));
+			}
+		}
+		else {
+			System.out.println("해당하는 방이 없습니다.");
+		}
 		
 	}
 
 	@Override
 	public boolean removeRoomById(int roomId) {
-		Iterator<Chatroom> iterator = rooms.iterator();
+		String key = "chatRooms";
+	    List<String> roomsString = redisTemplate.opsForList().range(key, 0, -1);
 	    
-	    while (iterator.hasNext()) {
-	        Chatroom room = iterator.next();
-	        if (room.getRoomId() == roomId) {
-	            iterator.remove(); // 해당 roomId를 가진 방을 리스트에서 제거
-	            return true; // 성공적으로 삭제되었음을 나타내는 true 반환
-	        }
+	    List<Chatroom> rooms = new ArrayList<>();
+	    boolean isRemoved = false;
+	    
+	    for(String r : roomsString) {
+	    	Chatroom room = deserializeChatroom(r);
+	    	if(room.getRoomId() == roomId) {
+	    		isRemoved = true;
+	    	}
+	    	else {	    		
+	    		rooms.add(room);
+	    	}
 	    }
 	    
-	    // roomId에 해당하는 방을 찾지 못했을 경우
-	    return false; // 삭제에 실패했음을 나타내는 false 반환
+	    if(isRemoved) {
+			redisTemplate.delete(key);
+			for(Chatroom room : rooms) {
+				redisTemplate.opsForList().rightPush(key, serializeChatroom(room));
+			}
+			return true;
+		}
+		else {
+			System.out.println("해당하는 방이 없습니다.");
+			return false;
+		}
+		
 	}
 
 	@Override
@@ -122,16 +184,37 @@ public class ChatroomServiceImpl implements ChatroomService{
 		
 		int num = (int) (Math.floor(Math.random() * len) + 1);
 		
+		boolean isSet = false;
+		
 		Optional<Subject> subject = subjectRepository.findById(num);
-		for (Chatroom room : rooms) {
-            if (room.getRoomId() == roomId) {
-                room.setTitle(subject.get().getSubjectTitle());
+		
+		String key = "chatRooms";
+	    List<String> roomsString = redisTemplate.opsForList().range(key, 0, -1);
+	    
+	    List<Chatroom> rooms = new ArrayList<>();
+	    
+	    for(String r : roomsString) {
+	    	Chatroom room = deserializeChatroom(r);
+	    	if(room.getRoomId() == roomId) {
+	    		room.setTitle(subject.get().getSubjectTitle());
                 room.setAnswerA(subject.get().getSubjectAnswerA());
                 room.setAnswerB(subject.get().getSubjectAnswerB());
-            }
-        }
-		
-		
+                isSet = true;
+	    	}
+	    	rooms.add(room);
+	    }
+	    
+	    
+	    if(isSet) {
+			redisTemplate.delete(key);
+			for(Chatroom room : rooms) {
+				redisTemplate.opsForList().rightPush(key, serializeChatroom(room));
+			}
+		}
+		else {
+			System.out.println("해당하는 방이 없습니다.");
+		}
+
 	}
 
 	@Override
@@ -142,6 +225,26 @@ public class ChatroomServiceImpl implements ChatroomService{
     	Set<AnonymousDTO> memberSet = connectedUserService.setRole(roomId);
     	
     	return memberSet;
+	}
+
+	@Override
+	public String serializeChatroom(Chatroom room) {
+		try {
+			return objectMapper.writeValueAsString(room);
+		} catch(JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Chatroom deserializeChatroom(String json) {
+		try {
+			return objectMapper.readValue(json, Chatroom.class);
+		} catch(JsonProcessingException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 

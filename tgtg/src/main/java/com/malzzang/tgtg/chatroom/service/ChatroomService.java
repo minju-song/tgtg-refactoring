@@ -33,4 +33,10 @@ public interface ChatroomService {
 	//게임 시작
 	public Set<AnonymousDTO> startGame(int roomId);
 	
+	// 직렬화
+	public String serializeChatroom(Chatroom room);
+	
+	// 역직렬화
+	public Chatroom deserializeChatroom(String json);
+	
 }

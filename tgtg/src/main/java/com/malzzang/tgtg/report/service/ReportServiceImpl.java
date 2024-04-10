@@ -31,8 +31,8 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public boolean insertReport(ReportDTO reportDTO) {
 		
-		Member reporter = memberRepository.findByMemberId(anonymousService.findMemberId(reportDTO.getReporterId()));
-		Member reported = memberRepository.findByMemberId(anonymousService.findMemberId(reportDTO.getReportedId()));
+		Member reporter = memberRepository.findByMemberId(anonymousService.findMemberId(reportDTO.getRoomId(), reportDTO.getReporterId()));
+		Member reported = memberRepository.findByMemberId(anonymousService.findMemberId(reportDTO.getRoomId(),reportDTO.getReportedId()));
 		
 		Report report = new Report();
 		report.setReportCategory(reportDTO.getReportCategory());

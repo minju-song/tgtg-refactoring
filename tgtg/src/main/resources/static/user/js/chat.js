@@ -39,7 +39,8 @@ function reportMember(anonymousId, nickname) {
                             reportReason : textResult.value,
                             reportStatus : '접수',
                             reporterId : anonymous.anonymousId,
-                            reportedId : anonymousId 
+                            reportedId : anonymousId,
+                            roomId : room.roomId 
                         }),
                         headers: {
                             "Content-Type": "application/json"

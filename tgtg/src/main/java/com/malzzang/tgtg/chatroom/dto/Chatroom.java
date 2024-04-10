@@ -1,9 +1,12 @@
 package com.malzzang.tgtg.chatroom.dto;
 
+import org.springframework.data.redis.core.RedisHash;
+
 import lombok.Builder;
 import lombok.Data;
 
 @Data
+@RedisHash("ChatRoom")
 public class Chatroom {
 	
 	private int roomId;

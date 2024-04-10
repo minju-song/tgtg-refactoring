@@ -182,6 +182,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int increaseDraw(String memberId) {
+		System.out.println("아이디!!!"+memberId);
 		Member member = memberRepository.findById(memberId)
 	            .orElseThrow(() -> new IllegalArgumentException("해당 ID의 멤버가 존재하지 않습니다. ID: " + memberId));
 	    

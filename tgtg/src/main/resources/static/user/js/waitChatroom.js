@@ -151,7 +151,7 @@ function startGame(start) {
                 }
             }
             
-            let localAnonymous = JSON.stringify({anonymousId: anonymous.anonymousId, anonymousImage: anonymous.anonymousImage, anonymousNickname: anonymous.anonymousNickname, role : anonymous.role});
+            let localAnonymous = JSON.stringify({anonymousId: anonymous.anonymousId, anonymousImage: anonymous.anonymousImage, anonymousNickname: anonymous.anonymousNickname,anonymousImageName: anonymous.anonymousImageName,roomId: room.roomId, key: null, role : anonymous.role});
 
             localStorage.setItem(anonymous.anonymousId, localAnonymous);
             if(room.type == 'text') {

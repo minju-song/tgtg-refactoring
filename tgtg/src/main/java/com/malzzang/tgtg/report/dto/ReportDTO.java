@@ -21,4 +21,5 @@ public class ReportDTO {
 	private String reportStatus;
 	private String reportAdmin;
 	private String reportChat;
+	private int roomId;
 }

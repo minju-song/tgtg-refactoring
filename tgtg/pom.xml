@@ -97,6 +97,16 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+		 <!-- 스프링 부트 스타터 데이터 Redis 의존성 -->
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-data-redis</artifactId>
+	    </dependency>
+	    <!-- Redis 클라이언트 Lettuce 의존성 -->
+	    <dependency>
+	        <groupId>io.lettuce</groupId>
+	        <artifactId>lettuce-core</artifactId>
+	    </dependency>
 	</dependencies>
 
 	<build>
