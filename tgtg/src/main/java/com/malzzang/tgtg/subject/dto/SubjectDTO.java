@@ -12,7 +12,7 @@ import lombok.Setter;
 @Builder
 public class SubjectDTO {
 	
-	int subjectId;
+	String _id;
 	private String subjectTitle;
 	private String subjectAnswerA;
 	private String subjectAnswerB;

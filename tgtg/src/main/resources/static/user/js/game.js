@@ -95,11 +95,11 @@ function showResult(vote){
     localStorage.clear();
     let title;
     if(vote === 'answerA'){
-        title = "“" + room.answerA + "” Win🎉";
+        title = "“" + room.answerA + "” 우승🎉";
     }else if(vote === 'answerB'){
-        title = "“" + room.answerB + "” Win🎉";
+        title = "“" + room.answerB + "” 우승🎉";
     }else{
-        title = "Draw🌈";
+        title = "무승부🌈";
     }
     Swal.fire({
         title : title,

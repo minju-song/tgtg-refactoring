@@ -1,15 +1,13 @@
 package com.malzzang.tgtg.chatroom.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.malzzang.tgtg.subject.dto.SubjectDTO;
+import com.malzzang.tgtg.subject.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -18,8 +16,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 import com.malzzang.tgtg.chatroom.dto.Chatroom;
-import com.malzzang.tgtg.subject.SubjectRepository;
-import com.malzzang.tgtg.subject.dto.SubjectDTO;
 import com.malzzang.tgtg.subject.Subject;
 
 @Service
@@ -27,9 +23,9 @@ public class ChatroomServiceImpl implements ChatroomService{
 	
 	@Autowired
 	ConnectedUserService connectedUserService;
-	
+
 	@Autowired
-	SubjectRepository subjectRepository;
+	SubjectService subjectService;
 	
 	@Autowired
 	private StringRedisTemplate redisTemplate;
@@ -180,13 +176,10 @@ public class ChatroomServiceImpl implements ChatroomService{
 
 	@Override
 	public void setTitle(int roomId) {
-		int len = subjectRepository.findAll().size();
-		
-		int num = (int) (Math.floor(Math.random() * len) + 1);
 		
 		boolean isSet = false;
 		
-		Optional<Subject> subject = subjectRepository.findById(num);
+		SubjectDTO subject = subjectService.getSubject();
 		
 		String key = "chatRooms";
 	    List<String> roomsString = redisTemplate.opsForList().range(key, 0, -1);
@@ -196,9 +189,9 @@ public class ChatroomServiceImpl implements ChatroomService{
 	    for(String r : roomsString) {
 	    	Chatroom room = deserializeChatroom(r);
 	    	if(room.getRoomId() == roomId) {
-	    		room.setTitle(subject.get().getSubjectTitle());
-                room.setAnswerA(subject.get().getSubjectAnswerA());
-                room.setAnswerB(subject.get().getSubjectAnswerB());
+	    		room.setTitle(subject.getSubjectTitle());
+                room.setAnswerA(subject.getSubjectAnswerA());
+                room.setAnswerB(subject.getSubjectAnswerB());
                 isSet = true;
 	    	}
 	    	rooms.add(room);

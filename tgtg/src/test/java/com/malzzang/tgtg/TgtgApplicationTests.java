@@ -19,7 +19,9 @@ class TgtgApplicationTests {
 	   void encryptor() {
 		
 		String[] datas = {
-	            "tgtg"
+				"J4IfdapxvpQJ6xFtei3InPQf2VsLMrFULP6NHKu/ytJel39bBBD16N7dFyrJsZmQIxIcdyfSyJVZtiKHjjG4eQ==",
+				"K3IdHTAnZjOT23E53BZqo4uJvmjIvZD13xCF/n2oqFoMOuZZjCeCxBMW0HVElNKq",
+				"98Gp6+B9daJBv7Ga/eh8gE+N0FZ/C4i7kKXfZ7zmjME+Fz2AVnWvddLf6kQr8glW/f5jKW6se11BeQaNqanktQ=="
         };
 	      
         for(String data : datas) {
