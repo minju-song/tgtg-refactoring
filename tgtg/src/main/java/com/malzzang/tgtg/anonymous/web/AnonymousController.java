@@ -15,26 +15,6 @@ public class AnonymousController {
 	@Autowired
 	AnonymousService anonymousService;
 	
-//	/**
-//	 * 관리자 익명 목록
-//	 * @param model
-//	 * @return
-//	 */
-//	@GetMapping("/management/anonymousList")
-//	public String anonymousList(Model model) {
-//		model.addAttribute("anonymousList", anonymousService.selectAnonymousList());
-//		return "admin/anonymousList.html";
-//	}
-	
-//	/**
-//	 * 관리자 익명 단건 정보 조회
-//	 * @param anonymousId
-//	 * @return
-//	 */
-//	@GetMapping("/management/anonymousInfo")
-//	@ResponseBody
-//	public AnonymousDTO anonymousInfo(int anonymousId) {
-//		return anonymousService.selectAnonymous(anonymousId);
-//	}
+
 	
 }

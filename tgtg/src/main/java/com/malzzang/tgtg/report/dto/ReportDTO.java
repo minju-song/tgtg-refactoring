@@ -2,10 +2,6 @@ package com.malzzang.tgtg.report.dto;
 
 import java.util.Date;
 
-import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
-import com.malzzang.tgtg.member.Member;
-
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,11 +1,7 @@
-package com.malzzang.tgtg.subject;
+package com.malzzang.tgtg.subject.domain;
 
 import com.malzzang.tgtg.subject.dto.SubjectDTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;

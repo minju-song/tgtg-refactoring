@@ -1,8 +1,8 @@
-package com.malzzang.tgtg.report;
+package com.malzzang.tgtg.report.domain;
 
 import java.util.Date;
 
-import com.malzzang.tgtg.member.Member;
+import com.malzzang.tgtg.member.domain.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.malzzang.tgtg.report;
+package com.malzzang.tgtg.report.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

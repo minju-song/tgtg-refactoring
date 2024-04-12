@@ -1,6 +1,6 @@
 package com.malzzang.tgtg.subject.service;
 
-import com.malzzang.tgtg.subject.Subject;
+import com.malzzang.tgtg.subject.domain.Subject;
 import com.malzzang.tgtg.subject.dto.SubjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

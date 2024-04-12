@@ -1,20 +1,17 @@
 package com.malzzang.tgtg.member.service;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.malzzang.tgtg.member.Member;
-import com.malzzang.tgtg.member.MemberRepository;
+import com.malzzang.tgtg.member.domain.Member;
+import com.malzzang.tgtg.member.domain.MemberRepository;
 import com.malzzang.tgtg.member.dto.MemberDTO;
 
 @Service

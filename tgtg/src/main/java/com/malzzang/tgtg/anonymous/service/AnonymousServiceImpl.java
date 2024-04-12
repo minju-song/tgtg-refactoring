@@ -1,9 +1,7 @@
 package com.malzzang.tgtg.anonymous.service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -11,10 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.malzzang.tgtg.anonymous.Anonymous;
-import com.malzzang.tgtg.anonymous.AnonymousRepository;
+import com.malzzang.tgtg.anonymous.domain.AnonymousRepository;
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
-import com.malzzang.tgtg.chatroom.service.ConnectedUserService;
 
 @Service
 public class AnonymousServiceImpl implements AnonymousService {
@@ -56,20 +52,7 @@ public class AnonymousServiceImpl implements AnonymousService {
 	    }
 	}
 
-//	@Override
-//	public List<AnonymousDTO> selectAnonymousList() {
-//		List<Anonymous> anonymousList = anonymousRepository.findAll();
-//		List<AnonymousDTO> anonymousDtoList = anonymousList.stream()
-//												.map(Anonymous::toResponseDto)
-//												.collect(Collectors.toList());
-//		return anonymousDtoList;
-//	}
-//
-//	@Override
-//	public AnonymousDTO selectAnonymous(int anonymousId) {
-//		return anonymousRepository.findByAnonymousId(anonymousId).toResponseDto();
-//	}
-
+//	count를 anonymousID로 설정한 뒤 DB에서 조회하기
 	@Override
 	public AnonymousDTO getAnonymous(int count) {
 		return anonymousRepository.findByAnonymousId(count).toResponseDto();

@@ -9,8 +9,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.malzzang.tgtg.member.Member;
-import com.malzzang.tgtg.member.MemberRepository;
+import com.malzzang.tgtg.member.domain.Member;
+import com.malzzang.tgtg.member.domain.MemberRepository;
 
 
 @Service

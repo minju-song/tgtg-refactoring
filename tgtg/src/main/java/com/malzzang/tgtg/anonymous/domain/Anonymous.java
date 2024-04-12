@@ -1,16 +1,11 @@
-package com.malzzang.tgtg.anonymous;
+package com.malzzang.tgtg.anonymous.domain;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Builder;
 import lombok.Data;
 
 @Data

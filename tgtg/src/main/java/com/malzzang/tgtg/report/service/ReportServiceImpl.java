@@ -8,12 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.malzzang.tgtg.anonymous.service.AnonymousService;
-import com.malzzang.tgtg.member.Member;
-import com.malzzang.tgtg.member.MemberRepository;
-import com.malzzang.tgtg.member.dto.MemberDTO;
-import com.malzzang.tgtg.member.service.MemberService;
-import com.malzzang.tgtg.report.Report;
-import com.malzzang.tgtg.report.ReportRepository;
+import com.malzzang.tgtg.member.domain.Member;
+import com.malzzang.tgtg.member.domain.MemberRepository;
+import com.malzzang.tgtg.report.domain.Report;
+import com.malzzang.tgtg.report.domain.ReportRepository;
 import com.malzzang.tgtg.report.dto.ReportDTO;
 
 @Service

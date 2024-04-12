@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.malzzang.tgtg.member.Member;
+import com.malzzang.tgtg.member.domain.Member;
 
 import lombok.Data;
 

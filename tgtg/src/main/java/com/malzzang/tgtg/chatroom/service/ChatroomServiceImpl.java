@@ -2,7 +2,6 @@ package com.malzzang.tgtg.chatroom.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -16,7 +15,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
 import com.malzzang.tgtg.chatroom.dto.Chatroom;
-import com.malzzang.tgtg.subject.Subject;
 
 @Service
 public class ChatroomServiceImpl implements ChatroomService{

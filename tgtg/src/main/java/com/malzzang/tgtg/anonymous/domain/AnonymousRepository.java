@@ -1,9 +1,6 @@
-package com.malzzang.tgtg.anonymous;
+package com.malzzang.tgtg.anonymous.domain;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.mongodb.repository.MongoRepository;
-
-import com.malzzang.tgtg.subject.Subject;
 
 public interface AnonymousRepository extends MongoRepository<Anonymous, String> {
 
