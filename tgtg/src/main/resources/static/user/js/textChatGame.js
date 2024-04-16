@@ -19,7 +19,7 @@ else {
 function connect() {
 
     // 소켓 생성해서 연결시킴
-    let socket = new SockJS('/ws-stomp');
+    let socket = new SockJS('https://localhost:8099/ws-stomp');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function () {
         console.log('Connected: ');

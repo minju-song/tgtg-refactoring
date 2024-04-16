@@ -2,6 +2,7 @@ package com.malzzang.tgtg;
 
 import java.util.Map;
 
+import com.malzzang.tgtg.proxyserver.TrustAllCertificates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,14 +24,18 @@ public class HomeController {
 	
 	@Autowired
 	MailService mailService;
+
+	@Autowired
+	TrustAllCertificates trust;
 	
 	@Value("${admin.mail}")
 	private String mail;
 	
 	@GetMapping("/")
 	public String home(Model model) {
+		trust.install();
 		model.addAttribute("memberWin", memberService.selectMemberWin());
-		System.out.println(memberService.selectMemberWin());
+
 		return "index.html";
 	}
 	

@@ -37,4 +37,7 @@ public interface MemberService {
 	
 	// 무승부업데이트
 	public int increaseDraw(String memberId);
+
+	// jwt토큰 생성
+	public String getJWT(String memberId);
 }

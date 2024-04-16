@@ -27,8 +27,6 @@ function timeWrite(endTime){
     let minute = Math.floor(diff / 60000);
     let second = Math.floor((diff % 60000) / 1000);
 
-    console.log(minute+'분 '+ second+'초');
-
     if(minute>=0 && second>=0){
         alarm.innerHTML = (minute <= 9 ? "0"+minute : minute)+':'+(second <= 9 ? "0"+second : second);
     }
@@ -128,7 +126,8 @@ function showResult(vote){
 
 // 채팅 전송
 function sendChat() {
-    if ($("#message").val() != "") {
+    var message = $("#message").val().trim(); // 입력 값에서 앞뒤 공백 제거
+    if (message != "")  {
         // JSON형태로 바꾸어서 보냄
         stompClient.send("/send/" + room.roomId + '/game', {},
             JSON.stringify({
@@ -259,7 +258,7 @@ function drawMemberList(list) {
             let reportBtn = document.createElement('button');
             reportBtn.classList.add('reportBtn');
             let btnImg = document.createElement('img');
-            btnImg.setAttribute('src', '/user/img/chat/siren.png');
+            btnImg.setAttribute('src', '/img/chat/siren.png');
             reportBtn.appendChild(btnImg);
             reportDiv.appendChild(reportBtn);
 
@@ -277,7 +276,7 @@ function drawMemberList(list) {
             let muteBtn = document.createElement('button');
             muteBtn.setAttribute('id','voiceMuteBtn');
             let muteImg = document.createElement('img');
-            muteImg.setAttribute('src','/user/img/chat/mute.png');
+            muteImg.setAttribute('src','/img/chat/mute.png');
             muteBtn.appendChild(muteImg);
             muteDiv.appendChild(muteBtn);
 

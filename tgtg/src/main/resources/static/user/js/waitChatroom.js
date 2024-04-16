@@ -12,7 +12,7 @@ let isReady = false;
 function connect() {
 
     // 소켓 생성해서 연결시킴
-    let socket = new SockJS('/ws-stomp');
+    let socket = new SockJS('https://localhost:8099/ws-stomp');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function () {
         console.log('Connected: ' );
@@ -65,7 +65,8 @@ function disconnect() {
 
 // 채팅 전송
 function sendChat() {
-    if ($("#message").val() != "") {
+    var message = $("#message").val().trim(); // 입력 값에서 앞뒤 공백 제거
+    if (message != "") {
         // JSON형태로 바꾸어서 보냄
         stompClient.send("/send/"+room.roomId, {},
             JSON.stringify({
@@ -223,7 +224,7 @@ function drawMemberList(list) {
             let reportBtn = document.createElement('button');
             reportBtn.classList.add('reportBtn');
             let btnImg = document.createElement('img');
-            btnImg.setAttribute('src', '/user/img/chat/siren.png');
+            btnImg.setAttribute('src', '/img/chat/siren.png');
             reportBtn.appendChild(btnImg);
             reportDiv.appendChild(reportBtn);
     

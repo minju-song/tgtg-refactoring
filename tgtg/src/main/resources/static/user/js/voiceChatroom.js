@@ -42,11 +42,11 @@ function updateVoiceMuteButton() {
     let img = document.createElement("img");
     document.getElementById('voiceMuteBtn').innerHTML = '';
     if(isVoiceMute) {
-        img.setAttribute('src','/user/img/chat/micro.png');
+        img.setAttribute('src','/img/chat/micro.png');
         //document.getElementById('voiceMuteBtn').innerText = '음소거 해제';
     }
     else {
-        img.setAttribute('src','/user/img/chat/mute.png');
+        img.setAttribute('src','/img/chat/mute.png');
         //document.getElementById('voiceMuteBtn').innerText = '음소거';      
     }
     document.getElementById('voiceMuteBtn').appendChild(img);
@@ -78,7 +78,7 @@ function connect() {
     return new Promise((resolve, reject) => {
         console.log(myKey);
         // SockJS와 Stomp를 사용하여 서버의 WebSocket에 연결
-        let socket = new SockJS('/ws-stomp');
+        let socket = new SockJS('https://localhost:8099/ws-stomp');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function () {
             console.log('연결- ');
@@ -313,9 +313,15 @@ const setLocalAndSendMessage = (pc ,sessionDescription) =>{
 // 연결끊음
 function disconnect() {
 
+    for (let connect of pcListMap.values()) {
+        connect.close();
+      }
+      
+
     // 채팅방에 나갔음을 서버에 알림
     stompClient.send("/send/"+room.roomId+"/leave", {},JSON.stringify(anonymous));
 
+    
     stompClient.disconnect();
 
 }

@@ -1,11 +1,16 @@
 package com.malzzang.tgtg;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.malzzang.tgtg.member.oauth.PrincipalOauth2UserService;
@@ -47,7 +52,16 @@ public class SecurityConfig {
 			.and()
 			.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.logoutSuccessUrl("/")		
+			.logoutSuccessUrl("/")
+				.addLogoutHandler(new LogoutHandler() {
+					@Override
+					public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+						Cookie cookie = new Cookie("token", null); // 'token' 쿠키 무효화
+						cookie.setPath("/");
+						cookie.setMaxAge(0); // 쿠키 만료 시간을 0으로 설정
+						response.addCookie(cookie);
+					}
+				})
 			
 			.and()
 			.oauth2Login()
@@ -55,7 +69,8 @@ public class SecurityConfig {
 			.userInfoEndpoint()
 			.userService(principalOauth2UserService) // 구글 로그인이 완료된 뒤의 후처리 필요. Tip 코트X, (엑세스토큰+사용자프로필 정보)
 			.and()
-			.defaultSuccessUrl("/oauth2/check"); // 소셜 로그인 후 후처리 
+			.defaultSuccessUrl("/oauth2/check")
+			.and().headers().frameOptions().sameOrigin(); // 소셜 로그인 후 후처리
 					
 		return http.build();
 		

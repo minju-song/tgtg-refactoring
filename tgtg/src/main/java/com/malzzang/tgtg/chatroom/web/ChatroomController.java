@@ -1,9 +1,11 @@
 package com.malzzang.tgtg.chatroom.web;
 
+import com.malzzang.tgtg.proxyserver.controller.ProxyController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,6 +17,9 @@ import com.malzzang.tgtg.anonymous.service.AnonymousService;
 import com.malzzang.tgtg.chatroom.dto.Chatroom;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 public class ChatroomController {
 	
@@ -22,32 +27,17 @@ public class ChatroomController {
 	ChatroomService chatroomService;
 	
 	@Autowired
-	ConnectedUserService connectedUserService;
-	
-	@Autowired
-	AnonymousService anonymousService;
+	ProxyController proxy;
 	
 	@GetMapping("/user/waitChatroom")
-	public String startChat(@AuthenticationPrincipal PrincipalDetails principalDetails,@RequestParam String type, HttpServletResponse response, Model model) {
-		
-		Chatroom room = new Chatroom(0, type, "ready");
-		
-		if(type.equals("text")) {			
-			room = chatroomService.findTextRoom();
-		}
-		else {
-			room = chatroomService.findVoiceRoom();
-		}
+	public String startChat(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam String type, Model model) {
 
-		//principalDetails.getName()
-		System.out.println(principalDetails.getName()+">>>>>>>>>>>>>");
-	    AnonymousDTO anonymous = anonymousService.createAnonymous(room.getRoomId(), principalDetails.getName());
-	    
-	    //타입은 text/voice
-	    room.setType(type);
+		Map<String, Object> response = new HashMap<>();
 
-	    model.addAttribute("room", room);
-	    model.addAttribute("anonymous", anonymous);
+		response = (Map<String, Object>) proxy.getChatData(principalDetails.getName(), type);
+
+	    model.addAttribute("room", response.get("room"));
+	    model.addAttribute("anonymous", response.get("anonymous"));
 	    
 		return "chat/waitChatroom.html";
 	}
@@ -55,7 +45,7 @@ public class ChatroomController {
 	@GetMapping("/user/textGame")
 	   public String textGame(int roomId, int anonymousId, Model model) {
 
-		Chatroom room = chatroomService.getRoomById(roomId);
+		Map<String,Object> room = proxy.getGame(roomId);
 	       
 		model.addAttribute("room", room);
        	model.addAttribute("anonymousId", anonymousId);
@@ -66,10 +56,10 @@ public class ChatroomController {
 	@GetMapping("/user/voiceGame")
 	   public String voiceGame(int roomId, int anonymousId, Model model) {
 
-		   Chatroom room = chatroomService.getRoomById(roomId);
-	       
-	       model.addAttribute("room", room);
-	       model.addAttribute("anonymousId", anonymousId);
+		Map<String,Object> room = proxy.getGame(roomId);
+
+		model.addAttribute("room", room);
+		model.addAttribute("anonymousId", anonymousId);
 	      
 	      return "chat/voiceChatGame.html";
 	   }
