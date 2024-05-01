@@ -1,33 +1,26 @@
-package com.malzzang.tgtg.chatroom.web;
+package com.malzzang.tgtg.chatroom;
 
 import com.malzzang.tgtg.proxyserver.controller.ProxyController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.malzzang.tgtg.chatroom.service.ChatroomService;
-import com.malzzang.tgtg.chatroom.service.ConnectedUserService;
 import com.malzzang.tgtg.member.oauth.PrincipalDetails;
-import com.malzzang.tgtg.anonymous.dto.AnonymousDTO;
-import com.malzzang.tgtg.anonymous.service.AnonymousService;
-import com.malzzang.tgtg.chatroom.dto.Chatroom;
-import jakarta.servlet.http.HttpServletResponse;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 public class ChatroomController {
-	
-	@Autowired
-	ChatroomService chatroomService;
+
 	
 	@Autowired
 	ProxyController proxy;
+
 	
 	@GetMapping("/user/waitChatroom")
 	public String startChat(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestParam String type, Model model) {

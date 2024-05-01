@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TgtgApplication {
 
 	public static void main(String[] args) {
-//		System.out.println("메롱");
 		SpringApplication.run(TgtgApplication.class, args);
 	}
 

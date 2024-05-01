@@ -7,7 +7,6 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.malzzang.tgtg.anonymous.service.AnonymousService;
 import com.malzzang.tgtg.member.domain.Member;
 import com.malzzang.tgtg.member.domain.MemberRepository;
 import com.malzzang.tgtg.report.domain.Report;
@@ -22,16 +21,17 @@ public class ReportServiceImpl implements ReportService {
 	
 	@Autowired
 	ReportRepository reportRepository;
-	
-	@Autowired
-	AnonymousService anonymousService;
+
 
 	@Override
 	public boolean insertReport(ReportDTO reportDTO) {
 		
-		Member reporter = memberRepository.findByMemberId(anonymousService.findMemberId(reportDTO.getRoomId(), reportDTO.getReporterId()));
-		Member reported = memberRepository.findByMemberId(anonymousService.findMemberId(reportDTO.getRoomId(),reportDTO.getReportedId()));
-		
+//		Member reporter = memberRepository.findByMemberId(anonymousService.findMemberId(reportDTO.getRoomId(), reportDTO.getReporterId()));
+//		Member reported = memberRepository.findByMemberId(anonymousService.findMemberId(reportDTO.getRoomId(),reportDTO.getReportedId()));
+
+		Member reporter = new Member();
+		Member reported = new Member();
+
 		Report report = new Report();
 		report.setReportCategory(reportDTO.getReportCategory());
 		if (reportDTO.getReportChat() != null) {
