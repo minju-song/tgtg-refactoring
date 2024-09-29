@@ -45,55 +45,43 @@
         <details>
             <summary><h3>🏠메인홈</h3></summary>
             <div markdown="1">
-                <img src="https://github.com/minju-song/final_project/assets/97097194/033c3c1e-1ad0-4df2-acfb-6b7210b4a3cf"/>
+             <img width="1194" alt="티격태격 - 메인" src="https://github.com/user-attachments/assets/8fbbc9a0-14c7-40ec-b1f2-d835c66767d3">
             </div>
         </details>
         <details>
-            <summary><h3>🔓로그인</h3></summary>
+            <summary><h3>🎟️게임방 입장</h3></summary>
             <div markdown="1">
-                <img src="https://github.com/minju-song/final_project/assets/97097194/dc89fece-415c-4a15-ac81-2b662aabbcf9"/>
+             <img width="1440" alt="게임방입장" src="https://github.com/user-attachments/assets/1261d2bc-330f-49d6-8d33-fc7cb9de3caf">
             </div>
         </details>
         <details>
-            <summary><h3>📒가계부</h3></summary>
+            <summary><h3>🙏게임 대기방</h3></summary>
             <div markdown="1">
-                <img src="https://github.com/minju-song/final_project/assets/97097194/024f32be-6386-430a-9b16-b345b1eaee97"/>
+             <img width="1440" alt="게임대기방" src="https://github.com/user-attachments/assets/4eff14fc-8c44-423e-b4ef-32624f1c32af">            
             </div>
         </details>
         <details>
-            <summary><h3>💳중고거래</h3></summary>
+            <summary><h3>📨텍스트 게임방</h3></summary>
             <div markdown="1">
-                <img src="https://github.com/minju-song/final_project/assets/97097194/83c44354-883e-4663-91d0-cf31e2eb4488"/>
+             <img width="1440" alt="텍스트게임방" src="https://github.com/user-attachments/assets/d75a7443-efc4-46fd-b13e-3db98b652395">            
             </div>
         </details>
         <details>
-            <summary><h3>💌중고거래 채팅</h3></summary>
+            <summary><h3>🎤음성 게임방</h3></summary>
             <div markdown="1">
-                <img src="https://github.com/minju-song/final_project/assets/97097194/34905560-7f5c-4d8b-968a-a13b53d2b102"/>
+             <img width="1440" alt="음성게임방" src="https://github.com/user-attachments/assets/71446301-ccf8-4b7b-963a-051c47008e1b">            
             </div>
         </details>
         <details>
-            <summary><h3>👪알뜰모임</h3></summary>
+            <summary><h3>📥게임방 투표</h3></summary>
             <div markdown="1">
-                <img src="https://github.com/minju-song/final_project/assets/97097194/af3bec2c-7acf-45ce-8d1f-34f25e0b7560"/>
+             <img width="1440" alt="게임방투표" src="https://github.com/user-attachments/assets/f8ae2a12-09fd-4a9f-9f87-38c0321b868c">            
             </div>
         </details>
         <details>
-            <summary><h3>📝메모장</h3></summary>
+            <summary><h3>⚖️게임 결과</h3></summary>
             <div markdown="1">
-                <img src="https://github.com/minju-song/final_project/assets/97097194/06941c09-8159-4f0a-ae64-4404a657daf8"/>
-            </div>
-        </details>
-        <details>
-            <summary><h3>💬커뮤니티</h3></summary>
-            <div markdown="1">
-                <img src="https://github.com/minju-song/final_project/assets/97097194/1e8b4676-5dc2-4345-9d7f-13339829bae9"/>
-            </div>
-        </details>
-        <details>
-            <summary><h3>🛠️관리자</h3></summary>
-            <div markdown="1">
-                <img src="https://github.com/minju-song/final_project/assets/97097194/d8aebb8c-7f0c-4531-b101-090890a47178"/>
+             <img width="1440" alt="게임결과" src="https://github.com/user-attachments/assets/0ab0e3ff-e74d-464f-9120-32afea2b2314">            
             </div>
         </details>
     </div>
