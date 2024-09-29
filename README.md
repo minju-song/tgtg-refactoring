@@ -2,9 +2,9 @@
 <h2>프로젝트 아키텍처</h2>
 <hr>
 <h4>리팩토링 전</h4>
-![image](https://github.com/user-attachments/assets/4dd7a69b-e364-44e5-95ab-f3bdbdddbc79)
+![아키텍처(리팩토링 전)](https://github.com/user-attachments/assets/2d6b2e31-e911-40ed-9893-f7078bed4974)
 <h4>리팩토링 후</h4>
-![image](https://github.com/user-attachments/assets/96c9bf20-a411-4e51-9248-b4633de7f68f)
+![아키텍처(리팩토링 후)](https://github.com/user-attachments/assets/cee2be6f-570e-485b-8d99-ab1c4374a8bd)
 <details>
     <summary><h1>💗프로젝트 소개💗</h1></summary>
     <div markdown="1">
